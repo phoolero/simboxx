@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello VerChequeController!{% endblock %}
+
+{% block body %}
+<script>
+	function getDatosCuenta(cuenta){
+		var Ruta = Routing.generate('datosCuenta');
+		$.ajax({
+			type: 'POST',
+			url: Ruta,
+			data: ({cuenta: cuenta}),
+			async: true,
+			dataType: "json",
+			success: function(data){
+				$("#datosCuenta").html(data['nombre'] + '<img src="../../img/firmas/' + data['firma'] + '" width="130">');
+			}
+		});
+	}
+
+	//funcion para comparar respuestas del usuario con las que debieran ser, y se entrega el puntaje del ejercicio,
+	//en caso de que la respuesta correcta fuera realizar la operacion.
+	function compararResultados(){
+		//comparamos serie
+		if($("#serie-cheque-input").val() == $("#serie").html()){
+			if($("#monto-cheque-input").val() == $("#montonumero").html().replace(".","")){
+				alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");	
+			}
+		}
+		else{
+			alert("Fallaste! FA LLAS TE");
+		}
+	}
+	//ahora, si la persona clickea "rechazar operación", corroboramos que el cheque efectivamente venga con error
+	function compararError(){
+		if($("#error").html()!=""){
+			alert("Bien! La operación tenía un error: " + $("#error").html());
+		}
+		else{
+			alert("Te has equivocado. La operación estaba correcta.");
+		}
+	}
+</script>
+<style>
+	@font-face{
+		font-family: 'codigodebarras';
+		src: url('{{ asset('css/fonts/codigobarrasfont7.woff') }}') format('woff'), url('{{ asset('css/fonts/codigobarrasfont7.ttf') }}') format('truetype') 
+	}
+
+	.card {
+		background-color:#f1c430;
+		border: 0px;
+	}
+
+	/* Tabs Card */
+
+	.tab-card {
+
+	}
+
+	.tab-card-header {
+		background:none;
+	}
+	/* Default mode */
+	.tab-card-header > .nav-tabs {
+		border: none;
+		margin: 0px;
+	}
+	.tab-card-header > .nav-tabs > li {
+		margin-right: 2px;
+	}
+	.tab-card-header > .nav-tabs > li > a {
+		border: 0;
+		border-bottom:2px solid transparent;
+		margin-right: 0;
+		color: #737373;
+		padding: 2px 15px;
+	}
+
+	.tab-card-header > .nav-tabs > li > a.show {
+		border-bottom:2px solid #007bff;
+		color: #007bff;
+	}
+	.tab-card-header > .nav-tabs > li > a:hover {
+		color: #007bff;
+	}
+
+	.tab-card-header > .tab-content {
+		padding-bottom: 0;
+	}
+
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-banko.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
+	.beneficiario {position: absolute; top: 306px; left: 180px; z-index: 105; font-size: 24px;}
+	.montonumero {position: absolute; top: 190px; left: 590px; z-index: 110; font-size: 24px;}
+	.montotexto {position: absolute; top: 353px; left: 180px; z-index: 115; font-size: 24px;}
+	.firma{position: absolute; top: 389px; left: 501px; z-index: 120;}
+	.chequecruzado{width: 800px; height: 400px; position: absolute; top: 167px; z-index: 300;}
+	.codigobarras{font-family: 'codigodebarras'; font-size: 23px; position: absolute; top: 531px; left:60px; z-index: 200;}
+	.tarjado-portador{background-image: url("{{ asset('img/tarjado-portador.png') }}"); width:110px; height:10px; position: absolute; top:320px; left: 660px; z-index: 100; font-size: 24px;}
+	.tarjado-orden{background-image: url("{{ asset('img/tarjado-orden.png') }}"); width:110px; height:10px; position: absolute; top:320px; left: 48px; z-index: 100; font-size: 24px;}
+	.cheque-dia{position: absolute; top: 230px; left:510px;font-size:28px;}
+	.cuenta{position: absolute; top: 171px; left: 300px; z-index: 200; font-size: 18px;}
+	.titular{position: absolute; top: 200px; left: 270px; z-index: 100; font-size: 18px;}
+	.seriesucursal{position: absolute; top: 170px; left: 50px; z-index: 100; font-size: 20px;}
+	.carnet{margin: 20px 0px}
+	
+	input{ padding: 13px; margin-bottom: 15px;}
+</style>
+
+
+		<!-- esto se ve solo si no se usa Bootstrap, por alguna extraña razon -->
+
+<div class="container" style="max-width:1360px;">
+  <div class="row">
+	<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
+		<img src="{{ asset('img/logos/simbox-blanco.png') }}" width="60" /> Simulador de Caja Bancaria
+	</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2" style="background-color: #9999cc; color:white;">
+      <div style="margin: 12px 0px;"> 	
+		  <img src="{{ asset('img/logos/banko-800.png') }}" width="150" />
+	  </div>
+	  <ul>
+	  	<li>Pago Cheque</li>
+		<li>Depósito Cheque Mismo Banco</li>
+		<li>Depósito Cheque Otros Bancos</li>
+		<li>Traspaso a Tesorería</li>
+		<li>Traspaso de Tesorería</li>
+    </div>
+    <div class="col-sm-5">
+      <h2>Pago Cheque</h2>
+	  <form name="formpago">
+	  	<input type="text" name="numero-cuenta" placeholder="Número Cuenta" onBlur="getDatosCuenta(1)"/></br>
+		<div id="datosCuenta"></div>
+		<input type="text" id="serie-cheque-input" name="serie-cheque" placeholder="Número Serie Cheque"/></br>
+		<input type="text" name="numero-validacion-input" placeholder="Número Validación"/></br>
+		<input type="text" id="monto-cheque-input" name="monto" placeholder="Monto"/></br>
+	  </form>
+	  <button class="btn btn-primary" onClick="compararResultados()">Ingresar Operación</button> 
+	  <button class="btn btn-primary" onClick="compararError()">Rechazar Operación</button>
+    </div>
+    <div class="col-sm-5" style="background-color: #f1c430; padding-left:0px;">
+	    <div class="card mt-3 tab-card">
+			<div class="card-header tab-card-header">
+				<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="one-tab" data-toggle="tab" href="cheque#one" role="tab" onClick="$('#two').hide();$('#three').hide();$('#one').show();">Operación</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="two-tab" data-toggle="tab" href="cheque#two" role="tab"  onClick="$('#three').hide();$('#one').hide();$('#two').show();">Libro Diario</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="three-tab" data-toggle="tab" href="cheque#three" role="tab" onClick="$('#one').hide();$('#two').hide();$('#three').show();">Cuadratura</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+					<div>Cliente dice: "quiero cobrar este cheque"</div>
+					<div class="cheque">
+						<div class="seriesucursal">Serie <span id="serie">{{ datacheque[0]["serie"] }}</span><br>Sucursal {{ datacheque[0]["nombreSucursal"] }}</div>
+						<div class="beneficiario">{{ cheques.beneficiario }}</div>
+						<div class="montonumero" id="montonumero">{{ cheques.MontoNumero|number_format(0, ',', '.') }}</div>
+						<div class="montotexto">{{ cheques.MontoLetras }}</div>
+						<div class="firma"><img src="{{ asset('img/firmas/firmaignacioruz.png') }}"/></div>
+						
+						{% if cheques.cruzado == "si"%}
+							<div class="chequecruzado"><img src="{{ asset('img/fondos/fondo-cheque-cruzado.png') }}"/></div>
+						{% endif %}
+						{% if cheques.CruzadoEspecialBanco != "no"%}
+						{# falta agregar la logica del nombre del banco, que va entre las rayas #}
+							<div class="chequecruzado"><img src="{{ asset('img/fondos/fondo-cheque-cruzado.png') }}"/></div>
+						{% endif %}
+						{% if cheques.TarjadoOrden != "si"%}
+							<div class="tarjado-orden"></div>
+						{% endif %}
+						{% if cheques.TarjadoAlPortador != "si"%}
+							<div class="tarjado-portador"></div>
+						{% endif %}
+
+						{% if cheques.NumeroDiasCheque != "no"%}
+							<div class="cheque-dia">{{ "now"|date_modify( cheques.numeroDiasCheque*(-1) ~" day")|date("m/d/Y") }}</div>
+						{% endif %}			
+						<div class="codigobarras">{00001823989} 0980421}00000{{ datacheque[0]["id"] }}[ 01</div>
+						<div class="cuenta">{{ datacheque[0]["id"] }}</div>
+						<div class="titular">{{ datacheque[0]["titular"]|upper }}</div>
+					</div>
+					<div class="carnet">
+						<img src="{{ asset('img/carnes/cedula-sergio-jara.jpg') }}" width="230"/></div>
+					</div>
+					<div id="error" style="display:none">{{ cheques.error }}</div>         
+				</div>
+				<div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+					Hola 2 
+				</div>
+				<div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+					Hola 3
+				</div>
+			</div>
+
+		</div>
+    </div>
+
+	<div class="row">
+		<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
+			Saldo de caja actual: $12.345.678 / $15.000.000
+		</div>
+	</div>
+  </div>
+
+</div>
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+{% endblock %}
