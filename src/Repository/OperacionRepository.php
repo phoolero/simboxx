@@ -22,7 +22,7 @@ class OperacionRepository extends ServiceEntityRepository
     public function obtenerChequeOperacion(int $operacion): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT banco.nombre, sucursal.codigo_plaza, sucursal.nombre AS 'sucursal', cuenta.id AS 'cuenta', cuenta.nombre AS 'titular', cuenta.firma, cheque.serie, cheque.beneficiario, 
+		$sql = "SELECT banco.nombre AS 'banco', sucursal.codigo_plaza, sucursal.nombre AS 'sucursal', cuenta.id AS 'cuenta', cuenta.nombre AS 'titular', cuenta.firma, cheque.serie, cheque.beneficiario, 
                     cheque.monto_numero, cheque.monto_letras, cheque.tarjado_orden, cheque.tarjado_al_portador, cheque.firma_titular,
                     cheque.firma_beneficiario_atravesada, cheque.cruzado, cheque.cruzado_especial_banco, cheque.numero_dias_cheque,
                     cheque.numero_dias_revalidacion, cheque.revalidacion_firma, cheque.error

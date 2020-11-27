@@ -18,9 +18,9 @@ class OperacionController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion(1);
-        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion(1);
-        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion(1);
+        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion(3);
+        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion(3);
+        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion(3);
 
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
