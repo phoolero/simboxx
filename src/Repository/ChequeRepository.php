@@ -24,7 +24,7 @@ class ChequeRepository extends ServiceEntityRepository
 
 		$sql = "SELECT ch.serie AS serie, c.id, b.nombre As nombreBanco, s.nombre AS nombreSucursal, c.nombre AS titular
 				from cheque ch, cuenta c, sucursal s, banco b
-				where ch.cuenta_id = c.id
+				where ch.cuenta = c.id
 				and c.sucursal_id = s.id
 				and s.banco_id = b.id
                 and ch.id = :id";

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cedula index{% endblock %}
+
+{% block body %}
+    <h1>Cedula index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ruta_imagen</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cedula in cedulas %}
+            <tr>
+                <td>{{ cedula.id }}</td>
+                <td>{{ cedula.rutaImagen }}</td>
+                <td>
+                    <a href="{{ path('cedula_show', {'id': cedula.id}) }}">show</a>
+                    <a href="{{ path('cedula_edit', {'id': cedula.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('cedula_new') }}">Create new</a>
+{% endblock %}

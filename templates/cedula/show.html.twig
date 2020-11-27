@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cedula{% endblock %}
+
+{% block body %}
+    <h1>Cedula</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cedula.id }}</td>
+            </tr>
+            <tr>
+                <th>Ruta_imagen</th>
+                <td>{{ cedula.rutaImagen }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('cedula_index') }}">back to list</a>
+
+    <a href="{{ path('cedula_edit', {'id': cedula.id}) }}">edit</a>
+
+    {{ include('cedula/_delete_form.html.twig') }}
+{% endblock %}

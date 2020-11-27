@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cheque index{% endblock %}
+
+{% block body %}
+    <h1>Cheque index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Serie</th>
+                <th>MontoNumero</th>
+                <th>MontoLetras</th>
+                <th>TarjadoOrden</th>
+                <th>TarjadoAlPortador</th>
+                <th>Beneficiario</th>
+                <th>FirmaTitular</th>
+                <th>FirmaBeneficiarioAtravesada</th>
+                <th>Cruzado</th>
+                <th>CruzadoEspecialBanco</th>
+                <th>NumeroDiasCheque</th>
+                <th>NumeroDiasRevalidacion</th>
+                <th>RevalidacionFirma</th>
+                <th>EndosoDepositoCuenta</th>
+                <th>EndosoDepositoFirma</th>
+                <th>EndosoDepositoRut</th>
+                <th>EndosoRegularFirma</th>
+                <th>EndosoRegularRut</th>
+                <th>EndosoRegularNombre</th>
+                <th>Error</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cheque in cheques %}
+            <tr>
+                <td>{{ cheque.id }}</td>
+                <td>{{ cheque.serie }}</td>
+                <td>{{ cheque.MontoNumero }}</td>
+                <td>{{ cheque.MontoLetras }}</td>
+                <td>{{ cheque.TarjadoOrden }}</td>
+                <td>{{ cheque.TarjadoAlPortador }}</td>
+                <td>{{ cheque.beneficiario }}</td>
+                <td>{{ cheque.FirmaTitular }}</td>
+                <td>{{ cheque.FirmaBeneficiarioAtravesada }}</td>
+                <td>{{ cheque.cruzado }}</td>
+                <td>{{ cheque.CruzadoEspecialBanco }}</td>
+                <td>{{ cheque.NumeroDiasCheque }}</td>
+                <td>{{ cheque.NumeroDiasRevalidacion }}</td>
+                <td>{{ cheque.RevalidacionFirma }}</td>
+                <td>{{ cheque.EndosoDepositoCuenta }}</td>
+                <td>{{ cheque.EndosoDepositoFirma }}</td>
+                <td>{{ cheque.EndosoDepositoRut }}</td>
+                <td>{{ cheque.EndosoRegularFirma }}</td>
+                <td>{{ cheque.EndosoRegularRut }}</td>
+                <td>{{ cheque.EndosoRegularNombre }}</td>
+                <td>{{ cheque.Error }}</td>
+                <td>
+                    <a href="{{ path('cheque_show', {'id': cheque.id}) }}">show</a>
+                    <a href="{{ path('cheque_edit', {'id': cheque.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('cheque_new') }}">Create new</a>
+{% endblock %}

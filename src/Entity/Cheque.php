@@ -20,6 +20,7 @@ class Cheque
 
 	 /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cuenta", inversedBy="cheque")
+     * @ORM\Column(type="integer")
      */
     private $cuenta;
 
@@ -130,7 +131,7 @@ class Cheque
 
     public function getCuenta(): ?int
     {
-        return $this->$cuenta;
+        return $this->cuenta;
     }
 
     public function setCuenta(int $cuenta): self

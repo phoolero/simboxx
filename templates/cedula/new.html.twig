@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cedula{% endblock %}
+
+{% block body %}
+    <h1>Create new Cedula</h1>
+
+    {{ include('cedula/_form.html.twig') }}
+
+    <a href="{{ path('cedula_index') }}">back to list</a>
+{% endblock %}

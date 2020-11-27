@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Cedula{% endblock %}
+
+{% block body %}
+    <h1>Edit Cedula</h1>
+
+    {{ include('cedula/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('cedula_index') }}">back to list</a>
+
+    {{ include('cedula/_delete_form.html.twig') }}
+{% endblock %}
