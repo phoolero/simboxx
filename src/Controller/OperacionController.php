@@ -20,15 +20,17 @@ class OperacionController extends AbstractController
     public function index(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id_operacion = 3;
+        $id_operacion = 4;
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion);
+        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($id_operacion);
         $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion);
 
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
             'cheque_operacion' => $cho,
             'cedula_operacion' => $ceo,
+            'deposito_operacion' => $deo,
             'operacion' => $opo
         ]);
     }

@@ -12,19 +12,24 @@ class OperacionDeposito
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $operacion;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $deposito;
 
-    public function getId(): ?int
+    public function getOperacion(): ?int
     {
         return $this->id;
+    }
+    public function setOperacion(int $operacion): self
+    {
+        $this->operacion = $operacion;
+
+        return $this;
     }
 
     public function getDeposito(): ?int

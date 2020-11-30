@@ -54,6 +54,21 @@ class OperacionRepository extends ServiceEntityRepository
                 return $stmt->fetchAllAssociative();
     }
 
+    public function obtenerDepositoOperacion(int $operacion): array{
+        $conn = $this->getEntityManager()->getConnection();
+
+		$sql = "SELECT deposito.numero_dias_deposito, deposito.tipo_deposito, deposito.nombre_titular, 
+                deposito.nombre_depositante, deposito.numero_documentos, deposito.numero_cuenta, deposito.total 
+                from deposito, operacion_deposito 
+                WHERE deposito.id = operacion_deposito.deposito 
+                AND operacion_deposito.id = :operacion";
+                
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(['operacion' => $operacion]);
+
+                return $stmt->fetchAllAssociative();
+    }
+
     //entrega datos de la operacion
     public function obtenerOperacion(int $operacion): array{
         $conn = $this->getEntityManager()->getConnection();

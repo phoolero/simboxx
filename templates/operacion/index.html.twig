@@ -188,7 +188,8 @@
 	.depo-total{font-size: 26px; position: relative; top: -135px; left: 530px;}
 </style>
 
-{{dump(cheque_operacion)}}
+{{dump(deposito_operacion)}}
+{{dump(cedula_operacion)}}
 
 <div class="container" style="max-width:1360px;">
   <div class="row">
@@ -298,6 +299,7 @@
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
 					<div>Cliente dice: "{{ operacion[0]["mensaje_cliente"] }}"</div>
+					{% if cheque_operacion is not empty %}
 					<div class="cheque">
 						<div class="seriesucursal">Serie <span id="serie">{{ cheque_operacion[0]["serie"] }}</span><br>Sucursal {{ cheque_operacion[0]["sucursal"] }}</div>
 						<div class="beneficiario">{{ cheque_operacion[0]["beneficiario"] }}</div>
@@ -310,7 +312,7 @@
 						{% endif %}
 						{% if cheque_operacion[0]["cruzado_especial_banco"] != "no"%}
 						{# falta agregar la logica del nombre del banco, que va entre las rayas #}
-							<div class="cheque-cruzado-especial-banco">cheque_operacion[0]["cruzado_especial_banco"]</div>
+							<div class="cheque-cruzado-especial-banco">{{cheque_operacion[0]["cruzado_especial_banco"]}}</div>
 						{% endif %}
 						{% if cheque_operacion[0]["tarjado_orden"] == "si"%}
 							<div class="tarjado-orden"></div>
@@ -326,27 +328,32 @@
 						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
 						<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
 					</div>
+					{% endif %}
+					{% if cedula_operacion is not empty %}
 					<div class="carnet">
 						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/></div>
 					</div>
+					{% endif %}
 					<!-- por mientras, el depósito qeudará pegado -->
 					Depósito hardcodeado para trabajar el CSS.
+					{% if deposito_operacion is not empty %}
 					<div class="deposito">
-						<div class="depo-dia">01</div>
-						<div class="depo-mes">12</div>
-						<div class="depo-ano">2999</div>
+						<div class="depo-dia">{{ "now"|date_modify( deposito_operacion[0]["numero_dias_deposito"]*(-1) ~" day")|date("d") }}</div>
+						<div class="depo-mes">{{ "now"|date_modify( deposito_operacion[0]["numero_dias_deposito"]*(-1) ~" day")|date("m") }}</div>
+						<div class="depo-ano">{{ "now"|date_modify( deposito_operacion[0]["numero_dias_deposito"]*(-1) ~" day")|date("Y") }}</div>
 
-						<div class="depo-check-efectivo">x</div>
-						<div class="depo-check-doctos-mismo">x</div>
-						<div class="depo-check-otros-doctos-mismo">x</div>
-						<div class="depo-check-doctos-otros">x</div>
-						<div class="depo-titular">Leonardo Lux</div>
-						<div class="depo-depositante">Ignacio Ruz</div>
-						<div class="depo-numero-doctos">1</div>
+						<div class="depo-check-efectivo">{% if deposito_operacion[0]["tipo_deposito"] == 1 %}x{% else %}_{% endif %}</div>
+						<div class="depo-check-doctos-mismo">{% if deposito_operacion[0]["tipo_deposito"] == 2 %}x{% else %}_{% endif %}</div>
+						<div class="depo-check-otros-doctos-mismo">{% if deposito_operacion[0]["tipo_deposito"] == 3 %}x{% else %}_{% endif %}</div>
+						<div class="depo-check-doctos-otros">{% if deposito_operacion[0]["tipo_deposito"] == 4 %}x{% else %}_{% endif %}</div>
 
-						<div class="depo-numero-cuenta">99999999</div>
-						<div class="depo-total">19.999.999</div>
-					</div >
+						<div class="depo-titular">{{deposito_operacion[0]["nombre_titular"]}}</div>
+						<div class="depo-depositante">{{deposito_operacion[0]["nombre_depositante"]}}</div>
+						<div class="depo-numero-doctos">{{deposito_operacion[0]["numero_documentos"]}}</div>
+						<div class="depo-numero-cuenta">{{deposito_operacion[0]["numero_cuenta"]}}</div>
+						<div class="depo-total">{{deposito_operacion[0]["total"]|number_format(0, ',', '.')}}</div>
+					</div>
+					{% endif %}
 
 
 
