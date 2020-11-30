@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello VerChequeController!{% endblock %}
+{% block title %}SIMBOX - Operaciones de Caja{% endblock %}
 
 {% block body %}
 <script>
@@ -8,8 +8,9 @@
     //almacena qué formulario está ocupando el usuario
     var tipo_accion_seleccionada = "";
 
-	function getDatosCuenta(cuenta){
+	function getDatosCuenta(cuenta, from){
 		var Ruta = Routing.generate('datosCuenta');
+		var nombrecapa = "#datosCuenta" + from;
 		$.ajax({
 			type: 'POST',
 			url: Ruta,
@@ -17,7 +18,7 @@
 			async: true,
 			dataType: "json",
 			success: function(data){
-				$("#datosCuenta").html(data['nombre'] + '<img src="../img/firmas/' + data['firma'] + '" width="130">');
+				$(nombrecapa).html(data['nombre'] + '<img src="../img/firmas/' + data['firma'] + '" width="130">');
 			}
 		});
 	}
@@ -57,7 +58,7 @@
 	function compararResultadosPch(){
 		//comparamos serie
 		if($("#serie-cheque-input-pch").val() == $("#serie").html()){
-			if($("#monto-cheque-input-pch").val() == $("#montonumero").html().replace(".","")){
+			if($("#monto-cheque-input-pch").val() == $("#montonumero").html().replaceAll(".","")){
 				alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");	
 			}
 		}
@@ -69,30 +70,42 @@
     //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
     function compararResultadosDcmb(){
 		//comparamos serie
-		if($("#serie-cheque-input-dcmb").val() == $("#serie").html()){
-			if($("#monto-cheque-input-dcmb").val() == $("#montonumero").html().replace(".","")){
-                if($("#papeleta-input-dcmb").val() == $("#papeleta").html()){
+		if($("#numero-cuenta-dcmb").val() == $("#depo-numero-cuenta").html()){
+			if($("#monto-doctos-dcmb").val() == $("#depo-total").html().replaceAll(".","")){
+                if($("#serie-papeleta-dcmb").val() == $("#depo-serie").html()){
 				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
                 }
+				else{
+					alert("Error papeleta");
+				}
+			}
+			else{
+				alert("Error monto");
 			}
 		}
 		else{
-			alert("La operación no está correcta.");
+			alert("Error numero cuenta.");
 		}
 	}
 
     //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
     function compararResultadosDcob(){
 		//comparamos serie
-		if($("#serie-cheque-input-dcob").val() == $("#serie").html()){
-			if($("#monto-cheque-input-dcob").val() == $("#montonumero").html().replace(".","")){
-                if($("#papeleta-input-dcob").val() == $("#papeleta").html()){
+		if($("#numero-cuenta-dcob").val() == $("#depo-numero-cuenta").html()){
+			if($("#monto-doctos-dcob").val() == $("#depo-total").html().replaceAll(".","")){
+                if($("#serie-papeleta-dcob").val() == $("#depo-serie").html()){
 				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
                 }
+				else{
+					alert('error papeleta')
+				}
+			}
+			else{
+				alert('error monto');
 			}
 		}
 		else{
-			alert("La operación no está correcta.");
+			alert("Error serie cheque.");
 		}
 	}
 
@@ -157,7 +170,7 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
-	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); width:800px; height:400px; margin: 20px 20px;}
+	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
 	.beneficiario {position: absolute; top: 306px; left: 180px; z-index: 105; font-size: 24px;}
 	.montonumero {position: absolute; top: 190px; left: 590px; z-index: 110; font-size: 24px;}
 	.montotexto {position: absolute; top: 353px; left: 180px; z-index: 115; font-size: 24px;}
@@ -167,6 +180,8 @@
 	.tarjado-portador{background-image: url("{{ asset('img/tarjado-portador.png') }}"); width:110px; height:10px; position: absolute; top:345px; left: 685px; z-index: 100; font-size: 24px;}
 	.tarjado-orden{background-image: url("{{ asset('img/tarjado-orden.png') }}"); width:110px; height:10px; position: absolute; top:320px; left: 48px; z-index: 100; font-size: 24px;}
 	.cheque-dia{position: absolute; top: 230px; left:510px;font-size:28px;}
+	.cheque-mes{position: absolute; top: 230px; left:610px;font-size:28px;}
+	.cheque-ano{position: absolute; top: 230px; left:730px;font-size:28px;}
 	.cuenta{position: absolute; top: 171px; left: 300px; z-index: 200; font-size: 18px;}
 	.titular{position: absolute; top: 200px; left: 270px; z-index: 100; font-size: 18px;}
 	.seriesucursal{position: absolute; top: 170px; left: 50px; z-index: 100; font-size: 20px;}
@@ -186,10 +201,8 @@
 	.depo-numero-doctos{font-size: 26px; position: relative; top: -60px; left: 280px;}
 	.depo-numero-cuenta{font-size: 26px; position: relative; top: -185px; left: 450px;}
 	.depo-total{font-size: 26px; position: relative; top: -135px; left: 530px;}
+	.depo-serie{font-size: 25px; position: relative; top: -430px; left: 640px;}
 </style>
-
-{{dump(deposito_operacion)}}
-{{dump(cedula_operacion)}}
 
 <div class="container" style="max-width:1360px;">
   <div class="row">
@@ -223,8 +236,8 @@
         <div id="form_pago_cheque" class="oculto"> 
             <h2>Pago Cheque</h2>
             <form name="formpago">
-                <input type="text" name="numero-cuenta-pch" id="numero-cuenta-pch" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
-                <div id="datosCuenta"></div>
+                <input type="text" name="numero-cuenta-pch" id="numero-cuenta-pch" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta-pch').val(),'Pch')"/></br>
+                <div id="datosCuentaPch"></div>
                 <input type="text" id="serie-cheque-input-pch" name="serie-cheque-pch" placeholder="Número Serie Cheque"/></br>
                 <input type="text" id="monto-cheque-input-pch" name="monto-pch" placeholder="Monto"/></br>
             </form>
@@ -234,8 +247,8 @@
         <div id="form_deposito_cheque_mismo_banco" class="oculto">
             <h2>Depósito Cheques Mismo Banco</h2>
             <form name="formdepositomismobanco">
-                <input type="text" name="numero-cuenta-dcmb" id="numero-cuenta-dcmb" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
-                <div id="datosCuenta"></div>
+                <input type="text" name="numero-cuenta-dcmb" id="numero-cuenta-dcmb" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta-dcmb').val(),'Dcmb')"/></br>
+                <div id="datosCuentaDcmb"></div>
                 <input type="text" id="numero-doctos-cheque-dcmb" name="numero-documentos-dcmb" placeholder="Número Documentos"/></br>
                 <input type="text" id="serie-papeleta-dcmb" name="serie-papeleta-dcmb" placeholder="Serie Papeleta"/></br>
                 <input type="text" id="monto-doctos-dcmb" name="monto-doctos-dcmb" placeholder="Monto"/></br>
@@ -247,8 +260,8 @@
         <div id="form_deposito_cheque_otro_banco" class="oculto">
             <h2>Depósito Cheques Otros Bancos</h2>
             <form name="formdepositootrosbancos">
-                <input type="text" name="numero-cuenta-dcob" id="numero-cuenta-dcob" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
-                <div id="datosCuenta"></div>
+                <input type="text" name="numero-cuenta-dcob" id="numero-cuenta-dcob" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta-dcob').val(), 'Dcob')"/></br>
+                <div id="datosCuentaDcob"></div>
                 <input type="text" id="numero-doctos-cheque-dcob" name="numero-documentos-dcob" placeholder="Número Documentos"/></br>
                 <input type="text" id="serie-papeleta-dcob" name="serie-papeleta-dcob" placeholder="Serie Papeleta"/></br>
                 <input type="text" id="monto-doctos-dcob" name="monto-doctos-dcob" placeholder="Monto"/></br>
@@ -322,7 +335,9 @@
 						{% endif %}
 
 						{% if cheque_operacion[0]["numero_dias_cheque"] != "no"%}
-							<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m/d/Y") }}</div>
+							<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("d") }}</div>
+							<div class="cheque-mes">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m") }}</div>
+							<div class="cheque-ano">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("Y") }}</div>
 						{% endif %}			
 						<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
 						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
@@ -334,8 +349,7 @@
 						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/></div>
 					</div>
 					{% endif %}
-					<!-- por mientras, el depósito qeudará pegado -->
-					Depósito hardcodeado para trabajar el CSS.
+
 					{% if deposito_operacion is not empty %}
 					<div class="deposito">
 						<div class="depo-dia">{{ "now"|date_modify( deposito_operacion[0]["numero_dias_deposito"]*(-1) ~" day")|date("d") }}</div>
@@ -350,12 +364,11 @@
 						<div class="depo-titular">{{deposito_operacion[0]["nombre_titular"]}}</div>
 						<div class="depo-depositante">{{deposito_operacion[0]["nombre_depositante"]}}</div>
 						<div class="depo-numero-doctos">{{deposito_operacion[0]["numero_documentos"]}}</div>
-						<div class="depo-numero-cuenta">{{deposito_operacion[0]["numero_cuenta"]}}</div>
-						<div class="depo-total">{{deposito_operacion[0]["total"]|number_format(0, ',', '.')}}</div>
+						<div class="depo-numero-cuenta" id="depo-numero-cuenta">{{deposito_operacion[0]["numero_cuenta"]}}</div>
+						<div class="depo-total" id="depo-total">{{deposito_operacion[0]["total"]|number_format(0, ',', '.')}}</div>
+						<div class="depo-serie" id="depo-serie">{{deposito_operacion[0]["id"]}}</div>
 					</div>
 					{% endif %}
-
-
 
 					<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>         
 				</div>
@@ -366,9 +379,9 @@
 					Hola 3
 				</div>
 			</div>
-
 		</div>
     </div>
+	</div>
 
 	<div class="row">
 		<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+
 class VerChequeController extends AbstractController
 {
     /**
@@ -41,8 +42,8 @@ class VerChequeController extends AbstractController
 			//$user = $this->getUser();
 			$cuenta = $request->request->get('cuenta');
 			//llega como arreglo aún
-			//$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta($cuenta);
-			$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta(7689162);
+			$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta($cuenta);
+			//$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta($request);
 			
 			//debe agregarse que pasa si la cuenta no existe
 			

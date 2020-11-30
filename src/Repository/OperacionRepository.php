@@ -57,7 +57,7 @@ class OperacionRepository extends ServiceEntityRepository
     public function obtenerDepositoOperacion(int $operacion): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT deposito.numero_dias_deposito, deposito.tipo_deposito, deposito.nombre_titular, 
+		$sql = "SELECT deposito.id, deposito.numero_dias_deposito, deposito.tipo_deposito, deposito.nombre_titular, 
                 deposito.nombre_depositante, deposito.numero_documentos, deposito.numero_cuenta, deposito.total 
                 from deposito, operacion_deposito 
                 WHERE deposito.id = operacion_deposito.deposito 
