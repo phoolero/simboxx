@@ -4,6 +4,10 @@
 
 {% block body %}
 <script>
+
+    //almacena qué formulario está ocupando el usuario
+    var tipo_accion_seleccionada = "";
+
 	function getDatosCuenta(cuenta){
 		var Ruta = Routing.generate('datosCuenta');
 		$.ajax({
@@ -17,20 +21,81 @@
 			}
 		});
 	}
+    function esconderFormulariosMenos(id_mantener){
+        
+        //escondemos instrucciones
+        $("#instrucciones").hide();
 
-	//funcion para comparar respuestas del usuario con las que debieran ser, y se entrega el puntaje del ejercicio,
+        $("#form_pago_cheque").hide();
+        $("#form_deposito_cheque_mismo_banco").hide(); 
+        $("#form_deposito_cheque_otro_banco").hide();
+        $("#form_traspaso_a_tesoreria").hide(); 
+        $("#form_traspaso_de_tesoreria").hide();
+
+         $(id_mantener).show();
+         tipo_accion_seleccionada = id_mantener.id;
+
+    }
+    function esconderFormularios(){
+
+        //escondemos instrucciones
+        $("#instrucciones").hide();
+
+        $("#form_pago_cheque").hide();
+        $("#form_deposito_cheque_mismo_banco").hide(); 
+        $("#form_deposito_cheque_otro_banco").hide();
+        $("#form_traspaso_a_tesoreria").hide(); 
+        $("#form_traspaso_de_tesoreria").hide();
+
+        tipo_accion_seleccionada = "";
+    }
+
+
+
+	//funciones para comparar respuestas del usuario con las que debieran ser, y se entrega el puntaje del ejercicio,
 	//en caso de que la respuesta correcta fuera realizar la operacion.
-	function compararResultados(){
+	function compararResultadosPch(){
 		//comparamos serie
-		if($("#serie-cheque-input").val() == $("#serie").html()){
-			if($("#monto-cheque-input").val() == $("#montonumero").html().replace(".","")){
+		if($("#serie-cheque-input-pch").val() == $("#serie").html()){
+			if($("#monto-cheque-input-pch").val() == $("#montonumero").html().replace(".","")){
 				alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");	
 			}
 		}
 		else{
-			alert("Fallaste! FA LLAS TE");
+			alert("La operación no está correcta.");
 		}
 	}
+
+    //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
+    function compararResultadosDcmb(){
+		//comparamos serie
+		if($("#serie-cheque-input-dcmb").val() == $("#serie").html()){
+			if($("#monto-cheque-input-dcmb").val() == $("#montonumero").html().replace(".","")){
+                if($("#papeleta-input-dcmb").val() == $("#papeleta").html()){
+				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
+                }
+			}
+		}
+		else{
+			alert("La operación no está correcta.");
+		}
+	}
+
+    //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
+    function compararResultadosDcob(){
+		//comparamos serie
+		if($("#serie-cheque-input-dcob").val() == $("#serie").html()){
+			if($("#monto-cheque-input-dcob").val() == $("#montonumero").html().replace(".","")){
+                if($("#papeleta-input-dcob").val() == $("#papeleta").html()){
+				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
+                }
+			}
+		}
+		else{
+			alert("La operación no está correcta.");
+		}
+	}
+
 	//ahora, si la persona clickea "rechazar operación", corroboramos que el cheque efectivamente venga con error
 	function compararError(){
 		if($("#error").html()!=""){
@@ -92,6 +157,7 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
+	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); width:800px; height:400px; margin: 20px 20px;}
 	.beneficiario {position: absolute; top: 306px; left: 180px; z-index: 105; font-size: 24px;}
 	.montonumero {position: absolute; top: 190px; left: 590px; z-index: 110; font-size: 24px;}
 	.montotexto {position: absolute; top: 353px; left: 180px; z-index: 115; font-size: 24px;}
@@ -105,8 +171,21 @@
 	.titular{position: absolute; top: 200px; left: 270px; z-index: 100; font-size: 18px;}
 	.seriesucursal{position: absolute; top: 170px; left: 50px; z-index: 100; font-size: 20px;}
 	.carnet{margin: 20px 0px}
-	
+    .linkmenu{color: #022346;}
+	.oculto{display:none;}
 	input{ padding: 13px; margin-bottom: 15px;}
+	.depo-dia{font-size: 26px; position: relative; top: 105px; left: 50px;}
+	.depo-mes{font-size: 26px; position: relative; top: 67px; left: 109px;}
+	.depo-ano{font-size: 26px; position: relative; top: 30px; left: 165px;}
+	.depo-check-efectivo{font-size: 26px; position: relative; left: 282px; top: -16px;}
+	.depo-check-doctos-mismo{font-size: 26px; position: relative; left: 365px; top: -53px;}
+	.depo-check-otros-doctos-mismo{font-size: 26px; position: relative; left: 507px; top: -92px;}
+	.depo-check-doctos-otros{font-size: 26px; position: relative; left: 681px; top: -129px;}
+	.depo-titular{font-size: 26px;position: relative; top: -95px; left: 50px;}
+	.depo-depositante{font-size: 26px; position: relative; top: -76px; left: 50px;}
+	.depo-numero-doctos{font-size: 26px; position: relative; top: -60px; left: 280px;}
+	.depo-numero-cuenta{font-size: 26px; position: relative; top: -185px; left: 450px;}
+	.depo-total{font-size: 26px; position: relative; top: -135px; left: 530px;}
 </style>
 
 {{dump(cheque_operacion)}}
@@ -123,22 +202,82 @@
 		  <img src="{{ asset('img/logos/banko-800.png') }}" width="150" />
 	  </div>
 	  <ul>
-	  	<li>Pago Cheque</li>
-		<li>Depósito Cheque Mismo Banco</li>
-		<li>Depósito Cheque Otros Bancos</li>
-		<li>Traspaso a Tesorería</li>
-		<li>Traspaso de Tesorería</li>
+	  	<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_pago_cheque);">Pago Cheque</a></li>
+		<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_deposito_cheque_mismo_banco);">Depósito Cheque Mismo Banco</a></li>
+		<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_deposito_cheque_otro_banco);">Depósito Cheque Otros Bancos</a></li>
+		<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_traspaso_a_tesoreria);">Traspaso a Tesorería</a></li>
+		<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_traspaso_de_tesoreria);">Traspaso de Tesorería</a></li>
     </div>
-    <div class="col-sm-4">
-      <h2>Pago Cheque</h2>
-	  <form name="formpago">
-	  	<input type="text" name="numero-cuenta" id="numero-cuenta" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
-		<div id="datosCuenta"></div>
-		<input type="text" id="serie-cheque-input" name="serie-cheque" placeholder="Número Serie Cheque"/></br>
-		<input type="text" id="monto-cheque-input" name="monto" placeholder="Monto"/></br>
-	  </form>
-	  <button class="btn btn-primary" onClick="compararResultados()">Ingresar Operación</button> 
-	  <button class="btn btn-primary" onClick="compararError()">Rechazar Operación</button>
+    <div class="col-sm-4" id="columna-central">
+        <div id="instrucciones">
+            <h3>Instrucciones del Simulador</h3>
+            <ul>
+                <li> Revise la solicitud del cliente</li> 
+                <li> Revise las formalidades del trámite (documentos, datos correctos, etc.)</li>
+                <li> Seleccione a la izquierda la operación a efectuar</li>
+                <li> Complete los datos y ejecute la operación</li>
+                <li> Si no se cumplen las formalidades del trámite, rechace la operación</li>
+            </ul>
+        </div>
+        <div id="form_pago_cheque" class="oculto"> 
+            <h2>Pago Cheque</h2>
+            <form name="formpago">
+                <input type="text" name="numero-cuenta-pch" id="numero-cuenta-pch" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
+                <div id="datosCuenta"></div>
+                <input type="text" id="serie-cheque-input-pch" name="serie-cheque-pch" placeholder="Número Serie Cheque"/></br>
+                <input type="text" id="monto-cheque-input-pch" name="monto-pch" placeholder="Monto"/></br>
+            </form>
+            <button class="btn btn-primary" onClick="compararResultadosPch()">Ingresar Operación</button> 
+            <button class="btn btn-primary" onClick="compararError()">Rechazar Operación</button>
+        </div>
+        <div id="form_deposito_cheque_mismo_banco" class="oculto">
+            <h2>Depósito Cheques Mismo Banco</h2>
+            <form name="formdepositomismobanco">
+                <input type="text" name="numero-cuenta-dcmb" id="numero-cuenta-dcmb" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
+                <div id="datosCuenta"></div>
+                <input type="text" id="numero-doctos-cheque-dcmb" name="numero-documentos-dcmb" placeholder="Número Documentos"/></br>
+                <input type="text" id="serie-papeleta-dcmb" name="serie-papeleta-dcmb" placeholder="Serie Papeleta"/></br>
+                <input type="text" id="monto-doctos-dcmb" name="monto-doctos-dcmb" placeholder="Monto"/></br>
+
+            </form>
+            <button class="btn btn-primary" onClick="compararResultadosDcmb()">Ingresar Operación</button> 
+            <button class="btn btn-primary" onClick="compararError()">Rechazar Operación</button>
+        </div>
+        <div id="form_deposito_cheque_otro_banco" class="oculto">
+            <h2>Depósito Cheques Otros Bancos</h2>
+            <form name="formdepositootrosbancos">
+                <input type="text" name="numero-cuenta-dcob" id="numero-cuenta-dcob" placeholder="Número Cuenta" onBlur="getDatosCuenta($('#numero-cuenta').val())"/></br>
+                <div id="datosCuenta"></div>
+                <input type="text" id="numero-doctos-cheque-dcob" name="numero-documentos-dcob" placeholder="Número Documentos"/></br>
+                <input type="text" id="serie-papeleta-dcob" name="serie-papeleta-dcob" placeholder="Serie Papeleta"/></br>
+                <input type="text" id="monto-doctos-dcob" name="monto-doctos-dcob" placeholder="Monto"/></br>
+
+            </form>
+            <button class="btn btn-primary" onClick="compararResultadosDcob()">Ingresar Operación</button> 
+            <button class="btn btn-primary" onClick="compararError()">Rechazar Operación</button>
+        </div>
+        <div id="form_traspaso_a_tesoreria" class="oculto">
+            <h2>Traspaso a Tesorería</h2>
+            <form name="formtraspasoateseoreria">
+                <input type="text" name="valor-20000-tat" id="valor-20000-tat" placeholder="Valor $20.000"/></br>
+                <input type="text" name="valor-10000-tat" id="valor-10000-tat" placeholder="Valor $10.000"/></br>
+                <input type="text" name="valor-5000-tat" id="valor-5000-tat" placeholder="Valor $5.000"/></br>
+                <input type="text" name="valor-2000-tat" id="valor-2000-tat" placeholder="Valor $2.000"/></br>
+                <input type="text" name="valor-2000-tat" id="valor-1000-tat" placeholder="Valor $1.000"/></br>
+            </form>
+            <button class="btn btn-primary" onClick="compararResultados()">Realizar Traspaso</button> 
+        </div>
+        <div id="form_traspaso_de_tesoreria" class="oculto">
+            <h2>Traspaso de Tesorería</h2>
+            <form name="formtraspasodeteseoreria">
+                <input type="text" name="valor-20000-tdt" id="valor-20000-tdt" placeholder="Valor $20.000"/></br>
+                <input type="text" name="valor-10000-tdt" id="valor-10000-tdt" placeholder="Valor $10.000"/></br>
+                <input type="text" name="valor-5000-tdt" id="valor-5000-tdt" placeholder="Valor $5.000"/></br>
+                <input type="text" name="valor-2000-tdt" id="valor-2000-tdt" placeholder="Valor $2.000"/></br>
+                <input type="text" name="valor-2000-tdt" id="valor-1000-tdt" placeholder="Valor $1.000"/></br>
+            </form>
+            <button class="btn btn-primary" onClick="compararResultados()">Solicitar Traspaso</button> 
+        </div>
     </div>
     <div class="col-sm-6" style="background-color: #f1c430; padding-left:0px;">
 	    <div class="card mt-3 tab-card">
@@ -190,6 +329,27 @@
 					<div class="carnet">
 						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/></div>
 					</div>
+					<!-- por mientras, el depósito qeudará pegado -->
+					Depósito hardcodeado para trabajar el CSS.
+					<div class="deposito">
+						<div class="depo-dia">01</div>
+						<div class="depo-mes">12</div>
+						<div class="depo-ano">2999</div>
+
+						<div class="depo-check-efectivo">x</div>
+						<div class="depo-check-doctos-mismo">x</div>
+						<div class="depo-check-otros-doctos-mismo">x</div>
+						<div class="depo-check-doctos-otros">x</div>
+						<div class="depo-titular">Leonardo Lux</div>
+						<div class="depo-depositante">Ignacio Ruz</div>
+						<div class="depo-numero-doctos">1</div>
+
+						<div class="depo-numero-cuenta">99999999</div>
+						<div class="depo-total">19.999.999</div>
+					</div >
+
+
+
 					<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>         
 				</div>
 				<div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
@@ -209,7 +369,6 @@
 		</div>
 	</div>
   </div>
-
 </div>
 <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

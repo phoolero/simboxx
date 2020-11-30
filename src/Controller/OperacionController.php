@@ -7,7 +7,10 @@ use App\Repository\OperacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class OperacionController extends AbstractController
 {
@@ -17,10 +20,10 @@ class OperacionController extends AbstractController
     public function index(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-
-        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion(3);
-        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion(3);
-        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion(3);
+        $id_operacion = 3;
+        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion);
+        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion);
+        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion);
 
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',

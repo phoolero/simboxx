@@ -27,6 +27,12 @@ class Operacion
     /**
      * @ORM\Column(type="string", length=512, nullable=true)
      */
+
+    private $error_operacion;
+
+    /**
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
     private $mensaje_cliente;
 
     public function getId(): ?int
@@ -54,6 +60,17 @@ class Operacion
     public function setMensajeCliente(?string $mensaje_cliente): self
     {
         $this->mensaje_cliente = $mensaje_cliente;
+
+        return $this;
+    }
+    public function getErrorOperacion(): ?string
+    {
+        return $this->error_operacion;
+    }
+
+    public function setErrorOperacion(?string $error_operacion): self
+    {
+        $this->error_operacion = $error_operacion;
 
         return $this;
     }
