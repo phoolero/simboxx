@@ -18,9 +18,14 @@
 			async: true,
 			dataType: "json",
 			success: function(data){
-				$(nombrecapa).html(data['nombre'] + '<img src="../img/firmas/' + data['firma'] + '" width="130">');
+				$(nombrecapa).html(data['nombre'] + '<img src="./img/firmas/' + data['firma'] + '" width="130">');
 			}
 		});
+	}
+
+	function setPuntaje(){
+
+		
 	}
     function esconderFormulariosMenos(id_mantener){
         
@@ -205,9 +210,12 @@
 </style>
 
 <div class="container" style="max-width:1360px;">
-  <div class="row">
-	<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
+  <div class="row" style="background-color: black; color: white; padding: 7px;">
+	<div class="col-6" >
 		<img src="{{ asset('img/logos/simbox-blanco.png') }}" width="60" /> Simulador de Caja Bancaria
+	</div>
+	<div class="col-6 d-flex align-items-center" >
+		<p class="mb-0" id="puntaje">{{sesion.get("puntaje")}}</p>
 	</div>
   </div>
   <div class="row">

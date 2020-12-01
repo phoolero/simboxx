@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class OperacionController extends AbstractController
 {
@@ -19,6 +20,11 @@ class OperacionController extends AbstractController
      */
     public function index(Request $request): Response
     {
+
+        $session = $request->getSession();
+
+        $session->set("puntaje", 0);
+        $varSe = $session;
         $em = $this->getDoctrine()->getManager();
         $id_operacion = 4;
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion);
@@ -31,7 +37,9 @@ class OperacionController extends AbstractController
             'cheque_operacion' => $cho,
             'cedula_operacion' => $ceo,
             'deposito_operacion' => $deo,
-            'operacion' => $opo
+            'operacion' => $opo,
+            'sesion' => $varSe
         ]);
     }
+
 }
