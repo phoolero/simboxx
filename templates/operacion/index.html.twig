@@ -217,7 +217,7 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
-	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
+	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); background-repeat: repeat-x; width:800px; min-height:400px; margin: 20px 0px;}
 	.beneficiario {position: absolute; top: 306px; left: 180px; z-index: 105; font-size: 24px;}
 	.montonumero {position: absolute; top: 190px; left: 590px; z-index: 110; font-size: 24px;}
 	.montotexto {position: absolute; top: 353px; left: 180px; z-index: 115; font-size: 24px;}
@@ -229,10 +229,12 @@
 	.cheque-dia{position: absolute; top: 230px; left:510px;font-size:28px;}
 	.cheque-mes{position: absolute; top: 230px; left:610px;font-size:28px;}
 	.cheque-ano{position: absolute; top: 230px; left:730px;font-size:28px;}
+	.firma-cruzada{position: absolute; top: 280px; left: 30px; transform: rotate(270deg);}
 	.cuenta{position: absolute; top: 171px; left: 300px; z-index: 200; font-size: 18px;}
 	.titular{position: absolute; top: 200px; left: 270px; z-index: 100; font-size: 18px;}
 	.seriesucursal{position: absolute; top: 170px; left: 50px; z-index: 100; font-size: 20px;}
 	.carnet{margin: 20px 0px}
+	.reverso{background-image: url("{{ asset('img/fondos/modelo-cheque-reverso-corto.jpg') }}"); width:230px; height:239px; margin: 20px 0px; padding: 10px 10px;}
     .linkmenu{color: #022346;}
 	.oculto{display:none;}
 	input{ padding: 13px; margin-bottom: 15px;}
@@ -394,11 +396,38 @@
 						<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
 						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
 						<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
+						{% if cheque_operacion[0]["firma_beneficiario_atravesada"] %}
+						<div class="firma-cruzada"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma_beneficiario_atravesada"]) }}"/></div>
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if cheque_operacion[0]["numero_dias_revalidacion"] or cheque_operacion[0]["revalidacion_firma"] or
+						cheque_operacion[0]["endoso_deposito_cuenta"] or cheque_operacion[0]["endoso_deposito_firma"] or
+						cheque_operacion[0]["endoso_deposito_rut"] or cheque_operacion[0]["endoso_regular_firma"] or cheque_operacion[0]["endoso_regular_rut"] or
+						cheque_operacion[0]["endoso_regular_nombre"] %}
+					<div class="reverso">
+						<!-- Vamos introduciendo items en reverso -->
+						{% if cheque_operacion[0]["numero_dias_revalidacion"] %}
+						<div>Revalidado {{ "now"|date_modify( cheque_operacion[0]["numero_dias_revalidacion"]*(-1) ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
+						{% endif %}
+						{% if cheque_operacion[0]["revalidacion_firma"] %}
+						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["revalidacion_firma"]) }}"/></div>
+						{% endif %}
+						<div>{{ cheque_operacion[0]["endoso_deposito_cuenta"] }}</div>
+						{% if cheque_operacion[0]["endoso_deposito_firma"] %}
+						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_deposito_firma"]) }}"/></div>
+						{% endif %}
+						<div>{{ cheque_operacion[0]["endoso_deposito_rut"] }}</div>
+						<div>{{ cheque_operacion[0]["endoso_regular_nombre"] }}</div>
+						<div>{{ cheque_operacion[0]["endoso_regular_rut"] }}</div>
+						{% if cheque_operacion[0]["endoso_regular_firma"] %}
+						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_regular_firma"]) }}"/></div>
+						{% endif %}
 					</div>
 					{% endif %}
 					{% if cedula_operacion is not empty %}
 					<div class="carnet">
-						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/></div>
+						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/>
 					</div>
 					{% endif %}
 
@@ -464,16 +493,24 @@
 				</div>
 			</div>
 		</div>
-    </div>
 	</div>
+<<<<<<< HEAD
 
 	<div class="row">
 		<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
 			Saldo de caja actual: <strong id="monto-saldo">{{sesion.get("sesion")['saldo'] }}</strong> / $15.000.000
 		</div>
-	</div>
-  </div>
+=======
 </div>
+<div class="row">
+	<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
+		Saldo de caja actual: $12.345.678 / $15.000.000
+>>>>>>> 55e06cd61deff4d85d25102cf686151643381ede
+	</div>
+</div>
+</div>
+
+
 <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 {% endblock %}

@@ -33,12 +33,14 @@ class OperacionController extends AbstractController
         $session->set("sesion",$datos);
         $varSe = $session;
         $em = $this->getDoctrine()->getManager();
-        
-        $id_operacion = 4;
-        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion);
-        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion);
-        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($id_operacion);
-        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion);
+        $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
+
+        //$id_operacion[0]['id'] = 12; 
+
+        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion[0]['id']);
+        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion[0]['id']);
+        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($id_operacion[0]['id']);
+        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion[0]['id']);
 
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
