@@ -25,7 +25,10 @@ class OperacionRepository extends ServiceEntityRepository
 		$sql = "SELECT banco.nombre AS 'banco', sucursal.codigo_plaza, sucursal.nombre AS 'sucursal', cuenta.id AS 'cuenta', cuenta.nombre AS 'titular', cuenta.firma, cheque.serie, cheque.beneficiario, 
                     cheque.monto_numero, cheque.monto_letras, cheque.tarjado_orden, cheque.tarjado_al_portador, cheque.firma_titular,
                     cheque.firma_beneficiario_atravesada, cheque.cruzado, cheque.cruzado_especial_banco, cheque.numero_dias_cheque,
-                    cheque.numero_dias_revalidacion, cheque.revalidacion_firma, cheque.error
+                    cheque.numero_dias_revalidacion, cheque.revalidacion_firma, 
+                    cheque.endoso_deposito_cuenta, cheque.endoso_deposito_firma, cheque.endoso_deposito_rut,
+                    cheque.endoso_regular_firma, cheque.endoso_regular_rut, endoso_regular_nombre,
+                    cheque.error
                 FROM banco, sucursal, cuenta, cheque, operacion_cheque, operacion
                 WHERE operacion = :operacion
                 AND operacion_cheque.operacion = operacion.id
@@ -63,8 +66,8 @@ class OperacionRepository extends ServiceEntityRepository
                 WHERE deposito.id = operacion_deposito.deposito 
                 AND operacion_deposito.id = :operacion";
                 
-                $stmt = $conn->prepare($sql);
-                $stmt->execute(['operacion' => $operacion]);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['operacion' => $operacion]);
 
                 return $stmt->fetchAllAssociative();
     }
@@ -82,7 +85,20 @@ class OperacionRepository extends ServiceEntityRepository
                 $stmt->execute(['operacion' => $operacion]);
 
                 return $stmt->fetchAllAssociative();
-    }    
+    }
+
+    public function obtenerOperacionRandom(): array{
+        $conn = $this->getEntityManager()->getConnection();
+
+		$sql = "SELECT id FROM operacion
+                ORDER BY RAND()
+                LIMIT 1";
+                
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAllAssociative();
+    }
 
     // /**
     //  * @return Operacion[] Returns an array of Operacion objects
