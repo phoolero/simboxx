@@ -250,7 +250,7 @@
             <h3>Instrucciones del Simulador</h3>
             <ul>
 
-			{# el formato de fecha<li>{{ "now"|date("d/m/Y") }}</li> #}
+			
                 <li> Revise la solicitud del cliente</li> 
                 <li> Revise las formalidades del trámite (documentos, datos correctos, etc.)</li>
                 <li> Seleccione a la izquierda la operación a efectuar</li>
@@ -397,8 +397,41 @@
 
 					<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>         
 				</div>
-				<div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-					Hola 2 
+				<div class="tab-pane p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+					<div class="row">
+						<div class="col-6">
+							<h2>Libro Diario</h2>
+						</div>	
+						<div class="col-6 text-right">
+							<p>{{ "now"|date("d/m/Y") }}</p>
+						</div>									
+					</div>
+					<table class="table table-striped">
+				<thead>
+					<tr>
+					<th scope="col">#</th>
+					<th scope="col">Transacción</th>
+					<th scope="col">Estado</th>
+					<th scope="col">Cuenta</th>
+					<th scope="col">Serie</th>
+					<th scope="col">Entrada</th>
+					<th scope="col">Salida</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<th scope="row">1</th>
+						<td>Mark</td>
+						<td>Otto</td>
+						<td>@mdo</td>
+						<td>123456</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					
+					</tbody>
+					</table>
+					
 				</div>
 				<div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
 					Hola 3
