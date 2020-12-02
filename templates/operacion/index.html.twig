@@ -22,23 +22,39 @@
 			}
 		});
 	}
-		function setPuntaje(puntos){
+	
+	function setPuntaje(datos){
 		
 		/*alert("aqui tan los puntos");*/
 		$.ajax({
 			
 			type: 'POST',
 			url: 'http://localhost/simboxx/public/puntaje',
-			data: ({puntos: puntos}),
+			data: ({datos: datos}),
 			async: true,
 			dataType: "json",
 			success: function(data){
 				console.log(data);
-				$("#puntaje").text(data['valor']);
+				$("#puntaje").text(data['puntaje']);
+				//$("#monto-saldo").text(data['monto']);
 				$('form[name=formpago]')[0].reset();
 				$('#datosCuentaPch').text('');
+				llenarTabla(data);
 			}
 		});
+	}
+	
+	function llenarTabla(datos){
+		var tabla = $("#tbody-diario");
+		tabla.append(`<tr>
+			<th scope="row">${datos['registro']}</th>
+			<td>${datos['transaccion']}</td>
+			<td>${datos['estado']}</td>
+			<td>${datos['cuenta']}</td>
+			<td>${datos['serie']}</td>
+			<td>0</td>
+			<td>${datos['monto']}</td>
+			</tr>`);
 	}
     function esconderFormulariosMenos(id_mantener){
         
@@ -75,10 +91,21 @@
 	//en caso de que la respuesta correcta fuera realizar la operacion.
 	function compararResultadosPch(){
 		//comparamos serie
+		var datos = { };
+		
+			
 		if($("#serie-cheque-input-pch").val() == $("#serie").html()){
 			if($("#monto-cheque-input-pch").val() == $("#montonumero").html().replaceAll(".","")){
 				alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");	
-				setPuntaje(5);
+					//push datos
+					datos["registro"] = 1;
+					datos["puntaje"] = 5;
+					datos["transaccion"] = 680;
+					datos["estado"]='A';
+					datos["cuenta"]=$('#numero-cuenta-pch').val();
+					datos["serie"]=$('#serie-cheque-input-pch').val();
+					datos["monto"]=$('#monto-cheque-input-pch').val();
+				setPuntaje(datos);
 			}
 		}
 		else{
@@ -230,7 +257,7 @@
 		<img src="{{ asset('img/logos/simbox-blanco.png') }}" width="60" /> Simulador de Caja Bancaria
 	</div>
 	<div class="col-6 d-flex align-items-center" >
-		<p class="mb-0" id="puntaje">{{sesion.get("puntaje")}}</p>
+		<p class="mb-0" id="puntaje">{{sesion.get("sesion")['puntaje']}}</p>
 	</div>
   </div>
   <div class="row">
@@ -418,23 +445,22 @@
 					<th scope="col">Salida</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-					<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						<td>123456</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
+				<tbody id="tbody-diario">
+		
 					
 					</tbody>
 					</table>
 					
 				</div>
-				<div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
-					Hola 3
+				<div class="tab-pane p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+					<div class="row">
+						<div class="col-6">
+							<h2>Cuadratura</h2>
+						</div>	
+						<div class="col-6 text-right">
+							<p>{{ "now"|date("d/m/Y") }}</p>
+						</div>									
+					</div>
 				</div>
 			</div>
 		</div>
@@ -443,7 +469,7 @@
 
 	<div class="row">
 		<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
-			Saldo de caja actual: $12.345.678 / $15.000.000
+			Saldo de caja actual: <strong id="monto-saldo">{{sesion.get("sesion")['saldo'] }}</strong> / $15.000.000
 		</div>
 	</div>
   </div>

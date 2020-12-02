@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class OperacionController extends AbstractController
 {
@@ -21,12 +23,17 @@ class OperacionController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $session = new Session();
-        $session->start();
-
-        $session->set("puntaje", 0);
+        $session = new Session(new NativeSessionStorage(), new AttributeBag());
+        
+        $datos=array(
+            'puntaje'=>0,
+            'saldo'=>1200000,
+            'registros'=>0
+        );
+        $session->set("sesion",$datos);
         $varSe = $session;
         $em = $this->getDoctrine()->getManager();
+        
         $id_operacion = 4;
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion);
@@ -44,14 +51,25 @@ class OperacionController extends AbstractController
     }
 
     public function darPuntaje(Request $request){
-            $session = $request->getSession();
-            $varSe = $session->get("puntaje");
-            $puntos = $request->request->get("puntos");
-            $varSe += $puntos;
            
-            $session->set("puntaje",$varSe);
+        //aqui agarro la sesion
+            $session = $request->getSession();
+            $varSe = $session->get("sesion");
+        
+            //aqui agarro los datos del ajax
+            $datos = $request->request->get("datos");
+            //aqui cambio acumulo el puntaje y  los registros
+            $datos['puntaje']=$varSe['puntaje']+ $datos['puntaje'];
+            $datos['registro']=$varSe['registros']+ $datos['registro'];
+
+            //actulizando el arreglo de la sesion
+            $varSe['puntaje'] =  $datos['puntaje'];
+            $varSe['registros'] = $datos['registro'];
+            $varSe['saldo'] =$varSe['saldo']- $datos['monto'];
+            $session->clear();
+            $session->set("sesion",$varSe);
             
-            return new JsonResponse(["valor"=>$varSe]);
+            return new JsonResponse($datos);
      
     }
 
