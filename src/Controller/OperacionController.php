@@ -21,7 +21,8 @@ class OperacionController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $session = $request->getSession();
+        $session = new Session();
+        $session->start();
 
         $session->set("puntaje", 0);
         $varSe = $session;
@@ -40,6 +41,18 @@ class OperacionController extends AbstractController
             'operacion' => $opo,
             'sesion' => $varSe
         ]);
+    }
+
+    public function darPuntaje(Request $request){
+            $session = $request->getSession();
+            $varSe = $session->get("puntaje");
+            $puntos = $request->request->get("puntos");
+            $varSe += $puntos;
+           
+            $session->set("puntaje",$varSe);
+            
+            return new JsonResponse(["valor"=>$varSe]);
+     
     }
 
 }

@@ -18,14 +18,27 @@
 			async: true,
 			dataType: "json",
 			success: function(data){
-				$(nombrecapa).html(data['nombre'] + '<img src="./img/firmas/' + data['firma'] + '" width="130">');
+				$(nombrecapa).html(data['nombre'] + '<img id="firma-img" src="./img/firmas/' + data['firma'] + '" width="130">');
 			}
 		});
 	}
-
-	function setPuntaje(){
-
+		function setPuntaje(puntos){
 		
+		/*alert("aqui tan los puntos");*/
+		$.ajax({
+			
+			type: 'POST',
+			url: 'http://localhost/simboxx/public/puntaje',
+			data: ({puntos: puntos}),
+			async: true,
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+				$("#puntaje").text(data['valor']);
+				$('form[name=formpago]')[0].reset();
+				$('#datosCuentaPch').text('');
+			}
+		});
 	}
     function esconderFormulariosMenos(id_mantener){
         
@@ -65,6 +78,7 @@
 		if($("#serie-cheque-input-pch").val() == $("#serie").html()){
 			if($("#monto-cheque-input-pch").val() == $("#montonumero").html().replaceAll(".","")){
 				alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");	
+				setPuntaje(5);
 			}
 		}
 		else{
@@ -79,7 +93,8 @@
 			if($("#monto-doctos-dcmb").val() == $("#depo-total").html().replaceAll(".","")){
                 if($("#serie-papeleta-dcmb").val() == $("#depo-serie").html()){
 				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
-                }
+
+				}
 				else{
 					alert("Error papeleta");
 				}
