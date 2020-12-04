@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Operacion;
+use App\Controller\IndiceController;
 use App\Repository\OperacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +24,8 @@ class OperacionController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $session = new Session(new NativeSessionStorage(), new AttributeBag());
-        
-        $datos=array(
-            'puntaje'=>0,
-            'saldo'=>1200000,
-            'registros'=>0
-        );
-        $session->set("sesion",$datos);
-        $varSe = $session;
+        $session = $request->getSession();
+        $varSe = $session->get("sesion");
         $em = $this->getDoctrine()->getManager();
         $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
 
@@ -61,17 +55,36 @@ class OperacionController extends AbstractController
             //aqui agarro los datos del ajax
             $datos = $request->request->get("datos");
             //aqui cambio acumulo el puntaje y  los registros
-            $datos['puntaje']=$varSe['puntaje']+ $datos['puntaje'];
-            $datos['registro']=$varSe['registros']+ $datos['registro'];
-
-            //actulizando el arreglo de la sesion
-            $varSe['puntaje'] =  $datos['puntaje'];
-            $varSe['registros'] = $datos['registro'];
-            $varSe['saldo'] =$varSe['saldo']- $datos['monto'];
-            $session->clear();
-            $session->set("sesion",$varSe);
+            $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
             
-            return new JsonResponse($datos);
+            //si hay registros en el arreglo registros id aumenta sino comienza en 0
+            if(count($varSe['registros_id']) >0 ){
+                $datos['registro']++;
+            }else{
+                $datos['registro']=1;
+            }
+           
+            //saldo caja
+            if($datos["entrada_salida"] == 'salida'){
+               $varSe['saldo'] -= $datos["monto"];
+            }else{
+                $varSe['saldo'] += $datos["monto"];
+            }
+
+            //push los registros nuevos
+            array_push($varSe['registros_id'],$datos['registro']);
+            array_push($varSe['registros_transaccion'],$datos['transaccion']);
+            array_push($varSe['registros_cuenta'],$datos['cuenta']);
+            array_push($varSe['registros_estado'],$datos['estado']);
+            array_push($varSe['registros_serie'],$datos['serie']);
+            array_push($varSe['registros_entrada_salida'],$datos['entrada_salida']);
+            array_push($varSe['registros_monto'],$datos['monto']);
+            array_push($varSe['registros_tipo_operacion'],$datos['tipo_operacion']);
+
+            //set de valores a la sesion
+            $session->set("sesion",$varSe);          
+            
+            return new JsonResponse($session);
      
     }
 
