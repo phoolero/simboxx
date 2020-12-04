@@ -35,27 +35,15 @@
 			dataType: "json",
 			success: function(data){
 				console.log(data);
-				$("#puntaje").text(data['puntaje']);
-				//$("#monto-saldo").text(data['monto']);
-				$('form[name=formpago]')[0].reset();
-				$('#datosCuentaPch').text('');
-				llenarTabla(data);
+				
+				//$('form[name=formpago]')[0].reset();
+				//$('#datosCuentaPch').text('');
+				//recarga de pantalla
+				window.location.reload();
 			}
 		});
 	}
 	
-	function llenarTabla(datos){
-		var tabla = $("#tbody-diario");
-		tabla.append(`<tr>
-			<th scope="row">${datos['registro']}</th>
-			<td>${datos['transaccion']}</td>
-			<td>${datos['estado']}</td>
-			<td>${datos['cuenta']}</td>
-			<td>${datos['serie']}</td>
-			<td>0</td>
-			<td>${datos['monto']}</td>
-			</tr>`);
-	}
     function esconderFormulariosMenos(id_mantener){
         
         //escondemos instrucciones
@@ -104,7 +92,9 @@
 					datos["estado"]='A';
 					datos["cuenta"]=$('#numero-cuenta-pch').val();
 					datos["serie"]=$('#serie-cheque-input-pch').val();
+					datos["entrada_salida"]= "salida";
 					datos["monto"]=$('#monto-cheque-input-pch').val();
+					datos["tipo_operacion"]=$(".linkmenu")[0].text;;
 				setPuntaje(datos);
 			}
 		}
@@ -259,7 +249,9 @@
 		<img src="{{ asset('img/logos/simbox-blanco.png') }}" width="60" /> Simulador de Caja Bancaria
 	</div>
 	<div class="col-6 d-flex align-items-center" >
-		<p class="mb-0" id="puntaje">{{sesion.get("sesion")['puntaje']}}</p>
+		<p class="mb-0" id="puntaje"><pre>
+			{{ dump(sesion) }}
+		</pre></p>
 	</div>
   </div>
   <div class="row">
@@ -278,8 +270,6 @@
         <div id="instrucciones">
             <h3>Instrucciones del Simulador</h3>
             <ul>
-
-			
                 <li> Revise la solicitud del cliente</li> 
                 <li> Revise las formalidades del trámite (documentos, datos correctos, etc.)</li>
                 <li> Seleccione a la izquierda la operación a efectuar</li>
@@ -475,8 +465,24 @@
 					</tr>
 				</thead>
 				<tbody id="tbody-diario">
-		
-					
+					{% if sesion['registros_id']|length > 0 %}
+						{% for i in 0..sesion['registros_id']|length -1 %}
+						<tr>
+							<th scope="row">{{ sesion['registros_id'][i] }}</th>
+							<td>{{ sesion['registros_transaccion'][i]  }}</td>
+							<td>{{ sesion['registros_estado'][i]  }}</td>
+							<td>{{ sesion['registros_cuenta'][i]  }}</td>
+							<td>{{ sesion['registros_serie'][i]  }}</td>
+							{% if  sesion['registros_entrada_salida'][i] != 'salida' %}
+								<td>{{ sesion['registros_monto'][i]  }}</td>
+								<td>0</td>
+							{% else %}
+								<td>0</td>
+								<td>{{ sesion['registros_monto'][i]  }}</td>
+							{% endif %}
+						</tr>
+						{% endfor %}
+					{% endif %}
 					</tbody>
 					</table>
 					
@@ -490,14 +496,64 @@
 							<p>{{ "now"|date("d/m/Y") }}</p>
 						</div>									
 					</div>
-				</div>
+					<div class="row">
+					<div class="col-6">
+						<label for="entrada">Entrada</label>
+						{# dejar asi el formato porque sino hace saltos de lines y espacios innecesarios #}
+						<textarea class="form-control" id="salida" rows="3">{% if sesion['registros_id']|length > 0 %}{% for i in 0..sesion['registros_id']|length -1 %}{% if sesion['registros_entrada_salida'][i] == 'entrada' %}{{sesion['registros_tipo_operacion'][i]}}{% endif %}
+						{% endfor %}
+						{% endif %}
+						</textarea>
+					</div>
+					<div class="col-6">
+						<label for="salida">Salida</label>
+						{# dejar asi el formato porque sino hace saltos de lines y espacios innecesarios #}
+						<textarea class="form-control" id="salida" rows="3">{% if sesion['registros_id']|length > 0 %}{% for i in 0..sesion['registros_id']|length -1 %}{% if sesion['registros_entrada_salida'][i] == 'salida' %}{{sesion['registros_tipo_operacion'][i]}}{% endif %}
+						{% endfor %}
+						{% endif %}
+						</textarea>
+					</div>
+					<div class="col-3">
+						<label for="entrada-canje">Entrada Canje</label>
+						<input type="text" class="form-control" id="entrada-canje">
+					</div>
+						<div class="col-3">
+						<label for="entrada-efectivo">Entrada Efectivo</label>
+						<input type="text" class="form-control" id="entrada-efectivo">
+					</div>
+						<div class="col-3">
+						<label for="salida-canje">Salida Canje</label>
+						<input type="text" class="form-control" id="salida-canje">
+					</div>
+						<div class="col-3">
+						<label for="salida-efectivo">Salida Efectivo</label>
+						<input type="text" class="form-control" id="salida-efectivo">
+					</div>
+						<div class="col-3">
+						<label for="saldo-apertura">Saldo Apertura</label>
+						<input type="text" class="form-control" id="saldo-apertura">
+					</div>
+						<div class="col-3">
+						<label for="total-entrada">Total Entrada</label>
+						<input type="text" class="form-control" id="total-entrada">
+					</div>
+						<div class="col-3">
+						<label for="saldo-actual">Saldo Actual</label>
+						<input type="text" class="form-control" id="saldo-actual">
+					</div>
+						<div class="col-3">
+						<label for="total-salida">Total Salida</label>
+						<input type="text" class="form-control" id="total-salida">
+					</div>
+					</div>
+					</div>
 			</div>
 		</div>
 	</div>
-
-	<div class="row">
-		<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
-			Saldo de caja actual: <strong id="monto-saldo">{{sesion.get("sesion")['saldo'] }}</strong> / $15.000.000
+</div>
+	<div class="row" style="background-color: black; color: white; padding: 7px;">
+		<div class="col-sm-12" >
+			Saldo de caja actual: <strong id="monto-saldo"> {{sesion['saldo']}}</strong> / $15.000.000
 		</div>
 	</div>
 </div>
