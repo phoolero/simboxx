@@ -2,6 +2,10 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+index:
+    path: /
+    controller: App\Controller\IndiceController::index
+
 operacion_pts_sesion:
     path: /puntaje
     controller: App\Controller\OperacionController::darPuntaje
