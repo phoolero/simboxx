@@ -190,6 +190,7 @@
 	.reverso{background-image: url("{{ asset('img/fondos/modelo-cheque-reverso-corto.jpg') }}"); width:230px; height:239px; margin: 20px 0px; padding: 10px 10px;}
     .linkmenu{color: #022346;}
 	.oculto{display:none;}
+	#etiqueta-reverso{width: 100%; margin: 0 auto; text-align: center; background-color: #cccccc; color: #666; position: relative; bottom: 0; left: 0}
 	input{ padding: 13px; margin-bottom: 15px;}
 	.depo-dia{font-size: 26px; position: relative; top: 105px; left: 50px;}
 	.depo-mes{font-size: 26px; position: relative; top: 67px; left: 109px;}
@@ -275,11 +276,12 @@
         <div id="form_traspaso_a_tesoreria" class="oculto">
             <h2>Traspaso a Tesorería</h2>
             <form name="formtraspasoateseoreria">
-                <input type="text" name="valor-20000-tat" id="valor-20000-tat" placeholder="Valor $20.000"/></br>
+                <input type="text" name="valor-20000-tat" id="valor-20000-tat" placeholder="Valor Traspaso"/></br>
+				<!--
                 <input type="text" name="valor-10000-tat" id="valor-10000-tat" placeholder="Valor $10.000"/></br>
                 <input type="text" name="valor-5000-tat" id="valor-5000-tat" placeholder="Valor $5.000"/></br>
                 <input type="text" name="valor-2000-tat" id="valor-2000-tat" placeholder="Valor $2.000"/></br>
-                <input type="text" name="valor-2000-tat" id="valor-1000-tat" placeholder="Valor $1.000"/></br>
+                <input type="text" name="valor-2000-tat" id="valor-1000-tat" placeholder="Valor $1.000"/></br> -->
             </form>
             <button class="btn btn-primary" onClick="compararResultados()">Realizar Traspaso</button> 
         </div>
@@ -354,6 +356,7 @@
 						cheque_operacion[0]["endoso_deposito_rut"] or cheque_operacion[0]["endoso_regular_firma"] or cheque_operacion[0]["endoso_regular_rut"] or
 						cheque_operacion[0]["endoso_regular_nombre"] %}
 					<div class="reverso">
+						<div id="etiqueta-reverso">reverso cheque</div>
 						<!-- Vamos introduciendo items en reverso -->
 						{% if cheque_operacion[0]["numero_dias_revalidacion"] %}
 						<div>Revalidado {{ "now"|date_modify( cheque_operacion[0]["numero_dias_revalidacion"]*(-1) ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
@@ -371,6 +374,7 @@
 						{% if cheque_operacion[0]["endoso_regular_firma"] %}
 						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_regular_firma"]) }}"/></div>
 						{% endif %}
+						
 					</div>
 					{% endif %}
 					{% if cedula_operacion is not empty %}
