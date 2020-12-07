@@ -22,7 +22,7 @@ class OperacionController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
 
-        //$id_operacion[0]['id'] = 12; 
+        //$id_operacion[0]['id'] = 4; 
 
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion[0]['id']);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion[0]['id']);

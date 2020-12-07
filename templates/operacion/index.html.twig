@@ -126,7 +126,7 @@
 	}
 
 	.card {
-		background-color:#f1c430;
+		background-color:#eeeeee;
 		border: 0px;
 	}
 
@@ -171,21 +171,21 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;}
 	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); background-repeat: repeat-x; width:800px; min-height:400px; margin: 20px 0px;}
-	.beneficiario {position: absolute; top: 306px; left: 180px; z-index: 105; font-size: 24px;}
-	.montonumero {position: absolute; top: 190px; left: 590px; z-index: 110; font-size: 24px;}
-	.montotexto {position: absolute; top: 353px; left: 180px; z-index: 115; font-size: 24px;}
-	.firma{position: absolute; top: 389px; left: 501px; z-index: 120;}
-	.chequecruzado{width: 800px; height: 400px; position: absolute; top: 167px; z-index: 300;}
-	.codigobarras{font-family: 'codigodebarras'; font-size: 23px; position: absolute; top: 531px; left:60px; z-index: 200;}
-	.tarjado-portador{background-image: url("{{ asset('img/tarjado-portador.png') }}"); width:110px; height:10px; position: absolute; top:345px; left: 685px; z-index: 100; font-size: 24px;}
-	.tarjado-orden{background-image: url("{{ asset('img/tarjado-orden.png') }}"); width:110px; height:10px; position: absolute; top:320px; left: 48px; z-index: 100; font-size: 24px;}
-	.cheque-dia{position: absolute; top: 230px; left:510px;font-size:28px;}
-	.cheque-mes{position: absolute; top: 230px; left:610px;font-size:28px;}
-	.cheque-ano{position: absolute; top: 230px; left:730px;font-size:28px;}
-	.firma-cruzada{position: absolute; top: 280px; left: 30px; transform: rotate(270deg);}
-	.cuenta{position: absolute; top: 171px; left: 300px; z-index: 200; font-size: 18px;}
-	.titular{position: absolute; top: 200px; left: 270px; z-index: 100; font-size: 18px;}
-	.seriesucursal{position: absolute; top: 170px; left: 50px; z-index: 100; font-size: 20px;}
+	.beneficiario {position: relative; top: -134px; left: 150px; z-index: 105; font-size: 24px;}
+	.montonumero {position: relative; top: -85px; left: 590px; z-index: 110; font-size: 24px;}
+	.montotexto {position: relative; top: -122px; left: 150px; z-index: 115; font-size: 24px;}
+	.firma{position: relative; top: -140px; left: 501px; z-index: 120;}
+	.chequecruzado{width: 800px; height: 0px; position: relative; top: 167px; z-index: 300;}
+	.codigobarras{font-family: 'codigodebarras'; font-size: 23px; position: relative; top: -145px; left:32px; z-index: 200;}
+	.tarjado-portador{background-image: url("{{ asset('img/tarjado-portador.png') }}"); width:110px; height:10px; position: relative; top:-164px; left: 659px; z-index: 100; font-size: 24px;}
+	.tarjado-orden{background-image: url("{{ asset('img/tarjado-orden.png') }}"); width:110px; height:10px; position: relative; top:-198px; left: 21px; z-index: 100; font-size: 24px;}
+	.cheque-dia{position: relative; top: -85px; left:510px;font-size:28px;}
+	.cheque-mes{position: relative; top: -124px; left:610px;font-size:28px;}
+	.cheque-ano{position: relative; top: -165px; left:710px;font-size:28px;}
+	.firma-cruzada{position: relative; top: -700px; left: -300px; transform: rotate(270deg);}
+	.cuenta{position: relative; top: -55px; left: 300px; z-index: 200; font-size: 18px;}
+	.titular{position: relative; top: -55px; left: 270px; z-index: 100; font-size: 18px;}
+	.seriesucursal{position: relative; top: 0px; left: 30px; z-index: 100; font-size: 20px;}
 	.carnet{margin: 20px 0px}
 	.reverso{background-image: url("{{ asset('img/fondos/modelo-cheque-reverso-corto.jpg') }}"); width:230px; height:239px; margin: 20px 0px; padding: 10px 10px;}
     .linkmenu{color: #022346;}
@@ -209,12 +209,12 @@
 
 <div class="container" style="max-width:1360px;">
   <div class="row">
-	<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
-		<img src="{{ asset('img/logos/simbox-blanco.png') }}" width="60" /> Simulador de Caja Bancaria
+	<div class="col-sm-12" style="padding: 7px;">
+		<img src="{{ asset('img/logos/logo-simbox.png') }}" width="60" /> Simulador de Caja Bancaria
 	</div>
   </div>
   <div class="row">
-    <div class="col-sm-2" style="background-color: #9999cc; color:white;">
+    <div class="col-sm-2" style="background-color: #eeeeee; color:white;">
       <div style="margin: 12px 0px;"> 	
 		  <img src="{{ asset('img/logos/banko-800.png') }}" width="150" />
 	  </div>
@@ -297,7 +297,7 @@
             <button class="btn btn-primary" onClick="compararResultados()">Solicitar Traspaso</button> 
         </div>
     </div>
-    <div class="col-sm-6" style="background-color: #f1c430; padding-left:0px;">
+    <div class="col-sm-6" style="padding-left:0px;">
 	    <div class="card mt-3 tab-card">
 			<div class="card-header tab-card-header">
 				<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -315,39 +315,40 @@
 			
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
-					<div>Cliente dice: "{{ operacion[0]["mensaje_cliente"] }}"</div>
+					<div class="alert alert-info">Cliente dice: "{{ operacion[0]["mensaje_cliente"] }}"</div>
 					{% if cheque_operacion is not empty %}
 					<div class="cheque">
 						<div class="seriesucursal">Serie <span id="serie">{{ cheque_operacion[0]["serie"] }}</span><br>Sucursal {{ cheque_operacion[0]["sucursal"] }}</div>
-						<div class="beneficiario">{{ cheque_operacion[0]["beneficiario"] }}</div>
+						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
+						<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
 						<div class="montonumero" id="montonumero">{{ cheque_operacion[0]["monto_numero"]|number_format(0, ',', '.') }}</div>
+						{% if cheque_operacion[0]["numero_dias_cheque"] != "no"%}
+							<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("d") }}</div>
+							<div class="cheque-mes">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m") }}</div>
+							<div class="cheque-ano">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("Y") }}</div>
+						{% endif %}	
+						<div class="beneficiario">{{ cheque_operacion[0]["beneficiario"] }}</div>
 						<div class="montotexto">{{ cheque_operacion[0]["monto_letras"] }}</div>
+						{% if cheque_operacion[0]["tarjado_al_portador"] == "si"%}
+							<div class="tarjado-portador"></div>
+						{% endif %}
+						{% if cheque_operacion[0]["tarjado_orden"] == "si"%}
+							<div class="tarjado-orden"></div>
+						{% endif %}
+
+
 						<div class="firma"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma"]) }}"/></div>
-						
+						<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
+
+						{% if cheque_operacion[0]["firma_beneficiario_atravesada"] %}
+						<div class="firma-cruzada"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma_beneficiario_atravesada"]) }}"/></div>
+						{% endif %}
 						{% if cheque_operacion[0]["cruzado"] == "si"%}
 							<div class="chequecruzado"><img src="{{ asset('img/fondos/fondo-cheque-cruzado.png') }}"/></div>
 						{% endif %}
 						{% if cheque_operacion[0]["cruzado_especial_banco"] != "no"%}
 						{# falta agregar la logica del nombre del banco, que va entre las rayas #}
 							<div class="cheque-cruzado-especial-banco">{{cheque_operacion[0]["cruzado_especial_banco"]}}</div>
-						{% endif %}
-						{% if cheque_operacion[0]["tarjado_orden"] == "si"%}
-							<div class="tarjado-orden"></div>
-						{% endif %}
-						{% if cheque_operacion[0]["tarjado_al_portador"] == "si"%}
-							<div class="tarjado-portador"></div>
-						{% endif %}
-
-						{% if cheque_operacion[0]["numero_dias_cheque"] != "no"%}
-							<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("d") }}</div>
-							<div class="cheque-mes">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m") }}</div>
-							<div class="cheque-ano">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("Y") }}</div>
-						{% endif %}			
-						<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
-						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
-						<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
-						{% if cheque_operacion[0]["firma_beneficiario_atravesada"] %}
-						<div class="firma-cruzada"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma_beneficiario_atravesada"]) }}"/></div>
 						{% endif %}
 					</div>
 					{% endif %}
@@ -416,7 +417,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-sm-12" style="background-color: black; color: white; padding: 7px;">
+	<div class="col-sm-12" style="background-color: #eeeeee;  padding: 7px;">
 		Saldo de caja actual: $12.345.678 / $15.000.000
 	</div>
 </div>
