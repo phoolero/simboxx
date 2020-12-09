@@ -21,9 +21,9 @@ class Cedula
      */
     private $ruta_imagen;
 
-    public function getId(): ?int
+    public function getRut(): ?string
     {
-        return $this->id;
+        return $this->rut;
     }
 
     public function getRutaImagen(): ?string

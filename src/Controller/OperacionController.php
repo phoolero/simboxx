@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class OperacionController extends AbstractController
@@ -19,15 +20,17 @@ class OperacionController extends AbstractController
      */
     public function index(Request $request): Response
     {
+
         $em = $this->getDoctrine()->getManager();
         $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
 
-        //$id_operacion[0]['id'] = 4; 
+        $id_operacion[0]['id'] = 18;
 
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion[0]['id']);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion[0]['id']);
         $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($id_operacion[0]['id']);
         $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion[0]['id']);
+        $lis = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion[0]['id']);
 
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',

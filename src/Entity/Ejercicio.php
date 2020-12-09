@@ -20,100 +20,38 @@ class Ejercicio
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $alumno;
+    private $nombre;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private $fecha;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $puntos;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $activo;
-
-    /**
-     * @ORM\Column(type="string", length=1023)
-     */
-    private $cliente_dice;
+    private $descripcion;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAlumno(): ?string
+    public function getNombre(): ?string
     {
-        return $this->alumno;
+        return $this->nombre;
     }
 
-    public function setAlumno(string $alumno): self
+    public function setNombre(string $nombre): self
     {
-        $this->alumno = $alumno;
+        $this->nombre = $nombre;
 
         return $this;
     }
 
-    public function getDocumento(): ?int
+    public function getDescripcion(): ?string
     {
-        return $this->documento;
+        return $this->descripcion;
     }
 
-    public function setDocumento(int $documento): self
+    public function setDescripcion(?string $descripcion): self
     {
-        $this->documento = $documento;
-
-        return $this;
-    }
-
-    public function getFecha(): ?\DateTimeInterface
-    {
-        return $this->fecha;
-    }
-
-    public function setFecha(\DateTimeInterface $fecha): self
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    public function getPuntos(): ?int
-    {
-        return $this->puntos;
-    }
-
-    public function setPuntos(?int $puntos): self
-    {
-        $this->puntos = $puntos;
-
-        return $this;
-    }
-
-    public function getActivo(): ?string
-    {
-        return $this->activo;
-    }
-
-    public function setActivo(string $activo): self
-    {
-        $this->activo = $activo;
-
-        return $this;
-    }
-    public function getClienteDice(): ?string
-    {
-        return $this->cliente_dice;
-    }
-
-    public function setClienteDice(string $cliente_dice): self
-    {
-        $this->cliente_dice = $cliente_dice;
+        $this->descripcion = $descripcion;
 
         return $this;
     }

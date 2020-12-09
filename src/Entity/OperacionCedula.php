@@ -14,7 +14,7 @@ class OperacionCedula
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @ORM\ManyToOne(targetEntity="App\Entity\Cedula", inversedBy="operacioncedula")
      */
     private $cedula;
