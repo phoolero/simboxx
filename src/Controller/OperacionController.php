@@ -59,11 +59,12 @@ class OperacionController extends AbstractController
             //aqui cambio acumulo el puntaje y  los registros
             $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
             
+            $regis=count($varSe['registros_id']);
             //si hay registros en el arreglo registros id aumenta sino comienza en 0
             if(count($varSe['registros_id']) >0 ){
-                $datos['registro']++;
+                $regis += $datos['registro'];
             }else{
-                $datos['registro']=1;
+                $regis=1;
             }
            
             //saldo caja
@@ -74,7 +75,7 @@ class OperacionController extends AbstractController
             }
 
             //push los registros nuevos
-            array_push($varSe['registros_id'],$datos['registro']);
+            array_push($varSe['registros_id'],$regis);
             array_push($varSe['registros_transaccion'],$datos['transaccion']);
             array_push($varSe['registros_cuenta'],$datos['cuenta']);
             array_push($varSe['registros_estado'],$datos['estado']);
