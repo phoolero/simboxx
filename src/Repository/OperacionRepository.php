@@ -64,7 +64,7 @@ class OperacionRepository extends ServiceEntityRepository
                 deposito.nombre_depositante, deposito.numero_documentos, deposito.numero_cuenta, deposito.total 
                 from deposito, operacion_deposito 
                 WHERE deposito.id = operacion_deposito.deposito 
-                AND operacion_deposito.id = :operacion";
+                AND operacion_deposito.operacion = :operacion";
                 
         $stmt = $conn->prepare($sql);
         $stmt->execute(['operacion' => $operacion]);
@@ -96,6 +96,17 @@ class OperacionRepository extends ServiceEntityRepository
                 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function obtenerOperacionesDeEjercicio(int $ejercicio): array{
+        $conn = $this->getEntityManager()->getConnection();
+
+		$sql = "SELECT operacion FROM `ejercicio_operacion` WHERE ejercicio = :ejercicio;";
+                
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['ejercicio' => $ejercicio]);
 
         return $stmt->fetchAllAssociative();
     }
