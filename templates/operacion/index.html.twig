@@ -106,11 +106,21 @@
     //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
     function compararResultadosDcmb(){
 		//comparamos serie
+		var datos = { };
 		if($("#numero-cuenta-dcmb").val() == $("#depo-numero-cuenta").html()){
 			if($("#monto-doctos-dcmb").val() == $("#depo-total").html().replaceAll(".","")){
                 if($("#serie-papeleta-dcmb").val() == $("#depo-serie").html()){
 				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
-
+					datos["registro"] = 1;
+					datos["puntaje"] = 5;
+					datos["transaccion"] = 700;
+					datos["estado"]='A';
+					datos["cuenta"]=$('#numero-cuenta-dcmb').val();
+					datos["serie"]=$('#serie-papeleta-dcmb').val();
+					datos["entrada_salida"]= "entrada";
+					datos["monto"]=$('#monto-doctos-dcmb').val();
+					datos["tipo_operacion"]=$(".linkmenu")[1].text;;
+					setPuntaje(datos);
 				}
 				else{
 					alert("Error papeleta");
@@ -128,11 +138,22 @@
     //TODO: ver todo lo de la papeleta. Necesitamos que se muestre.
     function compararResultadosDcob(){
 		//comparamos serie
+		var datos = { };
 		if($("#numero-cuenta-dcob").val() == $("#depo-numero-cuenta").html()){
 			if($("#monto-doctos-dcob").val() == $("#depo-total").html().replaceAll(".","")){
                 if($("#serie-papeleta-dcob").val() == $("#depo-serie").html()){
 				    alert("is the same! Y está correcto el ejercicio, así que te ganaste los puntos.");
-                }
+					datos["registro"] = 1;
+					datos["puntaje"] = 5;
+					datos["transaccion"] = 720;
+					datos["estado"]='A';
+					datos["cuenta"]=$('#numero-cuenta-dcob').val();
+					datos["serie"]=$('#serie-papeleta-dcob').val();
+					datos["entrada_salida"]= "entrada";
+					datos["monto"]=$('#monto-doctos-dcob').val();
+					datos["tipo_operacion"]=$(".linkmenu")[2].text;;
+					setPuntaje(datos);
+				}
 				else{
 					alert('error papeleta')
 				}
@@ -526,7 +547,7 @@
 						{% if sesion['registros_id']|length > 0 %}
 							{% for i in 0..sesion['registros_id']|length -1 %}
 								{% if sesion['registros_entrada_salida'][i] == 'entrada' and sesion['registros_tipo_operacion'][i] == "Depósito Cheque Otros Bancos"%}
-									{% set entrada_canje = entrada_canje + sesion['monto'][i]%}
+									{% set entrada_canje = entrada_canje + sesion['registros_monto'][i]%}
 								{% endif %}
 							{% endfor %}
 						{% endif %}
@@ -538,7 +559,7 @@
 						{% if sesion['registros_id']|length > 0 %}
 							{% for i in 0..sesion['registros_id']|length -1 %}
 								{% if sesion['registros_entrada_salida'][i] == 'entrada' and sesion['registros_tipo_operacion'][i] == "Depósito Cheque Mismo Banco"%}
-									{% set entrada_efectivo = entrada_efectivo + sesion['monto'][i]%}
+									{% set entrada_efectivo = entrada_efectivo + sesion['registros_monto'][i]%}
 								{% endif %}
 							{% endfor %}
 						{% endif %}
