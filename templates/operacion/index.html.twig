@@ -29,7 +29,7 @@
 		$.ajax({
 			
 			type: 'POST',
-			url: 'http://localhost/simboxx/public/puntaje',
+			url: 'http://localhost/simbox/public/puntaje',
 			data: ({datos: datos}),
 			async: true,
 			dataType: "json",
@@ -182,10 +182,19 @@
 		font-family: 'codigodebarras';
 		src: url('{{ asset('css/fonts/codigobarrasfont7.woff') }}') format('woff'), url('{{ asset('css/fonts/codigobarrasfont7.ttf') }}') format('truetype') 
 	}
+		@font-face{
+		font-family: 'jackinput';
+		src: url('{{ asset('css/fonts/jackinput.ttf') }}')  format('truetype') 
+	}
 
 	.card {
 		background-color:#eeeeee;
 		border: 0px;
+	}
+
+	.form-control{
+		font-family:"jackinput";
+		font-size: 12px;
 	}
 
 	/* Tabs Card */
