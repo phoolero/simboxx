@@ -30,11 +30,13 @@ class OperacionController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
 
-       // $id_operacion[0]['id'] = 18;
+        $id_operacion[0]['id'] = 41;
+        $id_servicio = 15224367;
 
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($id_operacion[0]['id']);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($id_operacion[0]['id']);
         $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($id_operacion[0]['id']);
+        $seo = $em->GetRepository(Operacion::class)->obtenerServicioOperacion($id_operacion[0]['id']);
         $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion[0]['id']);
         $lis = $em->GetRepository(Operacion::class)->obtenerOperacion($id_operacion[0]['id']);
 
@@ -44,6 +46,8 @@ class OperacionController extends AbstractController
             'cedula_operacion' => $ceo,
             'deposito_operacion' => $deo,
             'operacion' => $opo,
+            'servicio' => $seo,
+            
             'sesion' => $varSe
         ]);
     }

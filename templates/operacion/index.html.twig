@@ -236,7 +236,9 @@
 
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	{% if cheque_operacion is not empty %}
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;transform: rotate(3deg);}
+	{% endif %}
 	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); background-repeat: repeat-x; width:800px; min-height:400px; margin: 20px 0px;transform: rotate(-2deg);}
 	.beneficiario {position: relative; top: -134px; left: 150px; z-index: 105; font-size: 24px;}
 	.montonumero {position: relative; top: -85px; left: 590px; z-index: 110; font-size: 24px;}
@@ -274,6 +276,14 @@
 	.depo-serie{font-size: 25px; position: relative; top: -430px; left: 640px;}
 	.madera{background-image:url("{{ asset('img/fondos/fondo-madera.jpg') }}"); padding-left: 30px; padding-bottom: 30px;}
 	.granito{background-image:url("{{ asset('img/fondos/fondo-granito.jpg') }}"); padding-left: 30px; padding-bottom: 30px;}
+	{% if servicio is not empty %}
+	.servicio {zoom:64%; background-image: url("{{ asset('img/fondos/servicio-' ~ servicio[0]["nombre"]|lower ~ '.jpg') }}"); width:800px; height:800px; margin: 20px 0px;transform: rotate(0deg);}
+	{% endif %}
+	.servicio-energreen-numero-boleta{font-size: 26px; position: relative; left: 552px; top: 70px;}
+	.servicio-energreen-numero-cliente{font-size: 26px; position: relative; left: 552px; top: 99px;}
+	.servicio-energreen-nombre-cliente{font-size: 34px; position: relative; left: 122px; top: 114px;}
+	.servicio-energreen-total{font-size: 34px; font-weight:bold; position: relative; left: 462px; top: 244px;}
+	.servicio-energreen-fecha-vencimiento{font-size: 34px;  position: relative; left: 122px; top: 344px;}
 </style>
 
 <div class="container" style="max-width:1360px;">
@@ -283,7 +293,6 @@
 	</div>
 	<div class="col-6 d-flex align-items-center" >
 		<p class="mb-0" id="puntaje"><pre>
-			{{ dump(sesion) }}
 		</pre></p>
 	</div>
   </div>
@@ -426,30 +435,42 @@
 						{% endif %}
 					</div>
 					{% endif %}
-					{% if cheque_operacion[0]["numero_dias_revalidacion"] or cheque_operacion[0]["revalidacion_firma"] or
-						cheque_operacion[0]["endoso_deposito_cuenta"] or cheque_operacion[0]["endoso_deposito_firma"] or
-						cheque_operacion[0]["endoso_deposito_rut"] or cheque_operacion[0]["endoso_regular_firma"] or cheque_operacion[0]["endoso_regular_rut"] or
-						cheque_operacion[0]["endoso_regular_nombre"] %}
-					<div class="reverso">
-						<div id="etiqueta-reverso">reverso cheque</div>
-						<!-- Vamos introduciendo items en reverso -->
-						{% if cheque_operacion[0]["numero_dias_revalidacion"] %}
-						<div>Revalidado {{ "now"|date_modify( cheque_operacion[0]["numero_dias_revalidacion"]*(-1) ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
-						{% endif %}
-						{% if cheque_operacion[0]["revalidacion_firma"] %}
-						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["revalidacion_firma"]) }}"/></div>
-						{% endif %}
-						<div>{{ cheque_operacion[0]["endoso_deposito_cuenta"] }}</div>
-						{% if cheque_operacion[0]["endoso_deposito_firma"] %}
-						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_deposito_firma"]) }}"/></div>
-						{% endif %}
-						<div>{{ cheque_operacion[0]["endoso_deposito_rut"] }}</div>
-						<div>{{ cheque_operacion[0]["endoso_regular_nombre"] }}</div>
-						<div>{{ cheque_operacion[0]["endoso_regular_rut"] }}</div>
-						{% if cheque_operacion[0]["endoso_regular_firma"] %}
-						<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_regular_firma"]) }}"/></div>
-						{% endif %}
-						
+					{% if cheque_operacion is not empty %}
+						{% if cheque_operacion[0]["numero_dias_revalidacion"] or cheque_operacion[0]["revalidacion_firma"] or
+							cheque_operacion[0]["endoso_deposito_cuenta"] or cheque_operacion[0]["endoso_deposito_firma"] or
+							cheque_operacion[0]["endoso_deposito_rut"] or cheque_operacion[0]["endoso_regular_firma"] or cheque_operacion[0]["endoso_regular_rut"] or
+							cheque_operacion[0]["endoso_regular_nombre"] %}
+						<div class="reverso">
+							<div id="etiqueta-reverso">reverso cheque</div>
+							<!-- Vamos introduciendo items en reverso -->
+							{% if cheque_operacion[0]["numero_dias_revalidacion"] %}
+							<div>Revalidado {{ "now"|date_modify( cheque_operacion[0]["numero_dias_revalidacion"]*(-1) ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
+							{% endif %}
+							{% if cheque_operacion[0]["revalidacion_firma"] %}
+							<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["revalidacion_firma"]) }}"/></div>
+							{% endif %}
+							<div>{{ cheque_operacion[0]["endoso_deposito_cuenta"] }}</div>
+							{% if cheque_operacion[0]["endoso_deposito_firma"] %}
+							<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_deposito_firma"]) }}"/></div>
+							{% endif %}
+							<div>{{ cheque_operacion[0]["endoso_deposito_rut"] }}</div>
+							<div>{{ cheque_operacion[0]["endoso_regular_nombre"] }}</div>
+							<div>{{ cheque_operacion[0]["endoso_regular_rut"] }}</div>
+							{% if cheque_operacion[0]["endoso_regular_firma"] %}
+							<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_regular_firma"]) }}"/></div>
+							{% endif %}
+						{% endif %}	
+						</div>
+					{% endif %}
+					{% if servicio is not empty %}
+			
+					<div class="servicio">
+						<div class="servicio-{{ servicio[0]['nombre']}}-numero-boleta">{{ servicio[0]['id']}}</div>
+						<div class="servicio-{{ servicio[0]['nombre']}}-numero-cliente">{{ servicio[0]['numero_cliente']}}</div>
+						<div class="servicio-{{ servicio[0]['nombre']}}-nombre-cliente">{{ servicio[0]['nombre_cliente']}}</div>
+						<div class="servicio-{{ servicio[0]['nombre']}}-total">${{ servicio[0]['total']|number_format(0, ',', '.')}}</div>
+						<div class="servicio-{{ servicio[0]['nombre']}}-fecha-vencimiento">{{ "now"|date_modify( servicio[0]["dias_servicio"] ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
+
 					</div>
 					{% endif %}
 					{% if cedula_operacion is not empty %}
@@ -477,8 +498,9 @@
 						<div class="depo-serie" id="depo-serie">{{deposito_operacion[0]["id"]}}</div>
 					</div>
 					{% endif %}
-
-					<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>         
+					{% if cheque_operacion is not empty %}
+						<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>
+					{% endif %}
 				</div>
 				<div class="tab-pane p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
 					<div class="row">
