@@ -56,11 +56,19 @@ class OperacionController extends AbstractController
         
             //aqui agarro los datos del ajax
             $datos = $request->request->get("datos");
+
+            //si el ejercicio tiene un error entonces solo acumula pts sino pushea los valores
+            if(!isset($datos['registro'] )|| is_null($datos['registro'])){
+                //solo acumulamos el puntaje
+                $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
+            }else{
+
             //aqui cambio acumulo el puntaje y  los registros
             $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
             
+            //si hay registros en el arreglo registros id aumenta sino comienza en 1
             $regis=count($varSe['registros_id']);
-            //si hay registros en el arreglo registros id aumenta sino comienza en 0
+            
             if(count($varSe['registros_id']) >0 ){
                 $regis += $datos['registro'];
             }else{
@@ -83,12 +91,39 @@ class OperacionController extends AbstractController
             array_push($varSe['registros_entrada_salida'],$datos['entrada_salida']);
             array_push($varSe['registros_monto'],$datos['monto']);
             array_push($varSe['registros_tipo_operacion'],$datos['tipo_operacion']);
-
+        }
             //set de valores a la sesion
             $session->set("sesion",$varSe);          
             
-            return new JsonResponse($session);
+            return new JsonResponse(['url'=>count($varSe['registros_id'])+1]);
      
     }
 
+    public function listChequePortador(Request $request, $id){
+        $session = $request->getSession();
+        $varSe = $session->get("sesion");
+    
+        $em = $this->getDoctrine()->getManager();
+        //agarra todos las operaciones del ejercicio 1
+        $lis = $em->GetRepository(Operacion::class)->obtenerOperacionesDeEjercicio(1);
+        $varSe['ejercicios']= count($lis);
+        $varSe['lista']= "ChequePortador";
+
+        //-1 para que comience desde la posicion 0
+        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($lis[$id-1]["operacion"]);
+        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($lis[$id-1]["operacion"]);
+        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($lis[$id-1]["operacion"]);
+        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($lis[$id-1]["operacion"]);
+      
+       
+        return $this->render('operacion/index.html.twig', [
+            'controller_name' => 'OperacionController',
+            'cheque_operacion' => $cho,
+            'cedula_operacion' => $ceo,
+            'deposito_operacion' => $deo,
+            'operacion' => $opo,
+            'sesion' => $varSe,
+            'lista'=> $lis
+        ]);
+    }
 }
