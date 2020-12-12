@@ -24,7 +24,7 @@
 	}
 	
 	function setPuntaje(datos){
-		
+		lista = $('#listaEjercicios').text();
 		/*alert("aqui tan los puntos");*/
 		$.ajax({
 			
@@ -34,12 +34,9 @@
 			async: true,
 			dataType: "json",
 			success: function(data){
-				console.log(data);
-				
-				//$('form[name=formpago]')[0].reset();
-				//$('#datosCuentaPch').text('');
-				//recarga de pantalla
-				window.location.reload();
+			   //console.log(data['url']);
+	
+			   window.location.href=`http://localhost/simboxx/public/operacion/${lista}/${data['url']}`;
 			}
 		});
 	}
@@ -170,7 +167,10 @@
 	//ahora, si la persona clickea "rechazar operación", corroboramos que el cheque efectivamente venga con error
 	function compararError(){
 		if($("#error").html()!=""){
+			var datos = { };
 			alert("Bien! La operación tenía un error: " + $("#error").html());
+			datos["puntaje"] = 5;
+			setPuntaje(datos);
 		}
 		else{
 			alert("Te has equivocado. La operación estaba correcta.");
@@ -268,14 +268,22 @@
 </style>
 
 <div class="container" style="max-width:1360px;">
-  <div class="row">
+  <div class="row bg-dark text-white">
 	<div class="col-sm-12" style="padding: 7px;">
-		<img src="./img/logos/simbox.png" width="60" /> Simulador de Caja Bancaria
+		<img src="./img/logos/simbox-blanco.png" width="60" /> Simulador de Caja Bancaria
 	</div>
+	<div id="listaEjercicios">{{sesion.lista}}</div>
 	<div class="col-6 d-flex align-items-center" >
-		<p class="mb-0" id="puntaje"><pre>
+		<p class="mb-0" id="puntaje"> <pre>
 			{{ dump(sesion) }}
+		</pre> </p>
+		<p><pre>
+			{{ dump(lista) }}
 		</pre></p>
+		<pre>
+			{{ dump(lista|length) }}
+		</pre>
+		
 	</div>
   </div>
   <div class="row">
@@ -363,17 +371,17 @@
         </div>
     </div>
     <div class="col-sm-6" style="padding-left:0px;">
-	    <div class="card mt-3 tab-card">
+	    <div class="card tab-card">
 			<div class="card-header tab-card-header">
 				<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link" id="one-tab" data-toggle="tab" href="operacion#one" role="tab" onClick="$('#two').hide();$('#three').hide();$('#one').show();">Operación</a>
+						<a class="nav-link" id="one-tab" data-toggle="tab" href="#one" role="tab" onClick="$('#two').hide();$('#three').hide();$('#one').show();">Operación</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="two-tab" data-toggle="tab" href="operacion#two" role="tab"  onClick="$('#three').hide();$('#one').hide();$('#two').show();">Libro Diario</a>
+						<a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab"  onClick="$('#three').hide();$('#one').hide();$('#two').show();">Libro Diario</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="three-tab" data-toggle="tab" href="operacion#three" role="tab" onClick="$('#one').hide();$('#two').hide();$('#three').show();">Cuadratura</a>
+						<a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" onClick="$('#one').hide();$('#two').hide();$('#three').show();">Cuadratura</a>
 					</li>
 				</ul>
 			</div>
@@ -535,8 +543,13 @@
 					</div>
 					<div class="col-6">
 						<label for="salida">Salida</label>
-						{# dejar asi el formato porque sino hace saltos de lines y espacios innecesarios #}
-						<textarea class="form-control" id="salida" rows="3">{% if sesion['registros_id']|length > 0 %}{% for i in 0..sesion['registros_id']|length -1 %}{% if sesion['registros_entrada_salida'][i] == 'salida' %}{{sesion['registros_tipo_operacion'][i]}} | ${{sesion['registros_monto'][i]}}{% endif %}
+						{# el - quita los espacios en blanco #}
+						<textarea class="form-control" id="salida" rows="3">
+						{%- if sesion['registros_id']|length > 0 -%}
+						{%- for i in 0..sesion['registros_id']|length -1 -%}
+						{%- if sesion['registros_entrada_salida'][i] == 'salida' -%}
+						{{- sesion['registros_tipo_operacion'][i]}} | ${{sesion['registros_monto'][i] -}}
+						{% endif %}
 						{% endfor %}
 						{% endif %}
 						</textarea>
@@ -608,7 +621,7 @@
 		</div>
 	</div>
 </div>
-	<div class="row" style="background-color: black; color: white; padding: 7px;">
+	<div class="row bg-dark text-white p-2">
 		<div class="col-sm-12" >
 			Saldo de caja actual: <strong id="monto-saldo"> ${{sesion['saldo']}}</strong> / $15.000.000
 		</div>
