@@ -41,15 +41,18 @@
 			  <li class="nav-item active">
 				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Usuario</a>
-			  </li>
-			  <li class="nav-item">
+			    <li class="nav-item">
 				<a class="nav-link" href="#">Ejercicios</a>
 			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="/index.php/logout">Salir</a>
+			   {% if app.user %}
+				<li class="nav-item">
+					<a class="nav-link" href="#">{{ app.user.username }}</a>
+				</li>
+            	<li class="nav-item">
+				<a class="nav-link" href="{{ path('logout') }}">Salir</a>
 			  </li>
+                {% endif %}
+		
 			  <!--
 			  <li class="nav-item">
 				<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -131,7 +134,7 @@
       <div class="col-md-3">
 		<div><img src="{{ asset("img/generic-img.png")}}" width="250"/></div>
         <h4>Cheques I: Al portador, nominativo. Depósito o Pago.</h4>
-        <p><a class="btn btn-secondary" href="#" role="button">Comenzar &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{{ absolute_url("operacion/ChequePortador/1")}}" role="button">Comenzar &raquo;</a></p>
       </div>
       <div class="col-md-3">
 		<div><img src="{{ asset("img/generic-img.png")}}" width="250"/></div>
