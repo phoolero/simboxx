@@ -18,16 +18,15 @@
 			async: true,
 			dataType: "json",
 			success: function(data){
-				$(nombrecapa).html(data['nombre'] + '<img id="firma-img" src="./img/firmas/' + data['firma'] + '" width="130">');
+				$(nombrecapa).html(data['nombre'] + '<img id="firma-img" src="../../img/firmas/' + data['firma'] + '" width="130">');
 			}
 		});
 	}
 	
 	function setPuntaje(datos){
+		//se agarra el texto de ese div que sirve para la ruta
 		lista = $('#listaEjercicios').text();
-		/*alert("aqui tan los puntos");*/
 		$.ajax({
-			
 			type: 'POST',
 			url: 'http://localhost/simboxx/public/puntaje',
 			data: ({datos: datos}),
@@ -35,8 +34,7 @@
 			dataType: "json",
 			success: function(data){
 			   //console.log(data['url']);
-	
-			   window.location.href=`http://localhost/simboxx/public/operacion/${lista}/${data['url']}`;
+ 				window.location.href=`http://localhost/simboxx/public/operacion/${lista}/${data['url']}`;
 			}
 		});
 	}
@@ -268,22 +266,15 @@
 </style>
 
 <div class="container" style="max-width:1360px;">
-  <div class="row bg-dark text-white">
-	<div class="col-sm-12" style="padding: 7px;">
-		<img src="./img/logos/simbox-blanco.png" width="60" /> Simulador de Caja Bancaria
+  <div class="row bg-dark text-white d-flex">
+	<div class="col-4" style="padding: 7px;">
+		<img src="{{asset("img/logos/simbox-blanco.png")}}" width="60" /> Simulador de Caja Bancaria
 	</div>
-	<div id="listaEjercicios">{{sesion.lista}}</div>
-	<div class="col-6 d-flex align-items-center" >
-		<p class="mb-0" id="puntaje"> <pre>
-			{{ dump(sesion) }}
-		</pre> </p>
-		<p><pre>
-			{{ dump(lista) }}
-		</pre></p>
-		<pre>
-			{{ dump(lista|length) }}
-		</pre>
-		
+	<div class="col-4 d-flex align-items-center" id="listaEjercicios">
+		<p class="mb-0 m-auto">{{sesion.lista}}</p>
+	</div>
+	<div class="col-4 d-flex align-items-center" >
+		<p class="mb-0" id="puntaje"> {{sesion.puntaje}}</p>
 	</div>
   </div>
   <div class="row">
