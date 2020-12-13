@@ -109,6 +109,15 @@ class OperacionController extends AbstractController
         $varSe['ejercicios']= count($lis);
         $varSe['lista']= "ChequePortador";
 
+        //si el parametro sobrepasa la cantidad de ejercicio(o dicho de otra forma no existe en el arreglo) imprime finEjercicios
+        if(!isset($lis[$id-1]['operacion'])){
+            
+            return $this->render('operacion/finEjercicios.html.twig',[
+                'controller_name' => 'OperacionController',
+                'sesion' => $varSe
+            ]);
+        }
+
         //-1 para que comience desde la posicion 0
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($lis[$id-1]["operacion"]);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($lis[$id-1]["operacion"]);
@@ -126,4 +135,5 @@ class OperacionController extends AbstractController
             'lista'=> $lis
         ]);
     }
+
 }
