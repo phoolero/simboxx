@@ -12,6 +12,10 @@ operacion_pts_sesion:
     controller: App\Controller\OperacionController::darPuntaje
     methods: [POST]
 
+home:
+    path: /home
+    controller: App\Controller\HomeController::index
+
 login:
     path: /
     controller: App\Controller\SecurityController::login
