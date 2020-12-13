@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('../public/build/css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('../public/css/style.css') }}">
+         <script type="text/javascript" src="{{ asset('../public/js/functions.js') }}"></script>
         {% block stylesheets %}{% endblock %}
 		{% block head_js %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
