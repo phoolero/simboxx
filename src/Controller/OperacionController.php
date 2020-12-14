@@ -127,14 +127,14 @@ class OperacionController extends AbstractController
                 'sesion' => $varSe
             ]);
         }
-
+        $id_servicio = 15224367;
         //-1 para que comience desde la posicion 0
         $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($lis[$id-1]["operacion"]);
         $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($lis[$id-1]["operacion"]);
         $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($lis[$id-1]["operacion"]);
         $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($lis[$id-1]["operacion"]);
-      
-       
+        $seo = $em->GetRepository(Operacion::class)->obtenerServicioOperacion($lis[$id-1]["operacion"]);
+        
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
             'cheque_operacion' => $cho,
@@ -142,6 +142,7 @@ class OperacionController extends AbstractController
             'deposito_operacion' => $deo,
             'operacion' => $opo,
             'sesion' => $varSe,
+            'servicio' => $seo,
             'lista'=> $lis
         ]);
     }
