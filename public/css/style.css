@@ -1,41 +1,46 @@
-.card {
-    background-color:#eeeeee;
-    border: 0px;
-}
 
-/* Tabs Card */
+	.card {
+		background-color:#eeeeee;
+		border: 0px;
+	}
 
+	.form-control{
+		font-family:"jackinput";
+		font-size: 12px;
+	}
 
-.tab-card-header {
-    background:none;
-}
-/* Default mode */
-.tab-card-header > .nav-tabs {
-    border: none;
-    margin: 0px;
-}
-.tab-card-header > .nav-tabs > li {
-    margin-right: 2px;
-}
-.tab-card-header > .nav-tabs > li > a {
-    border: 0;
-    border-bottom:2px solid transparent;
-    margin-right: 0;
-    color: #737373;
-    padding: 2px 15px;
-}
+	/* Tabs Card */
 
-.tab-card-header > .nav-tabs > li > a.show {
-    border-bottom:2px solid #007bff;
-    color: #007bff;
-}
-.tab-card-header > .nav-tabs > li > a:hover {
-    color: #007bff;
-}
+	.tab-card-header {
+		background:none;
+	}
+	/* Default mode */
+	.tab-card-header > .nav-tabs {
+		border: none;
+		margin: 0px;
+	}
+	.tab-card-header > .nav-tabs > li {
+		margin-right: 2px;
+	}
+	.tab-card-header > .nav-tabs > li > a {
+		border: 0;
+		border-bottom:2px solid transparent;
+		margin-right: 0;
+		color: #737373;
+		padding: 2px 15px;
+	}
 
-.tab-card-header > .tab-content {
-    padding-bottom: 0;
-}
+	.tab-card-header > .nav-tabs > li > a.show {
+		border-bottom:2px solid #007bff;
+		color: #007bff;
+	}
+	.tab-card-header > .nav-tabs > li > a:hover {
+		color: #007bff;
+	}
+
+	.tab-card-header > .tab-content {
+		padding-bottom: 0;
+	}
 
 .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
 .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -71,3 +76,10 @@
 	.depo-numero-cuenta{font-size: 26px; position: relative; top: -185px; left: 450px;}
 	.depo-total{font-size: 26px; position: relative; top: -135px; left: 530px;}
 	.depo-serie{font-size: 25px; position: relative; top: -430px; left: 640px;}
+
+/* servicios */
+.servicio-energreen-numero-boleta{font-size: 26px; position: relative; left: 552px; top: 70px;}
+	.servicio-energreen-numero-cliente{font-size: 26px; position: relative; left: 552px; top: 99px;}
+	.servicio-energreen-nombre-cliente{font-size: 34px; position: relative; left: 122px; top: 114px;}
+	.servicio-energreen-total{font-size: 34px; font-weight:bold; position: relative; left: 462px; top: 244px;}
+	.servicio-energreen-fecha-vencimiento{font-size: 34px;  position: relative; left: 122px; top: 344px;}

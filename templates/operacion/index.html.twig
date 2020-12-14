@@ -9,7 +9,14 @@
 		font-family: 'codigodebarras';
 		src: url('{{ asset('css/fonts/codigobarrasfont7.woff') }}') format('woff'), url('{{ asset('css/fonts/codigobarrasfont7.ttf') }}') format('truetype') 
 	}
+		@font-face{
+		font-family: 'jackinput';
+		src: url('{{ asset('css/fonts/jackinput.ttf') }}')  format('truetype') 
+	}
+
+	{% if cheque_operacion is not empty %}
 	.cheque {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-' ~ cheque_operacion[0]["banco"]|lower ~ '.jpg') }}"); width:800px; height:400px; margin: 20px 0px;transform: rotate(3deg);}
+	{% endif %}
 	.deposito {zoom: 64%; background-image: url("{{ asset('img/fondos/modelo-deposito.jpg') }}"); background-repeat: repeat-x; width:800px; min-height:400px; margin: 20px 0px;transform: rotate(-2deg);}
 	
 	.tarjado-portador{background-image: url("{{ asset('img/tarjado-portador.png') }}"); width:110px; height:10px; position: relative; top:-164px; left: 659px; z-index: 100; font-size: 24px;}
@@ -22,11 +29,7 @@
 	{% if servicio is not empty %}
 	.servicio {zoom:64%; background-image: url("{{ asset('img/fondos/servicio-' ~ servicio[0]["nombre"]|lower ~ '.jpg') }}"); width:800px; height:800px; margin: 20px 0px;transform: rotate(0deg);}
 	{% endif %}
-	.servicio-energreen-numero-boleta{font-size: 26px; position: relative; left: 552px; top: 70px;}
-	.servicio-energreen-numero-cliente{font-size: 26px; position: relative; left: 552px; top: 99px;}
-	.servicio-energreen-nombre-cliente{font-size: 34px; position: relative; left: 122px; top: 114px;}
-	.servicio-energreen-total{font-size: 34px; font-weight:bold; position: relative; left: 462px; top: 244px;}
-	.servicio-energreen-fecha-vencimiento{font-size: 34px;  position: relative; left: 122px; top: 344px;}
+	
 </style>
 
 <div class="container" style="max-width:1360px;">
