@@ -61,6 +61,8 @@ class OperacionController extends AbstractController
             if(!isset($datos['registro'] )|| is_null($datos['registro'])){
                 //solo acumulamos el puntaje
                 $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
+                //este registroUrl sirve para el parametro de la url del ejercicio sin afectar los registros
+                $registroUrl=$registroUrl=count($varSe['registros_id'])+ 1;
             }else{
 
             //aqui cambio acumulo el puntaje y  los registros
@@ -68,11 +70,15 @@ class OperacionController extends AbstractController
             
             //si hay registros en el arreglo registros id aumenta sino comienza en 1
             $regis=count($varSe['registros_id']);
+            $registroUrl=count($varSe['registros_id']);
+
             
             if(count($varSe['registros_id']) >0 ){
                 $regis += $datos['registro'];
+                $registroUrl+= $datos['registro'];
             }else{
                 $regis=1;
+                $registroUrl=1;
             }
            
             //saldo caja
@@ -95,7 +101,7 @@ class OperacionController extends AbstractController
             //set de valores a la sesion
             $session->set("sesion",$varSe);          
             
-            return new JsonResponse(['url'=>count($varSe['registros_id'])+1]);
+            return new JsonResponse(['url'=>$registroUrl+1]);
      
     }
 
@@ -109,7 +115,7 @@ class OperacionController extends AbstractController
         $varSe['ejercicios']= count($lis);
         $varSe['lista']= "ChequePortador";
 
-        //si el parametro sobrepasa la cantidad de ejercicio(o dicho de otra forma no existe en el arreglo) imprime finEjercicios
+        //si el parametro sobrepasa la cantidad de ejercicio(o dicho de otra forma no existe en el arreglo) imprime la vista finEjercicios
         if(!isset($lis[$id-1]['operacion'])){
             
             return $this->render('operacion/finEjercicios.html.twig',[
