@@ -71,6 +71,20 @@ class OperacionRepository extends ServiceEntityRepository
 
                 return $stmt->fetchAllAssociative();
     }
+    public function obtenerServicioOperacion(int $operacion): array{
+        $conn = $this->getEntityManager()->getConnection();
+
+		$sql = "SELECT servicio.id, servicio.numero_cliente, servicio.nombre_cliente, servicio.total, servicio.dias_servicio, tipo_servicio.nombre
+                from servicio, operacion_servicio, tipo_servicio
+                WHERE servicio.id = operacion_servicio.fk_servicio_id
+                AND servicio.fk_tipo_servicio_id = tipo_servicio.id
+                AND operacion_servicio.fk_operacion_id = :operacion";
+                
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['operacion' => $operacion]);
+
+                return $stmt->fetchAllAssociative();
+    }
 
     //entrega datos de la operacion
     public function obtenerOperacion(int $operacion): array{
@@ -83,6 +97,21 @@ class OperacionRepository extends ServiceEntityRepository
                 
                 $stmt = $conn->prepare($sql);
                 $stmt->execute(['operacion' => $operacion]);
+
+                return $stmt->fetchAllAssociative();
+    }
+
+    //entrega datos de la operacion
+    public function obtenerServicio(int $servicio): array{
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT servicio.id, servicio.numero_cliente, servicio.nombre_cliente, servicio.total, servicio.dias_servicio, tipo_servicio.nombre
+                FROM servicio, tipo_servicio
+                WHERE servicio.id = :servicio
+                AND servicio.fk_tipo_servicio_id = tipo_servicio.id";
+                
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(['servicio' => $servicio]);
 
                 return $stmt->fetchAllAssociative();
     }

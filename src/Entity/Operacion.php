@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OperacionRepository;
 use App\Repository\TipoOperacionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +36,16 @@ class Operacion
      * @ORM\Column(type="string", length=512, nullable=true)
      */
     private $mensaje_cliente;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OperacionServicio::class, mappedBy="fk_operacion")
+     */
+    private $operacionServicios;
+
+    public function __construct()
+    {
+        $this->operacionServicios = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +83,36 @@ class Operacion
     public function setErrorOperacion(?string $error_operacion): self
     {
         $this->error_operacion = $error_operacion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OperacionServicio[]
+     */
+    public function getOperacionServicios(): Collection
+    {
+        return $this->operacionServicios;
+    }
+
+    public function addOperacionServicio(OperacionServicio $operacionServicio): self
+    {
+        if (!$this->operacionServicios->contains($operacionServicio)) {
+            $this->operacionServicios[] = $operacionServicio;
+            $operacionServicio->setFkOperacion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperacionServicio(OperacionServicio $operacionServicio): self
+    {
+        if ($this->operacionServicios->removeElement($operacionServicio)) {
+            // set the owning side to null (unless already changed)
+            if ($operacionServicio->getFkOperacion() === $this) {
+                $operacionServicio->setFkOperacion(null);
+            }
+        }
 
         return $this;
     }
