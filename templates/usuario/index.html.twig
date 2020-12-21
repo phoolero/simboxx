@@ -29,32 +29,44 @@
 		color: white;
 	  }
 </style>
-
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<a class="navbar-brand" href="#"><img src="{{ asset("img/logos/simbox-blanco.png")}}" width="40"></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-			<ul class="navbar-nav mr-auto">
-			  <li class="nav-item active">
-				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-			  </li>
-			    <li class="nav-item">
-				<a class="nav-link" href="#">Ejercicios</a>
-			  </li>
-			   {% if app.user %}
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('usuario', {'email':app.user.email})}}">{{ app.user.nombre }}</a>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="{{ asset("img/logos/simbox-blanco.png")}}" width="40"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+      <ul class="navbar-nav">
+	    <li class="nav-item active">
+			<a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">Ejercicios</a>
+		</li>
+		{% if app.user %}
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('usuario', {'email':app.user.email})}}">{{ app.user.nombre }}</a>
+			</li>
+			{% if app.user.roles[0]== "ROLE_ADMIN" %}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Administración
+					</a>
+					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+						<li><a class="dropdown-item" href="{{ path('cheques')}}">Cheques</a></li>	
+						<li><a class="dropdown-item" href="{{ path('cedulas')}}">Cédulas</a></li>
+						<li><a class="dropdown-item" href="{{ path('bancos')}}">Bancos</a></li>
+					</ul>
 				</li>
-            	<li class="nav-item">
+			{% endif %}
+			<li class="nav-item">
 				<a class="nav-link" href="{{ path('logout') }}">Salir</a>
-			  </li>
-                {% endif %}
-			</ul>
-	    </div>
-    </nav>
+			</li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <main role="main">
 
@@ -67,12 +79,6 @@
 		<label>Email</label>
 		<p>{{app.user.email}}</p>
 		<a href="{{path('usuario_editar', {'email':app.user.email})}}">Editar</a>
-{# 		{{form_start(form)}}
-		{{form_widget(form)}}
-		{{form_end(form)}} #}
-	<pre>
-		{{ dump(usuario) }}
-	</pre>
 	  </div>	  
 	</div>
 
