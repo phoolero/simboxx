@@ -20,6 +20,17 @@ usuario_editar:
     path: /usuario/editar/{email}
     controller: App\Controller\UsuarioController::editar
 
+cheques:
+    path: /cheques
+    controller: App\Controller\ChequeController::index
+
+cedulas:
+    path: /cedulas
+    controller: App\Controller\CedulaController::index
+
+bancos:
+    path: /bancos
+    controller: App\Controller\BancoController::index
 
 home:
     path: /home
