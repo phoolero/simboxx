@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Cheque;
+use App\Entity\Cuenta;
+use App\Entity\Sucursal;
 use App\Form\Cheque1Type;
 use App\Repository\ChequeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
  * @Route("/cheque")
@@ -91,4 +96,23 @@ class ChequeController extends AbstractController
 
         return $this->redirectToRoute('cheque_index');
     }
+    //funcion AJAX
+	/**
+	 * @Route("/datosCuenta", options={"expose"=true}, name="datosCuenta")
+	 */
+	public function getDatosCuenta(Request $request){
+		if($request->isXmlHttpRequest()){
+			$em = $this->getDoctrine()->getManager();
+			//$user = $this->getUser();
+			$cuenta = $request->request->get('cuenta');
+			//llega como arreglo aún
+			$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta($cuenta);
+			//$datosCuenta = $em->getRepository(Cuenta::class)->getDatosCuenta($request);
+			
+			//debe agregarse que pasa si la cuenta no existe
+			
+			return new JsonResponse(["nombre" => $datosCuenta["nombre"], "firma" => $datosCuenta["firma"]]);
+
+		}
+	}
 }
