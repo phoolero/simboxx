@@ -37,7 +37,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/operacion, roles: ROLE_USER }
-         - { path: ^/cheque, roles: ROLE_USER }
+         - { path: ^/cheques, roles: ROLE_ADMIN }
+         - { path: ^/bancos, roles: ROLE_ADMIN }
+         - { path: ^/cedulas, roles: ROLE_ADMIN }
          - { path: ^/home, roles: ROLE_USER }
          
         # - { path: ^/profile, roles: ROLE_USER }
