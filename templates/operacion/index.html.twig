@@ -146,44 +146,42 @@
 			
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active madera" id="one" role="tabpanel" aria-labelledby="one-tab">
-					<div class="alert alert-info">Cliente dice: "{{ operacion[0]["mensaje_cliente"] }}"</div>
-					{% if cheque_operacion is not empty %}
-					<div class="cheque">
-						<div class="seriesucursal">Serie <span id="serie">{{ cheque_operacion[0]["serie"] }}</span><br>Sucursal {{ cheque_operacion[0]["sucursal"] }}</div>
-						<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
-						<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
-						<div class="montonumero" id="montonumero">{{ cheque_operacion[0]["monto_numero"]|number_format(0, ',', '.') }}</div>
-						{% if cheque_operacion[0]["numero_dias_cheque"] != "no"%}
-							<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("d") }}</div>
-							<div class="cheque-mes">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m") }}</div>
-							<div class="cheque-ano">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("Y") }}</div>
-						{% endif %}	
-						<div class="beneficiario">{{ cheque_operacion[0]["beneficiario"] }}</div>
-						<div class="montotexto">{{ cheque_operacion[0]["monto_letras"] }}</div>
-						{% if cheque_operacion[0]["tarjado_al_portador"] == "si"%}
-							<div class="tarjado-portador"></div>
+						<div class="alert alert-info">Cliente dice: "{{ operacion[0]["mensaje_cliente"] }}"</div>
+						{% if cheque_operacion is not empty %}
+						<div class="cheque">
+							<div class="seriesucursal">Serie <span id="serie">{{ cheque_operacion[0]["serie"] }}</span><br>Sucursal {{ cheque_operacion[0]["sucursal"] }}</div>
+							<div class="cuenta">{{ cheque_operacion[0]["cuenta"] }}</div>
+							<div class="titular">{{ cheque_operacion[0]["titular"]|upper }}</div>
+							<div class="montonumero" id="montonumero">{{ cheque_operacion[0]["monto_numero"]|number_format(0, ',', '.') }}</div>
+							{% if cheque_operacion[0]["numero_dias_cheque"] != "no"%}
+								<div class="cheque-dia">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("d") }}</div>
+								<div class="cheque-mes">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("m") }}</div>
+								<div class="cheque-ano">{{ "now"|date_modify( cheque_operacion[0]["numero_dias_cheque"]*(-1) ~" day")|date("Y") }}</div>
+							{% endif %}	
+							<div class="beneficiario">{{ cheque_operacion[0]["beneficiario"] }}</div>
+							<div class="montotexto">{{ cheque_operacion[0]["monto_letras"] }}</div>
+							{% if cheque_operacion[0]["tarjado_al_portador"] == "si"%}
+								<div class="tarjado-portador"></div>
+							{% endif %}
+							{% if cheque_operacion[0]["tarjado_orden"] == "si"%}
+								<div class="tarjado-orden"></div>
+							{% endif %}
+							<div class="firma"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma"]) }}"/></div>
+							<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
+							{% if cheque_operacion[0]["firma_beneficiario_atravesada"] %}
+								<div class="firma-cruzada"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma_beneficiario_atravesada"]) }}"/></div>
+							{% endif %}
+							{% if cheque_operacion[0]["cruzado"] == "si"%}
+								<div class="chequecruzado"><img src="{{ asset('img/fondos/fondo-cheque-cruzado.png') }}"/></div>
+							{% endif %}
+							{% if cheque_operacion[0]["cruzado_especial_banco"] != "no"%}
+							{# falta agregar la logica del nombre del banco, que va entre las rayas #}
+								<div class="cheque-cruzado-especial-banco">{{cheque_operacion[0]["cruzado_especial_banco"]}}</div>
+							{% endif %}
+						</div>
 						{% endif %}
-						{% if cheque_operacion[0]["tarjado_orden"] == "si"%}
-							<div class="tarjado-orden"></div>
-						{% endif %}
-
-
-						<div class="firma"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma"]) }}"/></div>
-						<div class="codigobarras">{0000{{ cheque_operacion[0]["serie"] }}} 0980421}00000{{ cheque_operacion[0]["cuenta"] }}[ 01</div>
-
-						{% if cheque_operacion[0]["firma_beneficiario_atravesada"] %}
-						<div class="firma-cruzada"><img src="{{ asset('img/firmas/' ~ cheque_operacion[0]["firma_beneficiario_atravesada"]) }}"/></div>
-						{% endif %}
-						{% if cheque_operacion[0]["cruzado"] == "si"%}
-							<div class="chequecruzado"><img src="{{ asset('img/fondos/fondo-cheque-cruzado.png') }}"/></div>
-						{% endif %}
-						{% if cheque_operacion[0]["cruzado_especial_banco"] != "no"%}
-						{# falta agregar la logica del nombre del banco, que va entre las rayas #}
-							<div class="cheque-cruzado-especial-banco">{{cheque_operacion[0]["cruzado_especial_banco"]}}</div>
-						{% endif %}
-					</div>
-					{% endif %}
-					{% if cheque_operacion is not empty %}
+						<!--end cheque-->
+						{% if cheque_operacion is not empty %}
 						{% if cheque_operacion[0]["numero_dias_revalidacion"] or cheque_operacion[0]["revalidacion_firma"] or
 							cheque_operacion[0]["endoso_deposito_cuenta"] or cheque_operacion[0]["endoso_deposito_firma"] or
 							cheque_operacion[0]["endoso_deposito_rut"] or cheque_operacion[0]["endoso_regular_firma"] or cheque_operacion[0]["endoso_regular_rut"] or
@@ -206,21 +204,22 @@
 							<div>{{ cheque_operacion[0]["endoso_regular_rut"] }}</div>
 							{% if cheque_operacion[0]["endoso_regular_firma"] %}
 							<div><img width="150" src="{{ asset('img/firmas/' ~ cheque_operacion[0]["endoso_regular_firma"]) }}"/></div>
-							{% endif %}
-						{% endif %}	
+								{% endif %}
+						
 						</div>
+						{% endif %}	
 					{% endif %}
+					<!--end reverso-->
 					{% if servicio is not empty %}
-			
 					<div class="servicio">
 						<div class="servicio-{{ servicio[0]['nombre']}}-numero-boleta">{{ servicio[0]['id']}}</div>
 						<div class="servicio-{{ servicio[0]['nombre']}}-numero-cliente">{{ servicio[0]['numero_cliente']}}</div>
 						<div class="servicio-{{ servicio[0]['nombre']}}-nombre-cliente">{{ servicio[0]['nombre_cliente']}}</div>
 						<div class="servicio-{{ servicio[0]['nombre']}}-total">${{ servicio[0]['total']|number_format(0, ',', '.')}}</div>
 						<div class="servicio-{{ servicio[0]['nombre']}}-fecha-vencimiento">{{ "now"|date_modify( servicio[0]["dias_servicio"] ~" day")|date("m/d/Y")|format_datetime('medium', 'none', locale='es') }}</div>
-
 					</div>
 					{% endif %}
+					<!--end servicio-->
 					{% if cedula_operacion is not empty %}
 					<div class="carnet">
 						<img src="{{ asset('img/carnes/' ~ cedula_operacion[0]["ruta_imagen"]) }}" width="230"/>
@@ -246,6 +245,7 @@
 						<div class="depo-serie" id="depo-serie">{{deposito_operacion[0]["id"]}}</div>
 					</div>
 					{% endif %}
+					<!--end deposito-->
 					{% if cheque_operacion is not empty %}
 						<div id="error" style="display:none">{{ cheque_operacion[0]["error"] }}</div>
 					{% endif %}
@@ -294,16 +294,16 @@
 					</table>
 					
 				</div>
-				<div class="tab-pane p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
-					<div class="row">
-						<div class="col-6">
-							<h2>Cuadratura</h2>
-						</div>	
-						<div class="col-6 text-right">
-							<p>{{ "now"|date("d/m/Y") }}</p>
-						</div>									
-					</div>
-					<div class="row">
+			<div class="tab-pane p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+				<div class="row">
+					<div class="col-6">
+						<h2>Cuadratura</h2>
+					</div>	
+					<div class="col-6 text-right">
+						<p>{{ "now"|date("d/m/Y") }}</p>
+					</div>									
+				</div>
+				<div class="row">
 					<div class="col-6">
 						<label for="entrada">Entrada</label>
 						{# dejar asi el formato porque sino hace saltos de lines y espacios innecesarios #}
@@ -338,23 +338,23 @@
 						<input type="text" class="form-control" id="entrada-canje" value="${{entrada_canje}}">
 					</div>
 						<div class="col-3">
-						<label for="entrada-efectivo">Entrada Efectivo</label>
-						{% set entrada_efectivo = 0 %}
-						{% if sesion['registros_id']|length > 0 %}
-							{% for i in 0..sesion['registros_id']|length -1 %}
-								{% if sesion['registros_entrada_salida'][i] == 'entrada' and sesion['registros_tipo_operacion'][i] == "Depósito Cheque Mismo Banco"%}
-									{% set entrada_efectivo = entrada_efectivo + sesion['registros_monto'][i]%}
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-						<input type="text" class="form-control" id="entrada-efectivo" value="${{entrada_efectivo}}">
-					</div>
+							<label for="entrada-efectivo">Entrada Efectivo</label>
+							{% set entrada_efectivo = 0 %}
+							{% if sesion['registros_id']|length > 0 %}
+								{% for i in 0..sesion['registros_id']|length -1 %}
+									{% if sesion['registros_entrada_salida'][i] == 'entrada' and sesion['registros_tipo_operacion'][i] == "Depósito Cheque Mismo Banco"%}
+										{% set entrada_efectivo = entrada_efectivo + sesion['registros_monto'][i]%}
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+							<input type="text" class="form-control" id="entrada-efectivo" value="${{entrada_efectivo}}">
+						</div>
 						<div class="col-3">
-						<label for="salida-canje">Salida Canje</label>
-						{% set salida_canje = 0 %}
-						<input type="text" class="form-control" id="salida-canje" value="${{salida_canje}}">
-					</div>
-						<div class="col-3">
+							<label for="salida-canje">Salida Canje</label>
+							{% set salida_canje = 0 %}
+							<input type="text" class="form-control" id="salida-canje" value="${{salida_canje}}">
+						</div>
+					<div class="col-3">
 						<label for="salida-efectivo">Salida Efectivo</label>
 							{% set salida_efectivo = 0 %}
 						{% if sesion['registros_id']|length > 0 %}
@@ -369,25 +369,24 @@
 					{% set total_entrada = entrada_canje + entrada_efectivo %}
 					{% set total_salida = salida_canje + salida_efectivo %}
 						<div class="col-3">
-						<label for="saldo-apertura">Saldo Apertura</label>
-						{% set saldo_apertura = sesion['saldo']- total_entrada +total_salida  %}
-						<input type="text" class="form-control" id="saldo-apertura" value="${{saldo_apertura}}">
-					</div>
+							<label for="saldo-apertura">Saldo Apertura</label>
+							{% set saldo_apertura = sesion['saldo']- total_entrada +total_salida  %}
+							<input type="text" class="form-control" id="saldo-apertura" value="${{saldo_apertura}}">
+						</div>
 						<div class="col-3">
-						<label for="total-entrada">Total Entrada</label>
-						<input type="text" class="form-control" id="total-entrada" value="${{total_entrada}}">
-					</div>
+							<label for="total-entrada">Total Entrada</label>
+							<input type="text" class="form-control" id="total-entrada" value="${{total_entrada}}">
+						</div>
 						<div class="col-3">
-						<label for="saldo-actual">Saldo Actual</label>
-						<input type="text" class="form-control" id="saldo-actual" value="${{sesion['saldo']}}">
-					</div>
+							<label for="saldo-actual">Saldo Actual</label>
+							<input type="text" class="form-control" id="saldo-actual" value="${{sesion['saldo']}}">
+						</div>
 						<div class="col-3">
-						<label for="total-salida">Total Salida</label>
-						
-						<input type="text" class="form-control" id="total-salida" value="${{total_salida}}">
+							<label for="total-salida">Total Salida</label>
+							<input type="text" class="form-control" id="total-salida" value="${{total_salida}}">
+						</div>
 					</div>
-					</div>
-					</div>
+				</div>
 			</div>
 		</div>
 	</div>
