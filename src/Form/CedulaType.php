@@ -12,6 +12,7 @@ class CedulaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('rut')
             ->add('ruta_imagen')
         ;
     }
