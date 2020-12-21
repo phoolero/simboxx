@@ -16,11 +16,11 @@
         <tbody>
         {% for cedula in cedulas %}
             <tr>
-                <td>{{ cedula.id }}</td>
+                <td>{{ cedula.rut }}</td>
                 <td>{{ cedula.rutaImagen }}</td>
                 <td>
-                    <a href="{{ path('cedula_show', {'id': cedula.id}) }}">show</a>
-                    <a href="{{ path('cedula_edit', {'id': cedula.id}) }}">edit</a>
+                    <a href="{{ path('cedula_show', {'id': cedula.rut}) }}">show</a>
+                    <a href="{{ path('cedula_edit', {'id': cedula.rut}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
