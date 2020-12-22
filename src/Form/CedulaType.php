@@ -6,6 +6,8 @@ use App\Entity\Cedula;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class CedulaType extends AbstractType
 {
@@ -13,7 +15,11 @@ class CedulaType extends AbstractType
     {
         $builder
             ->add('rut')
-            ->add('ruta_imagen')
+            ->add('ruta_imagen', FileType::class, [
+                'label'=>'Archivo Imagen',
+                'mapped'=>false,
+                'required'=>false
+                ])
         ;
     }
 
