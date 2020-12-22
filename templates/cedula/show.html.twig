@@ -9,18 +9,18 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ cedula.id }}</td>
+                <td>{{ cedula.rut }}</td>
             </tr>
             <tr>
                 <th>Ruta_imagen</th>
-                <td>{{ cedula.rutaImagen }}</td>
+                <td><img width="250" src="{{ asset('../public/img/carnes/' ~ cedula.rutaImagen )}}"/></td>
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('cedula_index') }}">back to list</a>
 
-    <a href="{{ path('cedula_edit', {'id': cedula.id}) }}">edit</a>
+    <a href="{{ path('cedula_edit', {'id': cedula.rut}) }}">edit</a>
 
     {{ include('cedula/_delete_form.html.twig') }}
 {% endblock %}
