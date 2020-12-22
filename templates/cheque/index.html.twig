@@ -1,73 +1,125 @@
 {% extends 'baseHome.html.twig' %}
 
-{% block title %}Cheque index{% endblock %}
-
-{% block body %}
-    <h1>Cheque index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Serie</th>
-                <th>MontoNumero</th>
-                <th>MontoLetras</th>
-                <th>TarjadoOrden</th>
-                <th>TarjadoAlPortador</th>
-                <th>Beneficiario</th>
-                <th>FirmaTitular</th>
-                <th>FirmaBeneficiarioAtravesada</th>
-                <th>Cruzado</th>
-                <th>CruzadoEspecialBanco</th>
-                <th>NumeroDiasCheque</th>
-                <th>NumeroDiasRevalidacion</th>
-                <th>RevalidacionFirma</th>
-                <th>EndosoDepositoCuenta</th>
-                <th>EndosoDepositoFirma</th>
-                <th>EndosoDepositoRut</th>
-                <th>EndosoRegularFirma</th>
-                <th>EndosoRegularRut</th>
-                <th>EndosoRegularNombre</th>
-                <th>Error</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for cheque in cheques %}
-            <tr>
-                <td>{{ cheque.id }}</td>
-                <td>{{ cheque.serie }}</td>
-                <td>{{ cheque.MontoNumero }}</td>
-                <td>{{ cheque.MontoLetras }}</td>
-                <td>{{ cheque.TarjadoOrden }}</td>
-                <td>{{ cheque.TarjadoAlPortador }}</td>
-                <td>{{ cheque.beneficiario }}</td>
-                <td>{{ cheque.FirmaTitular }}</td>
-                <td>{{ cheque.FirmaBeneficiarioAtravesada }}</td>
-                <td>{{ cheque.cruzado }}</td>
-                <td>{{ cheque.CruzadoEspecialBanco }}</td>
-                <td>{{ cheque.NumeroDiasCheque }}</td>
-                <td>{{ cheque.NumeroDiasRevalidacion }}</td>
-                <td>{{ cheque.RevalidacionFirma }}</td>
-                <td>{{ cheque.EndosoDepositoCuenta }}</td>
-                <td>{{ cheque.EndosoDepositoFirma }}</td>
-                <td>{{ cheque.EndosoDepositoRut }}</td>
-                <td>{{ cheque.EndosoRegularFirma }}</td>
-                <td>{{ cheque.EndosoRegularRut }}</td>
-                <td>{{ cheque.EndosoRegularNombre }}</td>
-                <td>{{ cheque.Error }}</td>
-                <td>
-                    <a href="{{ path('cheque_show', {'id': cheque.id}) }}">show</a>
-                    <a href="{{ path('cheque_edit', {'id': cheque.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="22">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('cheque_new') }}">Create new</a>
+{% block title %}Cheque index
 {% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('../public/css/dataTables.bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('../public/css/responsive.bootstrap4.min.css') }}">
+{% endblock %}
+{% block body %}
+	<h1>Cheque index</h1>
+	<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Tabla de Cheques</h3>
+						</div>
+						<div class="card-body">
+							<table id="tablaCheque" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Serie</th>
+										<th>MontoNumero</th>
+										<th>MontoLetras</th>
+										<th>TarjadoOrden</th>
+										<th>TarjadoAlPortador</th>
+										<th>Beneficiario</th>
+										<th>FirmaTitular</th>
+										<th>FirmaBeneficiarioAtravesada</th>
+										<th>Cruzado</th>
+										<th>CruzadoEspecialBanco</th>
+										<th>NumeroDiasCheque</th>
+										<th>NumeroDiasRevalidacion</th>
+										<th>RevalidacionFirma</th>
+										<th>EndosoDepositoCuenta</th>
+										<th>EndosoDepositoFirma</th>
+										<th>EndosoDepositoRut</th>
+										<th>EndosoRegularFirma</th>
+										<th>EndosoRegularRut</th>
+										<th>EndosoRegularNombre</th>
+										<th>Error</th>
+										<th>actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for cheque in cheques %}
+										<tr>
+											<td>{{ cheque.id }}</td>
+											<td>{{ cheque.serie }}</td>
+											<td>{{ cheque.MontoNumero }}</td>
+											<td>{{ cheque.MontoLetras }}</td>
+											<td>{{ cheque.TarjadoOrden }}</td>
+											<td>{{ cheque.TarjadoAlPortador }}</td>
+											<td>{{ cheque.beneficiario }}</td>
+											<td>{{ cheque.FirmaTitular }}</td>
+											<td>{{ cheque.FirmaBeneficiarioAtravesada }}</td>
+											<td>{{ cheque.cruzado }}</td>
+											<td>{{ cheque.CruzadoEspecialBanco }}</td>
+											<td>{{ cheque.NumeroDiasCheque }}</td>
+											<td>{{ cheque.NumeroDiasRevalidacion }}</td>
+											<td>{{ cheque.RevalidacionFirma }}</td>
+											<td>{{ cheque.EndosoDepositoCuenta }}</td>
+											<td>{{ cheque.EndosoDepositoFirma }}</td>
+											<td>{{ cheque.EndosoDepositoRut }}</td>
+											<td>{{ cheque.EndosoRegularFirma }}</td>
+											<td>{{ cheque.EndosoRegularRut }}</td>
+											<td>{{ cheque.EndosoRegularNombre }}</td>
+											<td>{{ cheque.Error }}</td>
+											<td>
+												<a href="{{ path('cheque_show', {'id': cheque.id}) }}">show</a>
+												<a href="{{ path('cheque_edit', {'id': cheque.id}) }}">edit</a>
+											</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="22">no records found</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+							<a href="{{ path('cheque_new') }}">Create new</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+
+{% block javascripts %}
+        
+        <script src="{{ asset('../public/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('../public/js/responsive.bootstrap4.min.js') }}"></script>
+        <script>
+        $(function () {
+            $('#tablaCheque').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language":{
+            "paginate":{
+                next:"Siguiente",
+                previous:"Anterior",
+                last:"Último",
+                first:"Primero"
+            },
+                info:"Mostrando _START_ a _END_ de _TOTAL_ resultados",
+                emptyTalbe:"No hay registros",
+                infoEmpty:"0 Registros",
+                search:"Buscar"
+            }
+            });
+        });
+        </script>
+    {% endblock %}
