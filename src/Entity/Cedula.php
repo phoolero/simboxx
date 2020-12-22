@@ -25,6 +25,12 @@ class Cedula
     {
         return $this->rut;
     }
+    public function setRut(string $rut): self
+    {
+        $this->rut = $rut;
+
+        return $this;
+    }
 
     public function getRutaImagen(): ?string
     {
