@@ -1,0 +1,142 @@
+{% extends 'baseHome.html.twig' %}
+
+{% block title %}Alumno index
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('../public/css/dataTables.bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('../public/css/responsive.bootstrap4.min.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+
+<h1>Alumnos index</h1>
+	<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Tabla de Alumnos</h3>
+						</div>
+						<div class="card-body">
+                        <div class="col-4 p-0">
+                        <select class="form-select" id="selector"aria-label="Default select example">
+                            <option selected>Seleccione la empresa</option>
+                            {% for empresa in empresas %}
+                                <option value="{{empresa.id}}" onchange="enviar({{empresa.id}})">{{empresa.nombre}}</option>
+                            {% endfor %}
+                            
+                        </select>
+                        </div>
+							<table id="tablaAlumno" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+                                        <th>Nombre</th>
+										<th>Email</th>
+                                        <th>Password</th>
+                                        <th>Institucion</th>
+                                        <th>Inicio</th>
+                                        <th>Fin</th>
+										<th>actions</th>
+									</tr>
+								</thead>
+								<tbody id="tabla">
+										
+										{# 	<td>{{ alumno.nombre }}</td>
+                                            <td>{{ alumno.email }}</td>
+                                            <td>{{ alumno.password }}</td>
+                                            <td>{{ alumno.institucion }}</td>
+                                            <td>{{ alumno.fecha_inicio }}</td>
+                                            <td>{{ alumno.fecha_fin }}</td> 
+											<td>
+											{# 	<a href="{{ path('empresa_show', {'id': cedula.rut}) }}">show</a>
+												<a href="{{ path('cedula_edit', {'id': cedula.rut}) }}">edit</a> 
+											</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="7">No se encuentran registros</td>
+										
+									{% endif %}
+                                    #}
+								</tbody>
+							</table>
+
+{# 							<a href="{{ path('empresa_new') }}">Create new</a>
+ #}						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
+        
+        <script src="{{ asset('../public/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('../public/js/responsive.bootstrap4.min.js') }}"></script>
+        <script>
+        $(function () {
+            $('#tablaAlumno').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language":{
+            "paginate":{
+                next:"Siguiente",
+                previous:"Anterior",
+                last:"Último",
+                first:"Primero"
+            },
+                info:"Mostrando _START_ a _END_ de _TOTAL_ resultados",
+                emptyTalbe:"No hay registros",
+                infoEmpty:"0 Registros",
+                search:"Buscar"
+            }
+            });
+        });
+
+$( "select" ).change(function () {
+  
+    $( "select option:selected" ).each(function() {
+        if($(this).val() == 'Seleccione la empresa'){
+
+            $( ".marco" ).replaceWith( "<tr class='odd'><td colspan='7'class='dataTables_empty' >No data available in table</td></tr>" );
+            $('.odd')[0].remove();
+           
+             $('#tablaAlumno_info').text(0 +" Registros" ); 
+        }else{
+        console.log($(this).val());
+        $( "" ).replaceAll( ".odd" );
+        $( "" ).replaceAll( ".marco" );
+            $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost/simboxx/public/alumnos_empresa',
+                    data: ({institucion:$(this).val() }),
+                    async: true,
+                    dataType: "json",
+                    success: function(data){
+                        console.log(data);
+                          
+                              for(const i in data ){
+                                $('#tabla').append( "<tr class='marco'><td>"+ data[i]['nombre']+"</td><td>"+ data[i]['email']+"</td><td>"+ data[i]['password']+"</td><tr>");
+                              }
+                              $('#tablaAlumno_info').text(data.length +" Registros" );                
+                    }
+            });
+        }
+    });
+   
+  }).change();
+
+        </script>
+    {% endblock %}
