@@ -32,6 +32,19 @@ bancos:
     path: /bancos
     controller: App\Controller\BancoController::index
 
+empresas:
+    path: /empresas
+    controller: App\Controller\EmpresaController::index
+
+alumnos_empresa:
+    path: /alumnos_empresa
+    controller: App\Controller\AlumnoController::obtenerAlumnosEmpresa
+    methods: [POST]
+
+alumnos:
+    path: /alumnos
+    controller: App\Controller\AlumnoController::index
+
 home:
     path: /home
     controller: App\Controller\HomeController::index
