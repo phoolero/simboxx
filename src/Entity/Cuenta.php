@@ -29,6 +29,7 @@ class Cuenta
 
 	 /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cheque", mappedBy="cuenta")
+     * @ORM\Column(type="integer")
      */
     private $cheque;
 
