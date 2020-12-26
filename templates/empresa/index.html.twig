@@ -1,0 +1,90 @@
+{% extends 'baseHome.html.twig' %}
+
+{% block title %}Empresa index
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('../public/css/dataTables.bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('../public/css/responsive.bootstrap4.min.css') }}">
+{% endblock %}
+{% block body %}<h1>Empresas index</h1>
+	<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Tabla de Empresas</h3>
+						</div>
+						<div class="card-body">
+							<table id="tablaEmpresa" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+                                        <th>Rut</th>
+                                        <th>Inicio</th>
+                                        <th>Fin</th>
+										<th>actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for empresa in empresas %}
+                                    
+										<tr>
+											<td>{{ empresa.nombre }}</td>
+                                            <td>{{ empresa.rut }}</td>
+                                            <td>{{ empresa.getFechaInicio()|date('d/m/Y') }}</td>
+                                            <td>{{ empresa.getFechaFin()|date('d/m/Y') }}</td>
+											{# <td>
+												<a href="{{ path('empresa_show', {'id': cedula.rut}) }}">show</a>
+												<a href="{{ path('cedula_edit', {'id': cedula.rut}) }}">edit</a> 
+											</td> #}
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="5">No se encuentran registros</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+{# 							<a href="{{ path('empresa_new') }}">Create new</a>
+ #}						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
+        
+        <script src="{{ asset('../public/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('../public/js/responsive.bootstrap4.min.js') }}"></script>
+        <script>
+        $(function () {
+            $('#tablaEmpresa').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language":{
+            "paginate":{
+                next:"Siguiente",
+                previous:"Anterior",
+                last:"Último",
+                first:"Primero"
+            },
+                info:"Mostrando _START_ a _END_ de _TOTAL_ resultados",
+                emptyTalbe:"No hay registros",
+                infoEmpty:"0 Registros",
+                search:"Buscar"
+            }
+            });
+        });
+        </script>
+    {% endblock %}
