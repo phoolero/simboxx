@@ -3,9 +3,32 @@
 {% block title %}New Cheque{% endblock %}
 
 {% block body %}
-    <h1>Create new Cheque</h1>
+<h2>Nuevo Cheque</h2>
+<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Nuevo Cheque</h3>
+						</div>
+						<div class="container py-4 px-0">
 
-    {{ include('cheque/_form.html.twig') }}
+							{{ include('cheque/_form.html.twig', {'button_label': 'Crear'}) }}
+							<hr class="mb-3">
+							<a href="{{ path('cheques') }}" class="btn btn-primary ">
+								<i class="fas fa-angle-left"></i>
+							</a>
 
-    <a href="{{ path('cheque_index') }}">back to list</a>
+						
+						</div>
+					</div>
+					<!--end card-->
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
 {% endblock %}
