@@ -67,6 +67,7 @@ bancos:
     path: /bancos
     controller: App\Controller\BancoController::index
 
+#EMPRESAS-------------------------
 empresas:
     path: /empresas
     controller: App\Controller\EmpresaController::index
@@ -74,6 +75,10 @@ empresas:
 empresa_nuevo:
     path: /empresa/nuevo
     controller: App\Controller\EmpresaController::new
+
+empresa_mostrar:
+    path: /empresa/detalle/{id}
+    controller: App\Controller\EmpresaController::show
 
 empresa_editar:
     path: /empresa/editar/{id}
@@ -88,6 +93,7 @@ alumnos_empresa:
     controller: App\Controller\AlumnoController::obtenerAlumnosEmpresa
     methods: [POST]
 
+#ALUMNOS-------------------------
 alumnos:
     path: /alumnos
     controller: App\Controller\AlumnoController::index
