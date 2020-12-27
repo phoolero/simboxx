@@ -1,13 +1,33 @@
 {% extends 'baseHome.html.twig' %}
 
-{% block title %}Edit Cedula{% endblock %}
+{% block title %}Edit Cedula
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Cedula</h1>
+	<h1>Edit Cedula</h1>
+	<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Editar Cédula</h3>
+						</div>
+						<div class="container py-4 px-0">
+							{{ include('cedula/_form.html.twig', {'button_label': 'Actualizar'}) }}
+							<hr class="mb-3">
+							<a href="{{ path('cedulas') }}" class="btn btn-primary ">
+								<i class="fas fa-angle-left"></i>
+							</a>
 
-    {{ include('cedula/_form.html.twig', {'button_label': 'Update'}) }}
+							{{ include('cedula/_delete_form.html.twig') }}
+						</div>
+					</div>
+					<!--end card-->
+				</div>
 
-    <a href="{{ path('cedula_index') }}">back to list</a>
-
-    {{ include('cedula/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</section>
 {% endblock %}
+
