@@ -17,19 +17,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 class CedulaController extends AbstractController
 {
-    /**
-     * @Route("/", name="cedula_index", methods={"GET"})
-     */
+
     public function index(CedulaRepository $cedulaRepository): Response
     {
         return $this->render('cedula/index.html.twig', [
             'cedulas' => $cedulaRepository->findAll(),
         ]);
     }
-
-    /**
-     * @Route("/new", name="cedula_new", methods={"GET","POST"})
-     */
+   
     public function new(Request $request, SluggerInterface $slugger): Response
     {
         $cedula = new Cedula();
@@ -65,7 +60,7 @@ class CedulaController extends AbstractController
             $entityManager->persist($cedula);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cedula_index');
+            return $this->redirectToRoute('cedulas');
         }
 
         return $this->render('cedula/new.html.twig', [
@@ -74,9 +69,6 @@ class CedulaController extends AbstractController
         ]);
     }
     
-    /**
-     * @Route("/{id}", name="cedula_show", methods={"GET"})
-     */
     public function show(Cedula $cedula): Response
     {
         return $this->render('cedula/show.html.twig', [
@@ -84,9 +76,7 @@ class CedulaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="cedula_edit", methods={"GET","POST"})
-     */
+
     public function edit(Request $request, Cedula $cedula): Response
     {
         $form = $this->createForm(CedulaType::class, $cedula);
@@ -95,7 +85,7 @@ class CedulaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('cedula_index');
+            return $this->redirectToRoute('cedulas');
         }
 
         return $this->render('cedula/edit.html.twig', [
@@ -104,9 +94,6 @@ class CedulaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="cedula_delete", methods={"DELETE"})
-     */
     public function delete(Request $request, Cedula $cedula): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cedula->getRut(), $request->request->get('_token'))) {
@@ -115,6 +102,6 @@ class CedulaController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('cedula_index');
+        return $this->redirectToRoute('cedulas');
     }
 }

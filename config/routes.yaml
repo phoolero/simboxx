@@ -20,6 +20,7 @@ usuario_editar:
     path: /usuario/editar/{email}
     controller: App\Controller\UsuarioController::editar
 
+#CHEQUES-------------------------
 cheques:
     path: /cheques
     controller: App\Controller\ChequeController::index
@@ -40,10 +41,28 @@ cheque_eliminar:
     path: /cheque/eliminar/{id}
     controller: App\Controller\ChequeController::delete
 
+#CEDULAS-------------------------
 cedulas:
     path: /cedulas
     controller: App\Controller\CedulaController::index
 
+cedula_nuevo:
+    path: /cedula/nuevo
+    controller: App\Controller\CedulaController::new
+
+cedula_mostrar:
+    path: /cedula/detalle/{id}
+    controller: App\Controller\CedulaController::show
+
+cedula_editar:
+    path: /cedula/editar/{id}
+    controller: App\Controller\CedulaController::edit
+
+cedula_eliminar:
+    path: /cedula/eliminar/{id}
+    controller: App\Controller\CedulaController::delete
+
+#BANCOS-------------------------
 bancos:
     path: /bancos
     controller: App\Controller\BancoController::index
