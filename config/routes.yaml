@@ -24,6 +24,22 @@ cheques:
     path: /cheques
     controller: App\Controller\ChequeController::index
 
+cheque_nuevo:
+    path: /cheque/nuevo
+    controller: App\Controller\ChequeController::new
+
+cheque_mostrar:
+    path: /cheque/detalle/{id}
+    controller: App\Controller\ChequeController::show
+
+cheque_editar:
+    path: /cheque/editar/{id}
+    controller: App\Controller\ChequeController::edit
+
+cheque_eliminar:
+    path: /cheque/eliminar/{id}
+    controller: App\Controller\ChequeController::delete
+
 cedulas:
     path: /cedulas
     controller: App\Controller\CedulaController::index

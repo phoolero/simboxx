@@ -20,9 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ChequeController extends AbstractController
 {
-    /**
-     * @Route("/", name="cheque_index", methods={"GET"})
-     */
+  
     public function index(ChequeRepository $chequeRepository): Response
     {
         return $this->render('cheque/index.html.twig', [
@@ -30,9 +28,6 @@ class ChequeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="cheque_new", methods={"GET","POST"})
-     */
     public function new(Request $request): Response
     {
         $cheque = new Cheque();
@@ -44,7 +39,7 @@ class ChequeController extends AbstractController
             $entityManager->persist($cheque);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cheque_index');
+            return $this->redirectToRoute('cheques');
         }
 
         return $this->render('cheque/new.html.twig', [
@@ -53,9 +48,7 @@ class ChequeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="cheque_show", methods={"GET"})
-     */
+
     public function show(Cheque $cheque): Response
     {
         return $this->render('cheque/show.html.twig', [
@@ -63,9 +56,6 @@ class ChequeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="cheque_edit", methods={"GET","POST"})
-     */
     public function edit(Request $request, Cheque $cheque): Response
     {
         $form = $this->createForm(Cheque1Type::class, $cheque);
@@ -74,7 +64,7 @@ class ChequeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('cheque_index');
+            return $this->redirectToRoute('cheques');
         }
 
         return $this->render('cheque/edit.html.twig', [
@@ -83,9 +73,7 @@ class ChequeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="cheque_delete", methods={"DELETE"})
-     */
+   
     public function delete(Request $request, Cheque $cheque): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cheque->getId(), $request->request->get('_token'))) {
@@ -94,7 +82,7 @@ class ChequeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('cheque_index');
+        return $this->redirectToRoute('cheques');
     }
     //funcion AJAX
 	/**
