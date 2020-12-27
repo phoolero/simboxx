@@ -36,6 +36,18 @@ empresas:
     path: /empresas
     controller: App\Controller\EmpresaController::index
 
+empresa_nuevo:
+    path: /empresa/nuevo
+    controller: App\Controller\EmpresaController::new
+
+empresa_editar:
+    path: /empresa/editar/{id}
+    controller: App\Controller\EmpresaController::edit
+
+empresa_eliminar:
+    path: /empresa/eliminar/{id}
+    controller: App\Controller\EmpresaController::delete
+
 alumnos_empresa:
     path: /alumnos_empresa
     controller: App\Controller\AlumnoController::obtenerAlumnosEmpresa
