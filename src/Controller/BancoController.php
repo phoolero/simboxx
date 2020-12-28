@@ -21,7 +21,7 @@ class BancoController extends AbstractController
         ]);
     }
 
-    public function crear(Request $request): Response
+    public function new(Request $request): Response
     {
 		$banco = new Banco();
 		$form = $this->createForm(BancoType::class, $banco);
@@ -31,11 +31,48 @@ class BancoController extends AbstractController
 			$em->persist($banco);
 			$em->flush();
 			$this->addFlash('exito', 'Se ha agregado el banco.');
-			return $this->redirectToRoute('crear_banco');
+			return $this->redirectToRoute('bancos');
 		}
-        return $this->render('banco/crear.html.twig', [
-            'controller_name' => 'BancoController',
-			'formulario'=>$form->createView()
+        return $this->render('banco/new.html.twig', [
+            'banco' => $banco,
+			'form'=>$form->createView()
         ]);
+	}
+	
+
+    public function show(Banco $banco): Response
+    {
+        return $this->render('banco/show.html.twig', [
+            'banco' => $banco,
+        ]);
+    }
+
+    public function edit(Request $request, Banco $banco): Response
+    {
+        $form = $this->createForm(BancoType::class, $banco);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('bancos');
+        }
+
+        return $this->render('banco/edit.html.twig', [
+            'banco' => $banco,
+            'form' => $form->createView(),
+        ]);
+    }
+
+   
+    public function delete(Request $request, Banco $banco): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$banco->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($banco);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('bancos');
     }
 }
