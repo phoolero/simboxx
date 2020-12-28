@@ -14,7 +14,7 @@ class BancoType extends AbstractType
     {
         $builder
             ->add('nombre')
-			->add('Crear', SubmitType::class)
+			
         ;
     }
 
