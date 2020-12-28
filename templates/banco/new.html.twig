@@ -1,0 +1,33 @@
+{% extends 'baseHome.html.twig' %}
+
+{% block title %}New Banco{% endblock %}
+
+{% block body %}
+    <h2>Create new Banco</h2>
+<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Nuevo Banco</h3>
+						</div>
+						<div class="container py-4 px-0">
+
+							{{ include('banco/_form.html.twig', {'button_label': 'Crear'}) }}
+							<hr class="mb-3">
+							<a href="{{ path('bancos') }}" class="btn btn-primary ">
+								<i class="fas fa-angle-left"></i>
+							</a>
+
+						
+						</div>
+					</div>
+					<!--end card-->
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
