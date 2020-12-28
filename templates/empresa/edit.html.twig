@@ -14,19 +14,18 @@
 							<h3 class="card-title">Editar Empresa</h3>
 						</div>
 						<div class="container py-4 px-0">
-
-							{{ include('_form.html.twig', {'button_label': 'Actualizar'}) }}
+							<div class="col-6">
+								{{ include('_form.html.twig', {'button_label': 'Actualizar'}) }}
+							</div>
 							<hr class="mb-3">
 							<a href="{{ path('empresas') }}" class="btn btn-primary ">
 								<i class="fas fa-angle-left"></i>
 							</a>
-
 							{{ include('empresa/_delete_form.html.twig') }}
 						</div>
 					</div>
 					<!--end card-->
 				</div>
-
 			</div>
 		</div>
 	</section>

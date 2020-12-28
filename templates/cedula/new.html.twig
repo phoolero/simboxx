@@ -1,10 +1,11 @@
 {% extends 'baseHome.html.twig' %}
 
-{% block title %}New Cedula{% endblock %}
+{% block title %}New Cedula
+{% endblock %}
 
 {% block body %}
-    <h2>Create new Cedula</h2>
-<section class="content mt-5">
+	<h2>Create new Cedula</h2>
+	<section class="content mt-5">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -13,21 +14,20 @@
 							<h3 class="card-title">Nueva Cédula</h3>
 						</div>
 						<div class="container py-4 px-0">
-
-							{{ include('_form.html.twig', {'button_label': 'Crear'}) }}
+							<div class="col-6">
+								{{ include('_form.html.twig', {'button_label': 'Crear'}) }}
+							</div>
 							<hr class="mb-3">
 							<a href="{{ path('cedulas') }}" class="btn btn-primary ">
 								<i class="fas fa-angle-left"></i>
 							</a>
-
-						
 						</div>
 					</div>
 					<!--end card-->
 				</div>
-
 			</div>
 		</div>
 	</section>
 
 {% endblock %}
+

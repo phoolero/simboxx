@@ -36,10 +36,9 @@
                                         <th>Nombre</th>
 										<th>Email</th>
                                         <th>Password</th>
-                                        <th>Institucion</th>
                                         <th>Inicio</th>
                                         <th>Fin</th>
-										<th>actions</th>
+										<th>Acciones</th>
 									</tr>
 								</thead>
 								<tbody id="tabla">
@@ -110,9 +109,10 @@ $( "select" ).change(function () {
     $( "select option:selected" ).each(function() {
         if($(this).val() == 'Seleccione la empresa'){
 
-            $( ".marco" ).replaceWith( "<tr class='odd'><td colspan='7'class='dataTables_empty' >No data available in table</td></tr>" );
-            $('.odd')[0].remove();
-           
+            $( ".marco" ).replaceWith( "<tr class='odd'><td colspan='6'class='dataTables_empty' >No data available in table</td></tr>" );
+                if($('.odd')[0]){
+                    $('.odd')[0].remove();
+                }
              $('#tablaAlumno_info').text(0 +" Registros" ); 
         }else{
         console.log($(this).val());
