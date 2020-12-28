@@ -67,6 +67,23 @@ bancos:
     path: /bancos
     controller: App\Controller\BancoController::index
 
+banco_nuevo:
+    path: /banco/nuevo
+    controller: App\Controller\BancoController::new
+
+banco_mostrar:
+    path: /banco/detalle/{id}
+    controller: App\Controller\BancoController::show
+
+banco_editar:
+    path: /banco/editar/{id}
+    controller: App\Controller\BancoController::edit
+
+banco_eliminar:
+    path: /banco/eliminar/{id}
+    controller: App\Controller\BancoController::delete
+
+
 #EMPRESAS-------------------------
 empresas:
     path: /empresas
