@@ -2,14 +2,20 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
+        App\Entity\Alumno:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        users:
+            chain:
+                providers: [users_alumnos, users_admin]
+        users_alumnos:
+            entity: { class: App\Entity\Alumno, property: email }
+        users_admin:
+            entity: { class: App\Entity\User, property: email }
+                
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,10 +23,12 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: app_user_provider
+            provider: users
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                   # - App\Security\AlumnoAuthenticator
+                entry_point: App\Security\LoginFormAuthenticator
             logout:
                 path: logout
                 target: /
