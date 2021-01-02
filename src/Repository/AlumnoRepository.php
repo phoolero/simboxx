@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Alumno;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Alumno|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Alumno[]    findAll()
  * @method Alumno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AlumnoRepository extends ServiceEntityRepository
+class AlumnoRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -29,6 +32,16 @@ class AlumnoRepository extends ServiceEntityRepository
         $stmt->execute(['id' => $id]);
         
         return $stmt->fetchAllAssociative();
+    }
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof Alumno) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
     // /**
     //  * @return Alumno[] Returns an array of Alumno objects
