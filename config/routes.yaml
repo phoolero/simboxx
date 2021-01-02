@@ -115,6 +115,22 @@ alumnos:
     path: /alumnos
     controller: App\Controller\AlumnoController::index
 
+alumno_nuevo:
+    path: /alumno/nuevo
+    controller: App\Controller\AlumnoController::new
+
+alumno_mostrar:
+    path: /alumno/detalle/{id}
+    controller: App\Controller\AlumnoController::show
+
+alumno_editar:
+    path: /alumno/editar/{id}
+    controller: App\Controller\AlumnoController::edit
+
+alumno_eliminar:
+    path: /alumno/eliminar/{id}
+    controller: App\Controller\AlumnoController::delete
+
 home:
     path: /home
     controller: App\Controller\HomeController::index
@@ -125,3 +141,5 @@ login:
 
 logout:
     path: /logout
+
+   
