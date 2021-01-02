@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Entity\Alumno;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,7 +71,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
-            // fail authentication with a custom error
+            $user = $this->entityManager->getRepository(Alumno::class)->findOneBy(['email' => $credentials['email']]); // fail authentication with a custom error
+            //throw new CustomUserMessageAuthenticationException('Email could not be found.');
+        }
+        if (!$user) {
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
