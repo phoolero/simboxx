@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('alumno_eliminar', {'id': alumno.id}) }}"  onsubmit="return confirm('¿Está seguro de borrar este Alumno?');" style="display:contents;">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ alumno.id) }}">
+    <button class="btn btn-danger"><i class="fas fa-trash text-white"></i></button>
+</form>
