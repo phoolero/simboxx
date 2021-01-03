@@ -14,8 +14,9 @@ class EmpresaType extends AbstractType
         $builder
             ->add('nombre')
             ->add('rut')
-            ->add('fecha_inicio')
-            ->add('fecha_fin')
+            ->add('logo')
+            ->add('pais')
+            ->add('plan')
         ;
     }
 

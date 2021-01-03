@@ -21,8 +21,6 @@
 									<tr>
 										<th>Nombre</th>
                                         <th>Rut</th>
-                                        <th>Inicio</th>
-                                        <th>Fin</th>
 										<th>Acciones</th>
 									</tr>
 								</thead>
@@ -32,8 +30,8 @@
 										<tr>
 											<td>{{ empresa.nombre }}</td>
                                             <td>{{ empresa.rut }}</td>
-                                            <td>{{ empresa.getFechaInicio()|date('d/m/Y') }}</td>
-                                            <td>{{ empresa.getFechaFin()|date('d/m/Y') }}</td>
+                                            {# <td>{{ empresa.getFechaInicio()|date('d/m/Y') }}</td>
+                                            <td>{{ empresa.getFechaFin()|date('d/m/Y') }}</td> #}
 											 <td>
 												<a href="{{ path('empresa_mostrar', {'id': empresa.id}) }}" class="btn btn-success"><i class="fas fa-search text-white"></i></a>
 												<a href="{{ path('empresa_editar', {'id': empresa.id}) }}"class="btn btn-warning"><i class="fas fa-edit text-white"></i></a>
