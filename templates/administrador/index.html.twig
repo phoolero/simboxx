@@ -22,6 +22,8 @@
 									<tr>
 										<th>Id</th>
 										<th>Nombre</th>
+										<th>Email</th>
+										<th>Empresa</th>
 										<th>Acciones</th>
                                     </tr>
 								</thead>
@@ -30,6 +32,8 @@
 										<tr>
 											<td>{{ administrador.id }}</td>
 											<td>{{ administrador.nombre }}</td>
+											<td>{{ administrador.email }}</td>
+											<td>{{ administrador.empresa }}</td>
 												<td>
 												<a href="{{ path('administrador_mostrar', {'id': administrador.id}) }}" class="btn btn-success"><i class="fas fa-search text-white"></i></a>
 												<a href="{{ path('administrador_editar', {'id': administrador.id}) }}" class="btn btn-warning"><i class="fas fa-edit text-white"></i></a>
