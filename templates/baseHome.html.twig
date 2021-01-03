@@ -35,7 +35,7 @@
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('usuario', {'email':app.user.email})}}">{{ app.user.nombre }}</a>
 							</li>
-							{% if app.user.roles[0]== "ROLE_ADMIN" %}
+							{% if app.user.roles[0]== "ROLE_SUPER_ADMIN" %}
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 										Administración
@@ -54,7 +54,21 @@
 											<a class="dropdown-item" href="{{ path('empresas')}}">Empresas</a>
 										</li>
 										<li>
+											<a class="dropdown-item" href="{{ path('administradores')}}">Administradores</a>
+										</li>
+										<li>
 											<a class="dropdown-item" href="{{ path('alumnos')}}">Alumnos</a>
+										</li>
+									</ul>
+								</li>
+								{% elseif app.user.roles[0]== "ROLE_EMPRESA" %}
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										Administración
+									</a>
+									<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+										<li>
+											<a class="dropdown-item" href="{{ path('empresa_alumnos')}}">Alumnos</a>
 										</li>
 									</ul>
 								</li>
