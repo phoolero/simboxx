@@ -24,7 +24,7 @@ class AdministradorRepository extends ServiceEntityRepository
     
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
-        if (!$user instanceof Alumno) {
+        if (!$user instanceof Administrador) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
