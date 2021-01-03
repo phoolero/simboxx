@@ -28,15 +28,21 @@ class Empresa
      */
     private $rut;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $fecha_inicio;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $fecha_fin;
+    private $logo;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $pais;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $plan;
 
     public function getId(): ?int
     {
@@ -67,26 +73,39 @@ class Empresa
         return $this;
     }
 
-    public function getFechaInicio(): ?\DateTimeInterface
+
+    public function getLogo(): ?string
     {
-        return $this->fecha_inicio;
+        return $this->logo;
     }
 
-    public function setFechaInicio(?\DateTimeInterface $fecha_inicio): self
+    public function setLogo(?string $logo): self
     {
-        $this->fecha_inicio = $fecha_inicio;
+        $this->logo = $logo;
 
         return $this;
     }
 
-    public function getFechaFin(): ?\DateTimeInterface
+    public function getPais(): ?string
     {
-        return $this->fecha_fin;
+        return $this->pais;
     }
 
-    public function setFechaFin(?\DateTimeInterface $fecha_fin): self
+    public function setPais(?string $pais): self
     {
-        $this->fecha_fin = $fecha_fin;
+        $this->pais = $pais;
+
+        return $this;
+    }
+
+    public function getPlan(): ?int
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(int $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }
