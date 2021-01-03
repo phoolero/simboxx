@@ -4,17 +4,25 @@ security:
             algorithm: auto
         App\Entity\Alumno:
             algorithm: auto
+        App\Entity\Administrador:
+            algorithm: auto
+    role_hierarchy:
+    #    ROLE_ADMIN:       ROLE_USER
+        ROLE_EMPRESA:       ROLE_ADMIN
+        ROLE_SUPER_ADMIN:       ROLE_ADMIN
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         users:
             chain:
-                providers: [users_alumnos, users_admin]
+                providers: [users_alumnos, users_admin, users_empresa]
         users_alumnos:
             entity: { class: App\Entity\Alumno, property: email }
         users_admin:
             entity: { class: App\Entity\User, property: email }
+        users_empresa:
+            entity: { class: App\Entity\Administrador, property: email }
                 
     firewalls:
         dev:
@@ -32,6 +40,7 @@ security:
             logout:
                 path: logout
                 target: /
+            
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -44,12 +53,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/operacion, roles: ROLE_USER }
-         - { path: ^/cheques, roles: ROLE_ADMIN }
-         - { path: ^/bancos, roles: ROLE_ADMIN }
-         - { path: ^/cedulas, roles: ROLE_ADMIN }
-         - { path: ^/empresas, roles: ROLE_ADMIN }
-         - { path: ^/alumnos, roles: ROLE_ADMIN }
-         - { path: ^/home, roles: ROLE_USER }
+         - { path: ^/operacion, roles:  [ROLE_USER,ROLE_EMPRESA,ROLE_SUPER_ADMIN]}
+         - { path: ^/cheques, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/bancos, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/cedulas, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/empresas, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/alumnos, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/administradores, roles: ROLE_SUPER_ADMIN }
+         - { path: ^/empresa/alumnos, roles: [ROLE_EMPRESA,ROLE_SUPER_ADMIN] }
+         - { path: ^/home, roles: [ROLE_USER,ROLE_EMPRESA,ROLE_SUPER_ADMIN]}
          
         # - { path: ^/profile, roles: ROLE_USER }
