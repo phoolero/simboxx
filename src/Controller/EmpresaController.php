@@ -77,4 +77,11 @@ class EmpresaController extends AbstractController
 
         return $this->redirectToRoute('empresas');
     }
+    public function empresa_alumno()
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('empresa/alumnos.html.twig', [
+            'empresa' => 'si funciona',
+        ]);
+    }
 }
