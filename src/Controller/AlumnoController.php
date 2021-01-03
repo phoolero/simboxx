@@ -16,9 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AlumnoController extends AbstractController
 {
-    /**
-     * @Route("/alumno", name="alumno")
-     */
+    
     public function index(AlumnoRepository $alumnoRepository, EmpresaRepository $empresaRepository): Response
     {
         $manager = $this->getDoctrine()->getManager();

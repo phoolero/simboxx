@@ -15,9 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EmpresaController extends AbstractController
 {
-    /**
-     * @Route("/empresa", name="empresa")
-     */
+    
     public function index(EmpresaRepository $empresaRepository): Response
     {
         return $this->render('empresa/index.html.twig', [

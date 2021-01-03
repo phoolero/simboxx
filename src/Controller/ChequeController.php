@@ -14,10 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-
-/**
- * @Route("/cheque")
- */
 class ChequeController extends AbstractController
 {
   
