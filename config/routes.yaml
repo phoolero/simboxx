@@ -131,6 +131,32 @@ alumno_eliminar:
     path: /alumno/eliminar/{id}
     controller: App\Controller\AlumnoController::delete
 
+#ADMINISTRADORES-------------------------
+administradores:
+    path: /administradores
+    controller: App\Controller\AdministradorController::index
+
+administrador_nuevo:
+    path: /administrador/nuevo
+    controller: App\Controller\AdministradorController::new
+
+administrador_mostrar:
+    path: /administrador/detalle/{id}
+    controller: App\Controller\AdministradorController::show
+
+administrador_editar:
+    path: /administrador/editar/{id}
+    controller: App\Controller\AdministradorController::edit
+
+administrador_eliminar:
+    path: /administrador/eliminar/{id}
+    controller: App\Controller\AdministradorController::delete
+
+#EMPRESAS-------------------------
+empresa_alumnos:
+    path: /empresa/alumnos
+    controller: App\Controller\EmpresaController::empresa_alumno
+
 home:
     path: /home
     controller: App\Controller\HomeController::index
