@@ -1,0 +1,87 @@
+{% extends 'baseHome.html.twig' %}
+
+{% block title %}Administradores index{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('../public/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('../public/css/responsive.bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block body %}
+	<h1>Administrador index</h1>
+	<section class="content mt-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Tabla de Administradores</h3>
+						</div>
+						<div class="card-body">
+							<table id="tablaAdmin" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Nombre</th>
+										<th>Acciones</th>
+                                    </tr>
+								</thead>
+								<tbody>
+									{% for administrador in administradores %}
+										<tr>
+											<td>{{ administrador.id }}</td>
+											<td>{{ administrador.nombre }}</td>
+												<td>
+												<a href="{{ path('administrador_mostrar', {'id': administrador.id}) }}" class="btn btn-success"><i class="fas fa-search text-white"></i></a>
+												<a href="{{ path('administrador_editar', {'id': administrador.id}) }}" class="btn btn-warning"><i class="fas fa-edit text-white"></i></a>
+												{{ include('administrador/_delete_form.html.twig') }}
+												
+											</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="3">no records found</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+								<a href="{{ path('administrador_nuevo') }}" class="text-decoration-none btn btn-outline-success mt-3"><i class="fas fa-plus-circle"></i> Nuevo Administrador</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
+ {% block javascripts %}
+        
+        <script src="{{ asset('../public/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('../public/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('../public/js/responsive.bootstrap4.min.js') }}"></script>
+        <script>
+        $(function () {
+            $('#tablaAdmin').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language":{
+            "paginate":{
+                next:"Siguiente",
+                previous:"Anterior",
+                last:"Último",
+                first:"Primero"
+            },
+                info:"Mostrando _START_ a _END_ de _TOTAL_ resultados",
+                emptyTalbe:"No hay registros",
+                infoEmpty:"0 Registros",
+                search:"Buscar"
+            }
+            });
+        });
+        </script>
+    {% endblock %}
