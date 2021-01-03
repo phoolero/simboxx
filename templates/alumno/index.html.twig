@@ -36,8 +36,8 @@
                                         <th>Nombre</th>
 										<th>Email</th>
                                         <th>Password</th>
-                                        <th>Inicio</th>
-                                        <th>Fin</th>
+                                       {#  <th>Inicio</th>
+                                        <th>Fin</th> #}
 										<th>Acciones</th>
 									</tr>
 								</thead>
@@ -61,11 +61,9 @@
 									{% endif %}
                                     #}
 								</tbody>
-							</table>
-
-{# 							<a href="{{ path('empresa_new') }}">Create new</a>
- #}						</div>
-
+	                            </table>
+								<a href="{{ path('alumno_nuevo') }}" class="text-decoration-none btn btn-outline-success mt-3"><i class="fas fa-plus-circle"></i> Nuevo Alumno</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -128,7 +126,21 @@ $( "select" ).change(function () {
                         console.log(data);
                           
                               for(const i in data ){
-                                $('#tabla').append( "<tr class='marco'><td>"+ data[i]['nombre']+"</td><td>"+ data[i]['email']+"</td><td>"+ data[i]['password']+"</td><tr>");
+                                  var id = data[i]['id'];
+                                  var nombre =data[i]['nombre'];
+                                  var email =data[i]['email'];
+                                  var pass = data[i]['password'];
+                                  
+                                $('#tabla').append( `<tr class='marco'>
+                                    <td>${nombre}</td>
+                                    <td>${email}</td>
+                                    <td>${pass}</td>
+                                    <td>
+                                        <a href='/simboxx/public/alumno/detalle/${id}' class="btn btn-success"><i class="fas fa-search text-white"></i></a>
+                                        <a href='/simboxx/public/alumno/editar/${id}'class="btn btn-warning"><i class="fas fa-edit text-white"></i></a>
+                                        <a href='/simboxx/public/alumno/eliminar/${id}'class="btn btn-danger"><i class="fas fa-trash text-white"></i></a>
+                                    </td>
+                                    <tr>`);
                               }
                               $('#tablaAlumno_info').text(data.length +" Registros" );                
                     }
