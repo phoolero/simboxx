@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Operacion;
+use App\Entity\PuntajeIntento;
+use App\Entity\Alumno;
 use App\Controller\IndiceController;
 use App\Repository\OperacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,6 +103,18 @@ class OperacionController extends AbstractController
             array_push($varSe['registros_entrada_salida'],$datos['entrada_salida']);
             array_push($varSe['registros_monto'],$datos['monto']);
             array_push($varSe['registros_tipo_operacion'],$datos['tipo_operacion']);
+
+            //guarda los puntos en la db
+            $puntosInt = new PuntajeIntento();
+            $date = new \DateTime('@'.strtotime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $puntosInt->setAlumno($varSe['alumno']);
+            $puntosInt->setPuntaje($datos['puntaje']);
+            $puntosInt->setTimestamp($date);
+            $puntosInt->setIntento(70);
+            $puntosInt->setOperacion($regis);
+            $entityManager->persist($puntosInt);
+            $entityManager->flush();
         }
             //set de valores a la sesion
             $session->set("sesion",$varSe);          
