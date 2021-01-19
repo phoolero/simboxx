@@ -22,8 +22,8 @@ class UsuarioType extends AbstractType
             ->add('email', EmailType::class, array(
                 'label' => 'Email'
             ))
-            ->add('submit', SubmitType::class, array(
-                'label' => 'Actualizar'
+            ->add('password', TextType::class, array(
+                'label' => 'Contraseña',
             ))
         ;
     }
