@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AlumnoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -48,6 +50,12 @@ class Alumno implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $institucion;
+
+
+    public function __construct()
+    {
+        $this->puntajeIntentos = new ArrayCollection();
+    }
 
     
 
@@ -161,5 +169,7 @@ class Alumno implements UserInterface
     {
         return (string) $this->email;
     }
+
+  
 }
 
