@@ -154,8 +154,14 @@ administrador_eliminar:
 
 #EMPRESAS-------------------------
 empresa_alumnos:
-    path: /empresa/alumnos
+    path: /empresa/alumnos/
     controller: App\Controller\EmpresaController::empresa_alumno
+
+
+#RECORD EJERCICIOS---------------------------
+record_ejercicio:
+    path: /record
+    controller: App\Controller\PuntajeController::index
 
 home:
     path: /home
