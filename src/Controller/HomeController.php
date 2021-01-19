@@ -14,11 +14,12 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
-    public function index(): Response
+    public function index(\Symfony\Component\Security\Core\User\UserInterface $usuario): Response
     {
         $session = new Session();
         
         $datos=array(
+            'alumno' => $usuario->getId(),
             'puntaje'=> 0,
             'saldo'=>12000000,
             'lista'=>'',
