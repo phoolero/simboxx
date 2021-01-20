@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 use App\Entity\Empresa;
+use App\Entity\Alumno;
+use App\Entity\Administrador;
 use App\Form\EmpresaType;
 use App\Repository\EmpresaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,9 +77,11 @@ class EmpresaController extends AbstractController
 
         return $this->redirectToRoute('empresas');
     }
-    public function empresa_alumno()
+    public function empresa_alumno(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+
         return $this->render('empresa/alumnos.html.twig', [
             'empresa' => 'si funciona',
         ]);
