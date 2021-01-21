@@ -123,18 +123,22 @@ class OperacionController extends AbstractController
      
     }
 
-    public function listChequePortador(Request $request, $id){
+    public function listChequePortador(Request $request){
         $session = $request->getSession();
         $varSe = $session->get("sesion");
     
+        $regis=count($varSe['registros_id']);
+        if($regis == ' ' || \is_null($regis)){
+            $regis = 0;
+        }
         $em = $this->getDoctrine()->getManager();
         //agarra todos las operaciones del ejercicio 1
         $lis = $em->GetRepository(Operacion::class)->obtenerOperacionesDeEjercicio(1);
         $varSe['ejercicios']= count($lis);
         $varSe['lista']= "ChequePortador";
-
+        
         //si el parametro sobrepasa la cantidad de ejercicio(o dicho de otra forma no existe en el arreglo) imprime la vista finEjercicios
-        if(!isset($lis[$id-1]['operacion'])){
+        if(!isset($lis[$regis]['operacion'])){
             
             return $this->render('operacion/finEjercicios.html.twig',[
                 'controller_name' => 'OperacionController',
@@ -143,11 +147,11 @@ class OperacionController extends AbstractController
         }
         $id_servicio = 15224367;
         //-1 para que comience desde la posicion 0
-        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($lis[$id-1]["operacion"]);
-        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($lis[$id-1]["operacion"]);
-        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($lis[$id-1]["operacion"]);
-        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($lis[$id-1]["operacion"]);
-        $seo = $em->GetRepository(Operacion::class)->obtenerServicioOperacion($lis[$id-1]["operacion"]);
+        $cho = $em->GetRepository(Operacion::class)->obtenerChequeOperacion($lis[$regis]["operacion"]);
+        $ceo = $em->GetRepository(Operacion::class)->obtenerCedulaOperacion($lis[$regis]["operacion"]);
+        $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($lis[$regis]["operacion"]);
+        $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($lis[$regis]["operacion"]);
+        $seo = $em->GetRepository(Operacion::class)->obtenerServicioOperacion($lis[$regis]["operacion"]);
         
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
