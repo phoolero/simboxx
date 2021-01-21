@@ -28,7 +28,8 @@ function getDatosCuenta(cuenta, from){
 			dataType: "json",
 			success: function(data){
 			   //console.log(data['url']);
- 				window.location.href=`http://localhost/simboxx/public/operacion/${lista}/${data['url']}`;
+ 				
+				 location.reload();
 			}
 		});
 	}
