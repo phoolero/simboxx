@@ -3,9 +3,9 @@
 #    controller: App\Controller\DefaultController::index
 
 operacion_cheques_portador:
-    path: /operacion/ChequePortador/{id}
+    path: /operacion/ChequePortador
     controller: App\Controller\OperacionController::listChequePortador
-    methods: [GET]
+    
 
 operacion_pts_sesion:
     path: /puntaje
