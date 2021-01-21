@@ -309,22 +309,39 @@
 					<div class="col-6">
 						<label for="entrada">Entrada</label>
 						{# dejar asi el formato porque sino hace saltos de lines y espacios innecesarios #}
-						<textarea class="form-control" id="salida" rows="3">{% if sesion['registros_id']|length > 0 %}{% for i in 0..sesion['registros_id']|length -1 %}{% if sesion['registros_entrada_salida'][i] == 'entrada' %}{{sesion['registros_tipo_operacion'][i]}} | ${{sesion['registros_monto'][i]}}{% endif %}
-						{% endfor %}
+						{% set depChM = 0 %}
+						{% set dchm = "Depósito Cheque Mismo Banco" %}
+						<textarea class="form-control" id="salida" rows="3">
+						{%- if sesion['registros_id']|length > 0 -%}
+							{%- for i in 0..sesion['registros_id']|length -1 -%}
+								{%- if sesion['registros_entrada_salida'][i] == 'entrada' -%}
+									{%- if sesion['registros_tipo_operacion'][i] == dchm -%}
+										{% set depChM = depChM + sesion['registros_monto'][i]%}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
 						{% endif %}
+						{%- if depChM  != 0 -%}{{-dchm-}} | ${{-depChM-}}
+						{%- endif -%}
 						</textarea>
 					</div>
 					<div class="col-6">
 						<label for="salida">Salida</label>
 						{# el - quita los espacios en blanco #}
+						{% set pagoCheque = 0 %}
+						{% set pagch = "Pago Cheque" %}
 						<textarea class="form-control" id="salida" rows="3">
 						{%- if sesion['registros_id']|length > 0 -%}
-						{%- for i in 0..sesion['registros_id']|length -1 -%}
-						{%- if sesion['registros_entrada_salida'][i] == 'salida' -%}
-						{{- sesion['registros_tipo_operacion'][i]}} | ${{sesion['registros_monto'][i] -}}
+							{%- for i in 0..sesion['registros_id']|length -1 -%}
+								{%- if sesion['registros_entrada_salida'][i] == 'salida' -%}
+									{%- if sesion['registros_tipo_operacion'][i] == pagch -%}
+										{% set pagoCheque = pagoCheque + sesion['registros_monto'][i]%}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
 						{% endif %}
-						{% endfor %}
-						{% endif %}
+						{%- if pagoCheque != 0 -%}{{-pagch-}} | ${{-pagoCheque-}}
+						{%- endif -%}
 						</textarea>
 					</div>
 					<div class="col-3">
