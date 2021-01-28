@@ -22,6 +22,8 @@ class HomeController extends AbstractController
             'alumno' => $usuario->getId(),
             'puntaje'=> 0,
             'saldo'=>12000000,
+            'tesoreriaA' =>0,
+            'tesoreriaB' =>0,
             'lista'=>'',
             'ejercicios'=>0,
             'registros_id'=>[],
