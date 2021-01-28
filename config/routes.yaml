@@ -12,6 +12,11 @@ operacion_pts_sesion:
     controller: App\Controller\OperacionController::darPuntaje
     methods: [POST]
 
+operacion_set_traspaso:
+    path: /traspaso-tesoreria
+    controller: App\Controller\OperacionController::setTraspaso
+    methods: [POST]
+
 usuario:
     path: /usuario/{email}
     controller: App\Controller\UsuarioController::index
