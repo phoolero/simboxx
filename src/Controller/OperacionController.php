@@ -123,6 +123,27 @@ class OperacionController extends AbstractController
      
     }
 
+    public function setTraspaso(Request $request){
+        $session = $request->getSession();
+        $varSe = $session->get("sesion");
+    
+        //aqui agarro los datos del ajax
+        $datos = $request->request->get("datos");
+        $valor =  $request->request->get("valor");
+        
+        if($valor == 'negativo'){
+            //saldo caja
+            $varSe['saldo'] -= $datos["monto"];
+            $varSe['tesoreriaA']+= $datos["monto"];
+        }else{
+            $varSe['saldo'] += $datos["monto"];
+            $varSe['tesoreriaB']+= $datos["monto"];
+        }
+
+        $session->set("sesion",$varSe);
+        return new JsonResponse(['mnsj'=> "saldo traspasado"]);
+    }
+
     public function listChequePortador(Request $request){
         $session = $request->getSession();
         $varSe = $session->get("sesion");
