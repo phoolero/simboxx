@@ -33,7 +33,21 @@ function getDatosCuenta(cuenta, from){
 			}
 		});
 	}
-	
+	function setTraspaso(datos, valor){
+		//se agarra el texto de ese div que sirve para la ruta
+		lista = $('#listaEjercicios').text();
+		$.ajax({
+			type: 'POST',
+			url: 'http://localhost/simboxx/public/traspaso-tesoreria',
+			data: ({datos: datos, valor: valor}),
+			async: true,
+			dataType: "json",
+			success: function(data){
+			  // console.log(data['mnsj']);
+			   location.reload();
+			}
+		});
+	}
     function esconderFormulariosMenos(id_mantener){
         
         //escondemos instrucciones
@@ -171,5 +185,40 @@ function getDatosCuenta(cuenta, from){
 	}
 
 
+//tesoreria 
 
-	
+function compararResultadosTs(){
+	var datos = { };
+	var ope = "";
+	valor = $("#valor-20000-tat").val();
+	limite = $("#monto-saldo").text().replace("$","").trim();
+	if(parseFloat(valor) > parseFloat(limite)){
+		alert("Excedes el limite del dinero que posees")
+	}else{
+		datos["monto"] = valor;
+		ope = "negativo";
+		setTraspaso(datos, ope);
+	}
+
+}
+function compararResultadosdTs(){
+	var datos = { };
+	var ope = "";
+	var tx ="";
+	var valor20 = parseInt($("#valor-20000-tdt").val())*20000;
+	var valor10 = parseInt($("#valor-10000-tdt").val())*10000;
+	var valor5 = parseInt($("#valor-5000-tdt").val())*5000;
+	var valor2 = parseInt($("#valor-2000-tdt").val())*2000;
+	var valor1 = parseInt($("#valor-1000-tdt").val())*1000;
+	var total = valor20+valor10+valor5+valor2+valor1;
+	var c =	confirm("¿Seguro que desea solicitar?");
+		if( c == true){
+			datos["monto"] = total;
+			ope = "positivo";
+			tx = "Se ha traspasado con exito";
+		}else{
+			tx = "El traspaso se ha cancelado";
+		}
+		
+		setTraspaso(datos, ope);
+}
