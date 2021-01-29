@@ -132,7 +132,7 @@ class OperacionRepository extends ServiceEntityRepository
     public function obtenerOperacionesDeEjercicio(int $ejercicio): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT operacion FROM `ejercicio_operacion` WHERE ejercicio = :ejercicio;";
+		$sql = "SELECT operacion,tutorial, visible FROM `ejercicio_operacion` WHERE ejercicio = :ejercicio;";
                 
         $stmt = $conn->prepare($sql);
         $stmt->execute(['ejercicio' => $ejercicio]);

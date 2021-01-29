@@ -25,6 +25,16 @@ class EjercicioOperacion
      */
     private $operacion;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tutorial;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function getEjercicio(): ?int
     {
         return $this->ejercicio;
@@ -45,6 +55,30 @@ class EjercicioOperacion
     public function setOperacion(int $operacion): self
     {
         $this->operacion = $operacion;
+
+        return $this;
+    }
+
+    public function getTutorial(): ?string
+    {
+        return $this->tutorial;
+    }
+
+    public function setTutorial(?string $tutorial): self
+    {
+        $this->tutorial = $tutorial;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }
