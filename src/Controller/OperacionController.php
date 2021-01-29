@@ -173,7 +173,7 @@ class OperacionController extends AbstractController
         $deo = $em->GetRepository(Operacion::class)->obtenerDepositoOperacion($lis[$regis]["operacion"]);
         $opo = $em->GetRepository(Operacion::class)->obtenerOperacion($lis[$regis]["operacion"]);
         $seo = $em->GetRepository(Operacion::class)->obtenerServicioOperacion($lis[$regis]["operacion"]);
-        
+        $tutorial = $lis[$regis]['tutorial'];
         return $this->render('operacion/index.html.twig', [
             'controller_name' => 'OperacionController',
             'cheque_operacion' => $cho,
@@ -182,6 +182,7 @@ class OperacionController extends AbstractController
             'operacion' => $opo,
             'sesion' => $varSe,
             'servicio' => $seo,
+            'tutorial' => $tutorial,
             'lista'=> $lis
         ]);
     }
