@@ -373,7 +373,7 @@
 									{% endif %}
 								{% endfor %}
 							{% endif %}
-							<input type="text" class="form-control" id="entrada-efectivo" value="${{entrada_efectivo}}">
+							<input type="text" class="form-control" id="entrada-efectivo" value="${{entrada_efectivo + + sesion['tesoreriaB']}}">
 						</div>
 						<div class="col-3">
 							<label for="salida-canje">Salida Canje</label>
@@ -390,10 +390,10 @@
 								{% endif %}
 							{% endfor %}
 						{% endif %}
-						<input type="text" class="form-control" id="salida-efectivo" value="${{salida_efectivo}}">
+						<input type="text" class="form-control" id="salida-efectivo" value="${{salida_efectivo + sesion['tesoreriaA']}}">
 					</div>
-					{% set total_entrada = entrada_canje + entrada_efectivo %}
-					{% set total_salida = salida_canje + salida_efectivo %}
+					{% set total_entrada = entrada_canje + entrada_efectivo + sesion['tesoreriaB']%}
+					{% set total_salida = salida_canje + salida_efectivo + sesion['tesoreriaA'] %}
 						<div class="col-3">
 							<label for="saldo-apertura">Saldo Apertura</label>
 							{% set saldo_apertura = sesion['saldo']- total_entrada +total_salida  %}
