@@ -31,6 +31,7 @@
 	{% if servicio is not empty %}
 	.servicio {zoom:64%; background-image: url("{{ asset('img/fondos/servicio-' ~ servicio[0]["nombre"]|lower ~ '.jpg') }}"); width:800px; height:800px; margin: 20px 0px;transform: rotate(0deg);}
 	{% endif %}
+	.center{text-align:center;}
 	
 </style>
 
@@ -72,7 +73,7 @@
         <button type="button" class="btn-close bg-danger text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-dark">
-		{{tutorial}}
+		{{tutorial | raw}}
       </div>
     </div>
   </div>
@@ -80,14 +81,19 @@
     </div>
     <div class="col-sm-4" id="columna-central">
         <div id="instrucciones">
-            <h3>Instrucciones del Simulador</h3>
-            <ul>
-                <li> Revise la solicitud del cliente</li> 
-                <li> Revise las formalidades del trámite (documentos, datos correctos, etc.)</li>
-                <li> Seleccione a la izquierda la operación a efectuar</li>
-                <li> Complete los datos y ejecute la operación</li>
-                <li> Si no se cumplen las formalidades del trámite, rechace la operación</li>
-            </ul>
+				<div class="col-sm-12 col-md-12" style="margin-top:20px;"><h3>Instrucciones del Simulador</h3></div>
+				<div class="row">
+					<div class="col-md-6 center"><img src="{{ asset('img/tutorial/1.png') }}" width="90"/><br/>Revise la solicitud del cliente</div>
+					<div class="col-md-6 center"><img src="{{ asset('img/tutorial/2.png') }}" width="90"/><br/>Revise las formalidades del trámite (documentos, datos correctos, etc.)</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 center"><img src="{{ asset('img/tutorial/3.png') }}" width="90"/><br/>Seleccione a la izquierda la operación a efectuar</div>
+					<div class="col-md-6 center"><img src="{{ asset('img/tutorial/4.png') }}" width="90"/><br/>Complete los datos y ejecute la operación (si es válida)</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 center"><img src="{{ asset('img/tutorial/5.png') }}" width="90"/><br/>Si no se cumplen las formalidades del trámite, rechace la operación</div>
+					<div class="col-md-6 center"></div>
+				</div>
         </div>
         <div id="form_pago_cheque" class="oculto"> 
             <h2>Pago Cheque</h2>
