@@ -60,20 +60,42 @@
 		<li><a class="linkmenu" href="#" onClick="esconderFormulariosMenos(form_traspaso_de_tesoreria);">Traspaso de Tesorería</a></li>
 	 </ul>
 	 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick="addClassActive()">
   Ver tutorial de la operacion
 </button>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-dark" id="staticBackdropLabel">TUTORIAL</h5>
         <button type="button" class="btn-close bg-danger text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-dark">
-		{{tutorial | raw}}
+		<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="0">
+  <div class="carousel-inner px-10">
+
+  {% set arr = tutorial|split("::::") %}
+  {# <pre>
+	  {{ dump(arr) }}
+  </pre> #}
+  {% for i in 0..arr|length -1 %}
+	<div class="carousel-item">
+     <p>{{arr[i]}}</p>
+    </div>
+  {% endfor %}
+ 
+  </div>
+  <a class="carousel-control-prev bg-dark w-5" href="#carouselExampleFade" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next bg-dark w-5" href="#carouselExampleFade" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a>
+</div>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@ class EjercicioOperacion
     private $operacion;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $tutorial;
 
@@ -59,12 +59,12 @@ class EjercicioOperacion
         return $this;
     }
 
-    public function getTutorial(): ?string
+    public function getTutorial(): ?text
     {
         return $this->tutorial;
     }
 
-    public function setTutorial(?string $tutorial): self
+    public function setTutorial(?text $tutorial): self
     {
         $this->tutorial = $tutorial;
 
