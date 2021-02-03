@@ -222,3 +222,9 @@ function compararResultadosdTs(){
 		
 		setTraspaso(datos, ope);
 }
+
+function addClassActive(){
+
+	$(".carousel-item.active").removeClass("active")
+	$(".carousel-item").first().addClass("active");
+}
