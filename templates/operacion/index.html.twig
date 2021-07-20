@@ -2,7 +2,7 @@
 
 {% block title %}SIMBOX - Operaciones de Caja{% endblock %}
 {% block head_js %}
-<script type="text/javascript" src="{{ asset('../public/js/functions.js') }}"></script>
+<script type="text/javascript" src="{{ asset('../js/functions.js') }}"></script>
 {% endblock %}
 {% block body %}
 
@@ -41,7 +41,11 @@
 		<img src="{{asset("img/logos/simbox-blanco.png")}}" width="60" /> Simulador de Caja Bancaria
 	</div>
 	<div class="col-4 d-flex align-items-center" id="listaEjercicios">
+		{% if sesion.lista|length < 1 %}
+		<p class="mb-0 m-auto">no hay lista</p>
+		{% else %}
 		<p class="mb-0 m-auto">{{sesion.lista}}</p>
+		{% endif %}
 	</div>
 	<div class="col-4 d-flex align-items-center" >
 		<p class="mb-0" id="puntaje"> {{sesion.puntaje}}</p>

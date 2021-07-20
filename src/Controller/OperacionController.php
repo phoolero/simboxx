@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -26,9 +27,14 @@ class OperacionController extends AbstractController
      */
     public function index(Request $request): Response
     {
-
+        
         $session = $request->getSession();
         $varSe = $session->get("sesion");
+         
+        
+         if($session->get("sesion") == "" || is_null($session->get("sesion"))){
+           $redireccion = new RedirectResponse('home');
+         }
         $em = $this->getDoctrine()->getManager();
         $id_operacion = $em->GetRepository(Operacion::class)->obtenerOperacionRandom();
 
@@ -60,6 +66,10 @@ class OperacionController extends AbstractController
             $session = $request->getSession();
             $varSe = $session->get("sesion");
         
+        //condicion para redirigir
+        if(!isset($varSe)){
+             return new RedirectResponse('/home');
+         }
             //aqui agarro los datos del ajax
             $datos = $request->request->get("datos");
 
@@ -67,8 +77,8 @@ class OperacionController extends AbstractController
             if(!isset($datos['registro'] )|| is_null($datos['registro'])){
                 //solo acumulamos el puntaje
                 $varSe['puntaje']= $varSe['puntaje']+$datos['puntaje'];
-                //este registroUrl sirve para el parametro de la url del ejercicio sin afectar los registros
-                $registroUrl=$registroUrl=count($varSe['registros_id'])+ 1;
+                //este regis sirve para el parametro de la url del ejercicio sin afectar los registros
+                $regis=count($varSe['registros_id'])+ 1;
             }else{
 
             //aqui cambio acumulo el puntaje y  los registros
@@ -93,7 +103,7 @@ class OperacionController extends AbstractController
             }else{
                 $varSe['saldo'] += $datos["monto"];
             }
-
+            }
             //push los registros nuevos
             array_push($varSe['registros_id'],$regis);
             array_push($varSe['registros_transaccion'],$datos['transaccion']);
@@ -103,7 +113,7 @@ class OperacionController extends AbstractController
             array_push($varSe['registros_entrada_salida'],$datos['entrada_salida']);
             array_push($varSe['registros_monto'],$datos['monto']);
             array_push($varSe['registros_tipo_operacion'],$datos['tipo_operacion']);
-
+        
             //guarda los puntos en la db
             $puntosInt = new PuntajeIntento();
             $date = new \DateTime('@'.strtotime('now'));
@@ -115,11 +125,11 @@ class OperacionController extends AbstractController
             $puntosInt->setOperacion($regis);
             $entityManager->persist($puntosInt);
             $entityManager->flush();
-        }
+        
             //set de valores a la sesion
             $session->set("sesion",$varSe);          
             
-            return new JsonResponse(['url'=>$registroUrl+1]);
+            return new JsonResponse(['url'=>$regis+1]);
      
     }
 
@@ -147,7 +157,11 @@ class OperacionController extends AbstractController
     public function listChequePortador(Request $request){
         $session = $request->getSession();
         $varSe = $session->get("sesion");
-    
+        
+        if($session->get("sesion") == "" || is_null($session->get("sesion"))){
+              return new RedirectResponse('../home');
+         }
+        
         $regis=count($varSe['registros_id']);
         if($regis == ' ' || \is_null($regis)){
             $regis = 0;

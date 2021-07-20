@@ -21,7 +21,7 @@ class PuntajeIntentoRepository extends ServiceEntityRepository
     public function recordAlumno(int $alumno): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT distinct operacion , puntaje, intento FROM `puntaje_intento` WHERE alumno = :alumno;";
+		$sql = "SELECT distinct operacion , puntaje, intento FROM puntaje_intento WHERE alumno = :alumno;";
                 
         $stmt = $conn->prepare($sql);
         $stmt->execute(['alumno' => $alumno]);

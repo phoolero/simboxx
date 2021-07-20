@@ -22,7 +22,7 @@ class OperacionRepository extends ServiceEntityRepository
     public function obtenerChequeOperacion(int $operacion): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT banco.nombre AS 'banco', sucursal.codigo_plaza, sucursal.nombre AS 'sucursal', cuenta.id AS 'cuenta', cuenta.nombre AS 'titular', cuenta.firma, cheque.serie, cheque.beneficiario, 
+		$sql = "SELECT banco.nombre AS banco, sucursal.codigo_plaza, sucursal.nombre AS sucursal, cuenta.id AS cuenta, cuenta.nombre AS titular, cuenta.firma, cheque.serie, cheque.beneficiario, 
                     cheque.monto_numero, cheque.monto_letras, cheque.tarjado_orden, cheque.tarjado_al_portador, cheque.firma_titular,
                     cheque.firma_beneficiario_atravesada, cheque.cruzado, cheque.cruzado_especial_banco, cheque.numero_dias_cheque,
                     cheque.numero_dias_revalidacion, cheque.revalidacion_firma, 
@@ -120,7 +120,7 @@ class OperacionRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
 		$sql = "SELECT id FROM operacion
-                ORDER BY RAND()
+                ORDER BY RANDOM()
                 LIMIT 1";
                 
         $stmt = $conn->prepare($sql);
@@ -132,7 +132,7 @@ class OperacionRepository extends ServiceEntityRepository
     public function obtenerOperacionesDeEjercicio(int $ejercicio): array{
         $conn = $this->getEntityManager()->getConnection();
 
-		$sql = "SELECT operacion,tutorial, visible FROM `ejercicio_operacion` WHERE ejercicio = :ejercicio;";
+		$sql = "SELECT operacion,tutorial, visible FROM ejercicio_operacion WHERE ejercicio = :ejercicio;";
                 
         $stmt = $conn->prepare($sql);
         $stmt->execute(['ejercicio' => $ejercicio]);
